@@ -8,28 +8,36 @@ const schema = {
             component: 'text-field',
             label: 'Project name',
             helperText: 'For example, Wikipedia.',
-            validate: [{
+            validate: [
+                {
                 type: 'required'
-            }]
+                }
+            ]
         },
         {
             name: 'description',
             component: 'text-field',
             label: 'Project Description',
             helperText: 'Include a concise 1-line description for this project.',
-            validate: [{
+            validate: [
+                {
                     type: 'required'
-            }]
+                }
+            ]
         },
         {
             name: 'website',
             component: 'text-field',
             label: 'Project Website URL',
             helperText: 'Public website (string must include http(s)://)',
-            validate: [{
+            validate: [
+                {
+                    type: 'required'
+                },
+                {
                     type: validatorTypes.URL
                 }
-            ],
+            ]
         },
         {
             name: 'type',
@@ -71,12 +79,15 @@ const schema = {
             	when: 'type',
             	pattern: /software/
             },
-            validate: [{
+            validate: [
+                {
                     type: 'required'
+                },
+                {
+                    type: validatorTypes.URL
                 }
             ],
             classes: {root: 'conditional'},
-
         },
         {
             name: 'SDGs',
@@ -177,10 +188,7 @@ for(let i=1; i<=17; i++) {
                 {
                     name: 'evidenceText'+i,
                     component: 'text-field',
-                    label: 'Description:',
-                    validate: [{
-                        type: 'required'
-                    }]              
+                    label: 'Description:'           
                 },
                 {
                     name: 'evidenceURL'+i,

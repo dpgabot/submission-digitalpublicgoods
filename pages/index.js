@@ -10,7 +10,7 @@ import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 
-import schema from './schema';
+import schema from '../schemas/schema';
 
 const validatorMapper = {}
 
@@ -87,7 +87,7 @@ export default function Home() {
           <FormRenderer 
             validate={validate}
             schema={schema}
-            onSubmit={(values, formApi) => console.log(values)}
+            onSubmit={(values, formApi) => alert('You are submitting this data: '+JSON.stringify(values))}
             FormTemplate={FormTemplate}
             componentMapper={componentMapper}
             validatorMapper={validatorMapper} // not required

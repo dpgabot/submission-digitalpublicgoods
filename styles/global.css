@@ -1,0 +1,21 @@
+.MuiGrid-container {
+	padding: 8px;
+	margin-top: 16px;
+}
+
+.MuiGrid-container label {
+	padding-bottom: 8px;
+}
+
+.MuiFormControl-root.conditional,  .MuiGrid-container.conditional{
+	background: #F0F0F0;
+	border-radius: 5px;
+	margin-left: 10px;
+	margin-top: 8px;
+	padding: 8px;
+	margin-right: -10px;
+}
+
+.conditional .MuiInputLabel-formControl {
+	left: inherit;
+}

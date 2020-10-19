@@ -168,13 +168,68 @@ const schema = {
                 type: 'required'
             }]
         },
+        {
+            name: 'organizations',
+            component: 'sub-form',
+            description: 'Provide the primary organization or maintainer of this project i.e. Wikipedia',
+            classes: { root: 'NoBottomMargin' },
+            fields: [
+                {
+                    name: 'org_type',
+                    component: 'text-field',
+                    initalValue: 'owner',
+                    hideField: true,
+                    validate: [
+                        {
+                            type: 'required'
+                        }
+                    ]
+                },
+                {
+                    name: 'name',
+                    component: 'text-field',
+                    label: 'Name of the organization',
+                    validate: [
+                        {
+                            type: 'required'
+                        }
+                    ]
+                },
+                {
+                    name: 'website',
+                    component: 'text-field',
+                    label: 'Website of the organization',
+                    validate: [
+                        {
+                            type: 'required'
+                        },
+                        {
+                            type: validatorTypes.URL
+                        }
+                    ],
+                },
+                {
+                    name: 'contact_name',
+                    component: 'text-field',
+                    label: 'Organization website'
+                },
+                {
+                    name: 'contact_email',
+                    component: 'text-field',
+                    label: 'Organization website'
+                },
+            ]
+
+        }
     ]
 };
 
 // Dynamically add a subform for each SDG that only display conditionally if the 
 // corresponding SDG checkbox is checked. Validation for these fields is coded in React, not here.
 for(let i=1; i<=17; i++) {
-    schema.fields.push(
+    // Insert these fields right after the SDGs so that they get displayed immediately below
+    const SDGindex = schema.fields.findIndex((e) => e.name == 'SDGs');
+    schema.fields.splice(SDGindex + i, 0,
         {
             name: 'subform'+i,
             component: 'sub-form',

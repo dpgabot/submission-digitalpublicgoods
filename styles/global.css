@@ -3,6 +3,11 @@
 	margin-top: 16px;
 }
 
+.NoBottomMargin .MuiTypography-paragraph{
+	margin-bottom: 0px;
+	margin-top: 1em;
+}
+
 .MuiGrid-container label {
 	padding-bottom: 8px;
 }

@@ -20,7 +20,7 @@ The forms are [Data Driven Forms](https://data-driven-forms.org/), configured th
 - [ ] Autosaving 
 - [ ] Save and come back to continue editing
 - [ ] Collect emails 
-- [ ] Triggered emails?
+- [ ] Mailchimp integration: automatic sending of emails based on certain form responses
 
 * Admin Interface:
     - [ ] Admin Interface

@@ -6,7 +6,7 @@ const schema = {
   fields: [
     {
       component: "wizard",
-      name: "wizzard",
+      name: "wizard",
       fields: [
         {
           title: "Get started with submission wizard form",
@@ -533,8 +533,8 @@ const schema = {
 // corresponding SDG checkbox is checked. Validation for these fields is coded in React, not here.
 for (let i = 1; i <= 17; i++) {
   // Insert these fields right after the SDGs so that they get displayed immediately below
-  const SDGindex = schema.fields.findIndex((e) => e.name == "SDGs");
-  schema.fields.splice(SDGindex + i, 0, {
+  const SDGindex = schema.fields[0].fields[0].fields.findIndex((e) => e.name == "SDGs");
+  schema.fields[0].fields[0].fields.splice(SDGindex + i, 0, {
     name: "subform" + i,
     component: "sub-form",
     description:

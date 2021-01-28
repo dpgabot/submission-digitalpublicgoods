@@ -56,6 +56,8 @@ const theme = createMuiTheme({
   },
 });
 
+const MyFormTemplate = (props) => <FormTemplate {...props} showFormControls={false} />
+
 const validate = (values) => {
   console.log(values)
   const errors = {};
@@ -88,7 +90,7 @@ export default function Home() {
             validate={validate}
             schema={schema}
             onSubmit={(values, formApi) => alert('You are submitting this data: '+JSON.stringify(values))}
-            FormTemplate={FormTemplate}
+            FormTemplate={MyFormTemplate}
             componentMapper={componentMapper}
             validatorMapper={validatorMapper} // not required
           />

@@ -88,9 +88,9 @@ const validate = (values) => {
 function openPR(values) {
   const MyOctokit = Octokit.plugin(createPullRequest);
 
-  const TOKEN = "99ed9ad8b3a818835cb543f587b8048b9895661f"; // create token at https://github.com/settings/tokens/new?scopes=repo
+  const ACCESS_TOKEN = process.env.ACCESS_TOKEN; // create token at https://github.com/settings/tokens/new?scopes=repo
   const octokit = new MyOctokit({
-    auth: TOKEN,
+    auth: ACCESS_TOKEN,
   });
 
   // Returns a normal Octokit PR response

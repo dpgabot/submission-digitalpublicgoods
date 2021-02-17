@@ -86,11 +86,13 @@ const validate = (values) => {
 };
 
 function openPR(values) {
+  const myJSON = JSON.stringify(values, null, "\t");
+
   const MyOctokit = Octokit.plugin(createPullRequest);
 
-  const ACCESS_TOKEN = process.env.ACCESS_TOKEN; // create token at https://github.com/settings/tokens/new?scopes=repo
+  const TOKEN = process.env.ACCESS_TOKEN; // create token at https://github.com/settings/tokens/new?scopes=repo
   const octokit = new MyOctokit({
-    auth: ACCESS_TOKEN,
+    auth: TOKEN,
   });
 
   // Returns a normal Octokit PR response
@@ -110,24 +112,13 @@ function openPR(values) {
       changes: [
         {
           /* optional: if `files` is not passed, an empty commit is created instead */
-          /* files: {
-        "path/to/file1.txt": "Content for file1",
-        "path/to/file2.png": {
-          content: "_base64_encoded_content_",
-          encoding: "base64",
-        },
-        // deletes file if it exists,
-        "path/to/file3.txt": null,
-        // updates file based on current content
-        "path/to/file4.txt": ({ exists, encoding, content }) => {
-          // do not create the file if it does not exist
-          if (!exists) return null;
-
-          return Buffer.from(content, encoding)
-            .toString("utf-8")
-            .toUpperCase();
-        },
-      }, */
+          files: {
+            "file2.json": {
+              //content: JSON.parse(myJSON, null, "\t"),
+              content: myJSON,
+              encoding: "utf-8",
+            },
+          },
           commit: `BLD: Add ${values.name}`,
         },
       ],

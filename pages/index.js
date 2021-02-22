@@ -88,9 +88,12 @@ const validate = (values) => {
 function openPR(values) {
   const myJSON = JSON.stringify(values, null, "\t");
 
+  //let name = values.name + ".json";
+  //files[name]={content:...}
+
   const MyOctokit = Octokit.plugin(createPullRequest);
 
-  const TOKEN = process.env.ACCESS_TOKEN; // create token at https://github.com/settings/tokens/new?scopes=repo
+  const TOKEN = "911b42e787d5c62cdb758a754ecc3e303c78fc85"; // create token at https://github.com/settings/tokens/new?scopes=repo
   const octokit = new MyOctokit({
     auth: TOKEN,
   });

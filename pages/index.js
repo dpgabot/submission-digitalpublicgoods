@@ -88,8 +88,8 @@ const validate = (values) => {
 function openPR(values) {
   const myJSON = JSON.stringify(values, null, "\t");
 
-  //let name = values.name + ".json";
-  //files[name]={content:...}
+  // Return project json file aligned with naming convention
+  let name = values.name.toLowerCase() + ".json";
 
   const MyOctokit = Octokit.plugin(createPullRequest);
 
@@ -116,8 +116,7 @@ function openPR(values) {
         {
           /* optional: if `files` is not passed, an empty commit is created instead */
           files: {
-            "file2.json": {
-              //content: JSON.parse(myJSON, null, "\t"),
+            [name]: {
               content: myJSON,
               encoding: "utf-8",
             },

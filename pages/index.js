@@ -93,7 +93,7 @@ function openPR(values) {
 
   const MyOctokit = Octokit.plugin(createPullRequest);
 
-  const TOKEN = "911b42e787d5c62cdb758a754ecc3e303c78fc85"; // create token at https://github.com/settings/tokens/new?scopes=repo
+  const TOKEN = process.env.ACCESS_TOKEN; // create token at https://github.com/settings/tokens/new?scopes=repo
   const octokit = new MyOctokit({
     auth: TOKEN,
   });

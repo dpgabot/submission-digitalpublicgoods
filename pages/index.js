@@ -95,7 +95,7 @@ function openPR(values) {
   const myJSON = JSON.stringify(values, null, "\t");
 
   // Return project json file aligned with naming convention
-  let name = values.name.toLowerCase() + ".json";
+  let name = values.name.toLowerCase().replace(/ /g, "_") + ".json";
 
   const MyOctokit = Octokit.plugin(createPullRequest);
 

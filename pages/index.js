@@ -20,6 +20,12 @@ import schema from "../schemas/schema";
 
 const validatorMapper = {};
 
+const GITHUB_OWNER = "nathanbaleeta";
+const GITHUB_REPO = "submission-form";
+const GITHUB_BRANCH = "main"; /* optional: defaults to default branch */
+
+const TOKEN = process.env.ACCESS_TOKEN; // create token at https://github.com/settings/tokens/new?scopes=repo
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -93,7 +99,6 @@ function openPR(values) {
 
   const MyOctokit = Octokit.plugin(createPullRequest);
 
-  const TOKEN = process.env.ACCESS_TOKEN; // create token at https://github.com/settings/tokens/new?scopes=repo
   const octokit = new MyOctokit({
     auth: TOKEN,
   });
@@ -102,12 +107,12 @@ function openPR(values) {
   // See https://octokit.github.io/rest.js/#octokit-routes-pulls-create
   octokit
     .createPullRequest({
-      owner: "nathanbaleeta",
-      repo: "submission-form",
+      owner: GITHUB_OWNER,
+      repo: GITHUB_REPO,
       title: `Add nominee: ${values.name}`,
       body:
         "Automatic addition of a new nominee submitted through the online form available at https://digitalpublicgoods.net/submission",
-      base: "main" /* optional: defaults to default branch */,
+      base: GITHUB_BRANCH,
       head:
         `${values.name}`.replace(/ /g, "_") +
         "-" +

@@ -92,6 +92,20 @@ const validate = (values) => {
 };
 
 function openPR(values) {
+  let sdgNumber, evidenceText;
+  for (let i = 0; i < values.SDGs.length; i++) {
+    sdgNumber = JSON.stringify(values.SDGs[i]);
+    sdgNumber = parseInt(sdgNumber);
+    evidenceText = "evidenceText".concat(sdgNumber); //
+
+    values.SDGs[i] = {
+      SDGNumber: sdgNumber,
+      evidenceText: values[evidenceText],
+    };
+
+    delete values[evidenceText];
+  }
+
   const myJSON = JSON.stringify(values, null, "\t");
 
   // Return project json file aligned with naming convention

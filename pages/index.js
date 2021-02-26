@@ -94,8 +94,7 @@ const validate = (values) => {
 function openPR(values) {
   let sdgNumber, evidenceText;
   for (let i = 0; i < values.SDGs.length; i++) {
-    sdgNumber = JSON.stringify(values.SDGs[i]);
-    sdgNumber = parseInt(sdgNumber);
+    sdgNumber = parseInt(values.SDGs[i]);
     evidenceText = "evidenceText".concat(sdgNumber); //
 
     values.SDGs[i] = {

@@ -127,7 +127,7 @@ function openPR(values) {
         "Automatic addition of a new nominee submitted through the online form available at https://digitalpublicgoods.net/submission",
       base: GITHUB_BRANCH,
       head:
-        `${values.name}`.replace(/ /g, "_") +
+        `${name}`.split(".").slice(0, -1).join(".") +
         "-" +
         (Math.random() * 10 ** 16).toString(36),
       changes: [

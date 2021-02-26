@@ -193,7 +193,7 @@ const schema = {
               classes: { root: "NoBottomMargin" },
               fields: [
                 {
-                  name: "org_type",
+                  name: "organizations[org_type]",
                   component: "text-field",
                   initialValue: "owner",
                   hideField: true,
@@ -204,7 +204,7 @@ const schema = {
                   ],
                 },
                 {
-                  name: "name",
+                  name: "organizations[name]",
                   component: "text-field",
                   label: "Name of the organization",
                   validate: [
@@ -214,7 +214,7 @@ const schema = {
                   ],
                 },
                 {
-                  name: "website",
+                  name: "organizations[website]",
                   component: "text-field",
                   label: "Website of the organization",
                   validate: [
@@ -227,7 +227,7 @@ const schema = {
                   ],
                 },
                 {
-                  name: "contact_name",
+                  name: "organizations[contact_name]",
                   component: "text-field",
                   label: "Contact name",
                 },
@@ -246,7 +246,7 @@ const schema = {
           fields: [
             {
               component: "select",
-              name: "license",
+              name: "license[spdx]",
               label: "Choose License",
               description:
                 "DPGs must use an open license. Please identify which of these approved open licenses this project uses: *. For Open Source Software, we only accept OSI approved licenses. For Open Content we require the use of a Creative Commons license while we encourage projects to use a license which allows for both derivatives and commercial reuse or dedicate content to the public domain (CC0) we also accept licenses which do not allow for commercial reuse: CC-BY-NC and CC-BY-NC-SA. For data we require a Open Data Commons approved license listed at opendefinition.org/licenses/. IF YOU USE A LICENSE THAT IS NOT CURRENTLY LISTED HERE BUT YOU BELIEVE SHOULD BE INCLUDED PLEASE EMAIL nominations@digitalpublicgoods.net",
@@ -272,7 +272,7 @@ const schema = {
               ],
             },
             {
-              name: "licenseURL",
+              name: "license[licenseURL]",
               component: "text-field",
               label: "License URL",
               description:
@@ -292,7 +292,7 @@ const schema = {
                 "Is the ownership of the project and everything that the project produces clearly defined and documented? *",
               description:
                 "i.e. This can be through copyright, trademark, or other publicly available information.",
-              name: "ownership",
+              name: "clearOwnership[isOwnershipExplicit]",
               options: [
                 {
                   label: "Yes",
@@ -314,13 +314,13 @@ const schema = {
               ],
             },
             {
-              name: "ownershipDocumentation",
+              name: "clearOwnership[copyrightURL]",
               component: "text-field",
               label: "Link to ownership documentation",
               helperText:
                 "If yes - please link to the relevant copyright, trademarks, or ownership documentation for the project.",
               condition: {
-                when: "ownership",
+                when: "clearOwnership[isOwnershipExplicit]",
                 pattern: /Yes/,
               },
               validate: [
@@ -337,7 +337,7 @@ const schema = {
               component: "radio",
               label:
                 "Does this open project have mandatory dependencies (i.e. libraries, hardware) that create more restrictions than the original license? *",
-              name: "mandatoryDependencies",
+              name: "platformIndependence[mandatoryDepsCreateMoreRestrictions]",
               options: [
                 {
                   label: "Yes",
@@ -359,7 +359,7 @@ const schema = {
               ],
             },
             {
-              name: "isPlatformIndependent",
+              name: "platformIndependence[isSoftwarePltIndependent]",
               component: "radio",
               label:
                 "If yes - are the open source components able to demonstrate independence from the closed component and/or are there functional, open alternatives?",
@@ -378,7 +378,8 @@ const schema = {
                 },
               ],
               condition: {
-                when: "mandatoryDependencies",
+                when:
+                  "platformIndependence[mandatoryDepsCreateMoreRestrictions]",
                 pattern: /Yes/,
               },
               validate: [
@@ -389,13 +390,13 @@ const schema = {
               classes: { root: "conditional" },
             },
             {
-              name: "platformIndependenceDesc",
+              name: "platformIndependence[pltIndependenceDesc]",
               component: "text-field",
               label: "Platform independence description",
               description:
                 "If yes - please describe how the open source components are independent and/or list the open alternatives for the closed component:",
               condition: {
-                when: "isPlatformIndependent",
+                when: "platformIndependence[isSoftwarePltIndependent]",
                 pattern: /Yes/,
               },
               validate: [
@@ -406,7 +407,7 @@ const schema = {
             },
             {
               component: "radio",
-              name: "documentation",
+              name: "documentation[isDocumentationAvailable]",
               label:
                 "Does some documentation exist of the source code, use cases, and/or functional requirements for this project? *",
               description:
@@ -432,12 +433,12 @@ const schema = {
               ],
             },
             {
-              name: "documentationURL",
+              name: "documentation[documentationURL]",
               component: "text-field",
               label: "If yes - please link to the relevant documentation:",
               helperText: "",
               condition: {
-                when: "documentation",
+                when: "documentation[isDocumentationAvailable]",
                 pattern: /Yes/,
               },
               validate: [
@@ -452,7 +453,7 @@ const schema = {
             },
             {
               component: "radio",
-              name: "nonPII",
+              name: "NonPII[collectsNonPII]",
               label:
                 "Does this project collect or use non-personally identifiable information (non-PII) data? *",
               options: [
@@ -476,7 +477,7 @@ const schema = {
               ],
             },
             {
-              name: "extractionMechanism",
+              name: "NonPII[checkNonPIIAccessMechanism]",
               component: "radio",
               label:
                 "If yes - is there a mechanism for extracting or importing non-PII information from the system in a non-proprietary format? *",
@@ -495,7 +496,7 @@ const schema = {
                 },
               ],
               condition: {
-                when: "nonPII",
+                when: "NonPII[collectsNonPII]",
                 pattern: /Yes/,
               },
               validate: [
@@ -506,13 +507,13 @@ const schema = {
               classes: { root: "conditional" },
             },
             {
-              name: "mechanismExtractionDesc",
+              name: "NonPII[nonPIIAccessMechanism]",
               component: "text-field",
               label: "Mechanism extraction description",
               helperText:
                 "If yes - Describe the mechanism for extracting or importing non personally (non-PII) identifiable information from the system in a non-proprietary format:",
               condition: {
-                when: "extractionMechanism",
+                when: "NonPII[checkNonPIIAccessMechanism]",
                 pattern: /Yes/,
               },
               validate: [
@@ -533,7 +534,9 @@ const schema = {
 // corresponding SDG checkbox is checked. Validation for these fields is coded in React, not here.
 for (let i = 1; i <= 17; i++) {
   // Insert these fields right after the SDGs so that they get displayed immediately below
-  const SDGindex = schema.fields[0].fields[0].fields.findIndex((e) => e.name == "SDGs");
+  const SDGindex = schema.fields[0].fields[0].fields.findIndex(
+    (e) => e.name == "SDGs"
+  );
   schema.fields[0].fields[0].fields.splice(SDGindex + i, 0, {
     name: "subform" + i,
     component: "sub-form",

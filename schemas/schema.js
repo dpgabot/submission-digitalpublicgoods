@@ -1059,8 +1059,9 @@ const schema = {
           ],
         },
         {
-          title: "Indicators 7 to 9",
+          title: "Indicators 7 & 9",
           name: "step-3",
+          nextStep: "step-4",
           fields: [
             {
               component: "radio",
@@ -1091,7 +1092,8 @@ const schema = {
             {
               name: "privacy[privacyComplianceList]",
               component: "text-field",
-              label:
+              label: "Privacy compliance list",
+              description:
                 "If yes, please list some of relevant laws that the project complies with:",
               helperText: "",
               condition: {
@@ -1108,7 +1110,8 @@ const schema = {
             {
               name: "privacy[adherenceSteps]",
               component: "text-field",
-              label:
+              label: "Adherence steps",
+              description:
                 "If yes, please describe the steps this project has taken to ensure adherence (include links to terms of service, privacy policy, or other relevant documentation):",
               helperText: "",
               condition: {
@@ -1150,7 +1153,9 @@ const schema = {
             {
               name: "standards[standardsList]",
               component: "text-field",
-              label: "Which standards does this project support (please list)",
+              label: "Standards list",
+              description:
+                "Which standards does this project support (please list)",
               helperText: "",
               condition: {
                 when: "standards[supportStandards]",
@@ -1166,7 +1171,8 @@ const schema = {
             {
               name: "standards[evidenceStandardSupport]",
               component: "text-field",
-              label:
+              label: "Standards support evidence",
+              description:
                 "Can you point to evidence of your support? (i.e. please link to your validator, open test suite, etc.)",
               helperText: "",
               condition: {
@@ -1209,11 +1215,198 @@ const schema = {
             {
               name: "standards[bestPracticesList]",
               component: "text-field",
-              label:
+              label: "Principles and best practices",
+              description:
                 "Which principles and best practices does this project support (please list)",
               helperText: "",
               condition: {
                 when: "standards[implementBestPractices]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+          ],
+        },
+        {
+          title: "Indicator 9",
+          name: "step-4",
+          fields: [
+            {
+              component: "radio",
+              name: "preventHarm[stepsToPreventHarm]",
+              label:
+                "On the whole, does this project take steps to ensure that it anticipates, prevents and does no harm?",
+              description: "",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name: "preventHarm[additionalInfoMechanismProcessesPolicies]",
+              component: "text-field",
+              label: "Additional risks and mitigation steps",
+              description:
+                "Please describe any additional risks and mitigation steps that this project uses to prevent harm.",
+              helperText: "",
+              condition: {
+                when: "preventHarm[stepsToPreventHarm]",
+                pattern: /Yes/,
+              },
+              validate: [],
+              classes: { root: "conditional" },
+            },
+            {
+              component: "radio",
+              name: "dataPrivacySecurity[collectsPII]",
+              label:
+                "Does this project collect or store personally identifiable information (PII) data?",
+              description: "",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name: "dataPrivacySecurity[typesOfDataCollected]",
+              component: "text-field",
+              label: "Types of PII data collected",
+              description:
+                "If yes - please list the types of data collected and/or stored by the project:",
+              helperText: "",
+              condition: {
+                when: "dataPrivacySecurity[collectsPII]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+            {
+              component: "radio",
+              name: "dataPrivacySecurity[thirdPartyDataSharing]",
+              label:
+                "If yes - does this project share this data with third parties?",
+              description: "",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              condition: {
+                when: "dataPrivacySecurity[collectsPII]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name: "dataPrivacySecurity[dataSharingCircumstances]",
+              component: "text-field",
+              label: "Data sharing circumstances",
+              description:
+                "Please describe the circumstances with which this project shares data with third parties. Please add links as relevant.",
+              helperText: "",
+              condition: {
+                when: "dataPrivacySecurity[thirdPartyDataSharing]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+            {
+              component: "radio",
+              name: "dataPrivacySecurity[ensurePrivacySecurity]",
+              label: "Ensure privacy and security",
+              description:
+                "If yes - does the project ensure the privacy and security of this data and has it taken steps to prevent adverse impacts resulting from its collection, storage and distribution.",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              condition: {
+                when: "dataPrivacySecurity[thirdPartyDataSharing]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name: "dataPrivacySecurity[privacySecurityDescription]",
+              component: "text-field",
+              label: "Privacy security description",
+              description:
+                "If yes - please describe the steps, and include a link to the privacy policy and/or terms of service:",
+              helperText: "",
+              condition: {
+                when: "dataPrivacySecurity[thirdPartyDataSharing]",
                 pattern: /Yes/,
               },
               validate: [

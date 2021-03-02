@@ -243,6 +243,7 @@ const schema = {
         {
           title: "DPG Candidates",
           name: "step-2",
+          nextStep: "step-3",
           fields: [
             {
               component: "select",
@@ -803,7 +804,6 @@ const schema = {
                 },
               ],
             },
-
             {
               name: "license[licenseURL]",
               component: "text-field",
@@ -1047,6 +1047,173 @@ const schema = {
                 "If yes - Describe the mechanism for extracting or importing non personally (non-PII) identifiable information from the system in a non-proprietary format:",
               condition: {
                 when: "NonPII[checkNonPIIAccessMechanism]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+          ],
+        },
+        {
+          title: "Indicators 7 to 9",
+          name: "step-3",
+          fields: [
+            {
+              component: "radio",
+              name: "privacy[isPrivacyCompliant]",
+              label:
+                "Has this project taken steps to ensure adherence with relevant privacy, domestic, and international laws? For example, the General Data Protection Regulation (GDPR) in the European Union or the Supplementary Act A/SA.1/01/10 on Personal Data Protection for the Economic Community of West African States (ECOWAS) (yes/no)",
+              description: "",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name: "privacy[privacyComplianceList]",
+              component: "text-field",
+              label:
+                "If yes, please list some of relevant laws that the project complies with:",
+              helperText: "",
+              condition: {
+                when: "privacy[isPrivacyCompliant]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+            {
+              name: "privacy[adherenceSteps]",
+              component: "text-field",
+              label:
+                "If yes, please describe the steps this project has taken to ensure adherence (include links to terms of service, privacy policy, or other relevant documentation):",
+              helperText: "",
+              condition: {
+                when: "privacy[isPrivacyCompliant]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+            {
+              component: "radio",
+              name: "standards[supportStandards]",
+              label: "Does this project support standards?",
+              description: "",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name: "standards[standardsList]",
+              component: "text-field",
+              label: "Which standards does this project support (please list)",
+              helperText: "",
+              condition: {
+                when: "standards[supportStandards]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+            {
+              name: "standards[evidenceStandardSupport]",
+              component: "text-field",
+              label:
+                "Can you point to evidence of your support? (i.e. please link to your validator, open test suite, etc.)",
+              helperText: "",
+              condition: {
+                when: "standards[supportStandards]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: validatorTypes.URL,
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+            {
+              component: "radio",
+              name: "standards[implementBestPractices]",
+              label:
+                "Was this project built and developed according to or in adherence with any design, technical and/or sector best practices or principles? i.e. the Principles for Digital Development?",
+              description: "",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name: "standards[bestPracticesList]",
+              component: "text-field",
+              label:
+                "Which principles and best practices does this project support (please list)",
+              helperText: "",
+              condition: {
+                when: "standards[implementBestPractices]",
                 pattern: /Yes/,
               },
               validate: [

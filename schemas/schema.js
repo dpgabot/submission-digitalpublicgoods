@@ -1396,7 +1396,6 @@ const schema = {
               fields: [
                 {
                   component: "text-field",
-                  name: "circumstances",
                 },
               ],
               classes: { root: "conditional" },
@@ -1452,8 +1451,9 @@ const schema = {
           ],
         },
         {
-          title: "Indicator 9b",
+          title: "Indicator 9b - Inappropriate & Illegal Content",
           name: "step-5",
+          nextStep: "step-6",
           fields: [
             {
               component: "radio",
@@ -1595,6 +1595,146 @@ const schema = {
               validate: [
                 {
                   type: "required",
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+          ],
+        },
+        {
+          title: "Indicator 9c - Protection from harassment",
+          name: "step-6",
+          fields: [
+            {
+              component: "radio",
+              name: "protectionFromHarassment[userInteraction]",
+              label:
+                "Does this project facilitate interactions with or between users or contributors?",
+              description: "",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              component: "radio",
+              name:
+                "protectionFromHarassment[addressSafetySecurityUnderageUsers]",
+              label:
+                "If yes - does the project take steps to address the safety and security of underage users?",
+              description: "",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              condition: {
+                when: "protectionFromHarassment[userInteraction]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name:
+                "protectionFromHarassment[stepsAddressRiskPreventSafetyUnderageUsers]",
+              component: "field-array",
+              label: "Steps to address risk",
+              description:
+                "If yes - please describe the steps this project takes to address risk or prevent access by underage users:",
+              helperText: "",
+              condition: {
+                when: "protectionFromHarassment[userInteraction]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+              fields: [
+                {
+                  component: "text-field",
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+            {
+              component: "radio",
+              name: "protectionFromHarassment[griefAbuseHarassmentProtection]",
+              label:
+                "If yes - does the project help users and contributors protect themselves against grief, abuse, and harassment.",
+              description: "",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              condition: {
+                when: "protectionFromHarassment[userInteraction]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name: "protectionFromHarassment[harassmentProtectionSteps]",
+              component: "field-array",
+              label: "Steps to address risk",
+              description:
+                "If yes - please describe the steps taken to help users protect themselves.",
+              helperText: "",
+              condition: {
+                when: "protectionFromHarassment[userInteraction]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+              fields: [
+                {
+                  component: "text-field",
                 },
               ],
               classes: { root: "conditional" },

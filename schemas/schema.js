@@ -1091,7 +1091,7 @@ const schema = {
             },
             {
               name: "privacy[privacyComplianceList]",
-              component: "text-field",
+              component: "field-array",
               label: "Privacy compliance list",
               description:
                 "If yes, please list some of relevant laws that the project complies with:",
@@ -1105,11 +1105,16 @@ const schema = {
                   type: "required",
                 },
               ],
+              fields: [
+                {
+                  component: "text-field",
+                },
+              ],
               classes: { root: "conditional" },
             },
             {
               name: "privacy[adherenceSteps]",
-              component: "text-field",
+              component: "field-array",
               label: "Adherence steps",
               description:
                 "If yes, please describe the steps this project has taken to ensure adherence (include links to terms of service, privacy policy, or other relevant documentation):",
@@ -1121,6 +1126,11 @@ const schema = {
               validate: [
                 {
                   type: "required",
+                },
+              ],
+              fields: [
+                {
+                  component: "text-field",
                 },
               ],
               classes: { root: "conditional" },
@@ -1152,7 +1162,7 @@ const schema = {
             },
             {
               name: "standards[standardsList]",
-              component: "text-field",
+              component: "field-array",
               label: "Standards list",
               description:
                 "Which standards does this project support (please list)",
@@ -1164,6 +1174,11 @@ const schema = {
               validate: [
                 {
                   type: "required",
+                },
+              ],
+              fields: [
+                {
+                  component: "text-field",
                 },
               ],
               classes: { root: "conditional" },
@@ -1214,7 +1229,7 @@ const schema = {
             },
             {
               name: "standards[bestPracticesList]",
-              component: "text-field",
+              component: "field-array",
               label: "Principles and best practices",
               description:
                 "Which principles and best practices does this project support (please list)",
@@ -1226,6 +1241,12 @@ const schema = {
               validate: [
                 {
                   type: "required",
+                },
+              ],
+              fields: [
+                {
+                  component: "text-field",
+                  //name: "bestPractices",
                 },
               ],
               classes: { root: "conditional" },
@@ -1304,7 +1325,7 @@ const schema = {
             },
             {
               name: "dataPrivacySecurity[typesOfDataCollected]",
-              component: "text-field",
+              component: "field-array",
               label: "Types of PII data collected",
               description:
                 "If yes - please list the types of data collected and/or stored by the project:",
@@ -1316,6 +1337,11 @@ const schema = {
               validate: [
                 {
                   type: "required",
+                },
+              ],
+              fields: [
+                {
+                  component: "text-field",
                 },
               ],
               classes: { root: "conditional" },
@@ -1352,7 +1378,7 @@ const schema = {
             },
             {
               name: "dataPrivacySecurity[dataSharingCircumstances]",
-              component: "text-field",
+              component: "field-array",
               label: "Data sharing circumstances",
               description:
                 "Please describe the circumstances with which this project shares data with third parties. Please add links as relevant.",
@@ -1364,6 +1390,12 @@ const schema = {
               validate: [
                 {
                   type: "required",
+                },
+              ],
+              fields: [
+                {
+                  component: "text-field",
+                  name: "circumstances",
                 },
               ],
               classes: { root: "conditional" },

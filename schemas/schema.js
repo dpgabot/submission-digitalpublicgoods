@@ -1254,8 +1254,9 @@ const schema = {
           ],
         },
         {
-          title: "Indicator 9",
+          title: "Indicator 9a",
           name: "step-4",
+          nextStep: "step-5",
           fields: [
             {
               component: "radio",
@@ -1439,6 +1440,156 @@ const schema = {
               helperText: "",
               condition: {
                 when: "dataPrivacySecurity[thirdPartyDataSharing]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+          ],
+        },
+        {
+          title: "Indicator 9b",
+          name: "step-5",
+          fields: [
+            {
+              component: "radio",
+              name: "inappropriateIllegalContent[collectStoreDistribute]",
+              label: "Does this project collect, store or distribute content?",
+              description: "",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name: "inappropriateIllegalContent[type]",
+              component: "text-field",
+              label: "Kind of content",
+              description:
+                "If yes - what kinds of content does this project, collect, store or distribute? (i.e. childrens books)",
+              helperText: "",
+              condition: {
+                when: "inappropriateIllegalContent[collectStoreDistribute]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+            {
+              component: "radio",
+              name: "inappropriateIllegalContent[contentFilter]",
+              label:
+                "If yes - does this project have policies that describe what is considered innappropriate content? (i.e. child sexual abuse materials)",
+              description: "",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              condition: {
+                when: "inappropriateIllegalContent[collectStoreDistribute]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name:
+                "inappropriateIllegalContent[policyGuidelinesDocumentationLink]",
+              component: "text-field",
+              label: "Policy guideline documentation link",
+              description:
+                "If yes - please link to the relevant policy/guidelines/documentation.",
+              helperText: "",
+              condition: {
+                when: "inappropriateIllegalContent[collectStoreDistribute]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+                {
+                  type: validatorTypes.URL,
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+            {
+              component: "radio",
+              name: "inappropriateIllegalContent[illegalContentDetection]",
+              label:
+                "If yes - does this project have mechanisms for detecting and moderating innappropriate/illegal content?",
+              description: "",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              condition: {
+                when: "inappropriateIllegalContent[collectStoreDistribute]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name:
+                "inappropriateIllegalContent[illegalContentDetectionMechanism]",
+              component: "text-field",
+              label: "Illegal content detection mechanism",
+              description:
+                "If yes - please describe the mechanism for detecting, reporting and removing innapropriate/illegal content (Please include the average response time for assessment and/or action. Link to any policies or descriptions of how inappropriate content is handled):",
+              helperText: "",
+              condition: {
+                when: "inappropriateIllegalContent[collectStoreDistribute]",
                 pattern: /Yes/,
               },
               validate: [

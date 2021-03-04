@@ -243,6 +243,7 @@ const schema = {
         {
           title: "DPG Candidates",
           name: "step-2",
+          nextStep: "step-3",
           fields: [
             {
               component: "select",
@@ -803,7 +804,6 @@ const schema = {
                 },
               ],
             },
-
             {
               name: "license[licenseURL]",
               component: "text-field",
@@ -1052,6 +1052,689 @@ const schema = {
               validate: [
                 {
                   type: "required",
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+          ],
+        },
+        {
+          title: "Indicators 7 & 9",
+          name: "step-3",
+          nextStep: "step-4",
+          fields: [
+            {
+              component: "radio",
+              name: "privacy[isPrivacyCompliant]",
+              label:
+                "Has this project taken steps to ensure adherence with relevant privacy, domestic, and international laws? For example, the General Data Protection Regulation (GDPR) in the European Union or the Supplementary Act A/SA.1/01/10 on Personal Data Protection for the Economic Community of West African States (ECOWAS) (yes/no)",
+              description: "",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name: "privacy[privacyComplianceList]",
+              component: "field-array",
+              label: "Privacy compliance list",
+              description:
+                "If yes, please list some of relevant laws that the project complies with:",
+              helperText: "",
+              condition: {
+                when: "privacy[isPrivacyCompliant]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+              fields: [
+                {
+                  component: "text-field",
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+            {
+              name: "privacy[adherenceSteps]",
+              component: "field-array",
+              label: "Adherence steps",
+              description:
+                "If yes, please describe the steps this project has taken to ensure adherence (include links to terms of service, privacy policy, or other relevant documentation):",
+              helperText: "",
+              condition: {
+                when: "privacy[isPrivacyCompliant]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+              fields: [
+                {
+                  component: "text-field",
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+            {
+              component: "radio",
+              name: "standards[supportStandards]",
+              label: "Does this project support standards?",
+              description: "",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name: "standards[standardsList]",
+              component: "field-array",
+              label: "Standards list",
+              description:
+                "Which standards does this project support (please list)",
+              helperText: "",
+              condition: {
+                when: "standards[supportStandards]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+              fields: [
+                {
+                  component: "text-field",
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+            {
+              name: "standards[evidenceStandardSupport]",
+              component: "text-field",
+              label: "Standards support evidence",
+              description:
+                "Can you point to evidence of your support? (i.e. please link to your validator, open test suite, etc.)",
+              helperText: "",
+              condition: {
+                when: "standards[supportStandards]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: validatorTypes.URL,
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+            {
+              component: "radio",
+              name: "standards[implementBestPractices]",
+              label:
+                "Was this project built and developed according to or in adherence with any design, technical and/or sector best practices or principles? i.e. the Principles for Digital Development?",
+              description: "",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name: "standards[bestPracticesList]",
+              component: "field-array",
+              label: "Principles and best practices",
+              description:
+                "Which principles and best practices does this project support (please list)",
+              helperText: "",
+              condition: {
+                when: "standards[implementBestPractices]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+              fields: [
+                {
+                  component: "text-field",
+                  //name: "bestPractices",
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+          ],
+        },
+        {
+          title: "Indicator 9a",
+          name: "step-4",
+          nextStep: "step-5",
+          fields: [
+            {
+              component: "radio",
+              name: "preventHarm[stepsToPreventHarm]",
+              label:
+                "On the whole, does this project take steps to ensure that it anticipates, prevents and does no harm?",
+              description: "",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name: "preventHarm[additionalInfoMechanismProcessesPolicies]",
+              component: "text-field",
+              label: "Additional risks and mitigation steps",
+              description:
+                "Please describe any additional risks and mitigation steps that this project uses to prevent harm.",
+              helperText: "",
+              condition: {
+                when: "preventHarm[stepsToPreventHarm]",
+                pattern: /Yes/,
+              },
+              validate: [],
+              classes: { root: "conditional" },
+            },
+            {
+              component: "radio",
+              name: "dataPrivacySecurity[collectsPII]",
+              label:
+                "Does this project collect or store personally identifiable information (PII) data?",
+              description: "",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name: "dataPrivacySecurity[typesOfDataCollected]",
+              component: "field-array",
+              label: "Types of PII data collected",
+              description:
+                "If yes - please list the types of data collected and/or stored by the project:",
+              helperText: "",
+              condition: {
+                when: "dataPrivacySecurity[collectsPII]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+              fields: [
+                {
+                  component: "text-field",
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+            {
+              component: "radio",
+              name: "dataPrivacySecurity[thirdPartyDataSharing]",
+              label:
+                "If yes - does this project share this data with third parties?",
+              description: "",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              condition: {
+                when: "dataPrivacySecurity[collectsPII]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name: "dataPrivacySecurity[dataSharingCircumstances]",
+              component: "field-array",
+              label: "Data sharing circumstances",
+              description:
+                "Please describe the circumstances with which this project shares data with third parties. Please add links as relevant.",
+              helperText: "",
+              condition: {
+                when: "dataPrivacySecurity[thirdPartyDataSharing]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+              fields: [
+                {
+                  component: "text-field",
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+            {
+              component: "radio",
+              name: "dataPrivacySecurity[ensurePrivacySecurity]",
+              label: "Ensure privacy and security",
+              description:
+                "If yes - does the project ensure the privacy and security of this data and has it taken steps to prevent adverse impacts resulting from its collection, storage and distribution.",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              condition: {
+                when: "dataPrivacySecurity[thirdPartyDataSharing]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name: "dataPrivacySecurity[privacySecurityDescription]",
+              component: "text-field",
+              label: "Privacy security description",
+              description:
+                "If yes - please describe the steps, and include a link to the privacy policy and/or terms of service:",
+              helperText: "",
+              condition: {
+                when: "dataPrivacySecurity[thirdPartyDataSharing]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+          ],
+        },
+        {
+          title: "Indicator 9b - Inappropriate & Illegal Content",
+          name: "step-5",
+          nextStep: "step-6",
+          fields: [
+            {
+              component: "radio",
+              name: "inappropriateIllegalContent[collectStoreDistribute]",
+              label: "Does this project collect, store or distribute content?",
+              description: "",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name: "inappropriateIllegalContent[type]",
+              component: "text-field",
+              label: "Kind of content",
+              description:
+                "If yes - what kinds of content does this project, collect, store or distribute? (i.e. childrens books)",
+              helperText: "",
+              condition: {
+                when: "inappropriateIllegalContent[collectStoreDistribute]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+            {
+              component: "radio",
+              name: "inappropriateIllegalContent[contentFilter]",
+              label:
+                "If yes - does this project have policies that describe what is considered innappropriate content? (i.e. child sexual abuse materials)",
+              description: "",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              condition: {
+                when: "inappropriateIllegalContent[collectStoreDistribute]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name:
+                "inappropriateIllegalContent[policyGuidelinesDocumentationLink]",
+              component: "text-field",
+              label: "Policy guideline documentation link",
+              description:
+                "If yes - please link to the relevant policy/guidelines/documentation.",
+              helperText: "",
+              condition: {
+                when: "inappropriateIllegalContent[collectStoreDistribute]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+                {
+                  type: validatorTypes.URL,
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+            {
+              component: "radio",
+              name: "inappropriateIllegalContent[illegalContentDetection]",
+              label:
+                "If yes - does this project have mechanisms for detecting and moderating innappropriate/illegal content?",
+              description: "",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              condition: {
+                when: "inappropriateIllegalContent[collectStoreDistribute]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name:
+                "inappropriateIllegalContent[illegalContentDetectionMechanism]",
+              component: "text-field",
+              label: "Illegal content detection mechanism",
+              description:
+                "If yes - please describe the mechanism for detecting, reporting and removing innapropriate/illegal content (Please include the average response time for assessment and/or action. Link to any policies or descriptions of how inappropriate content is handled):",
+              helperText: "",
+              condition: {
+                when: "inappropriateIllegalContent[collectStoreDistribute]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+          ],
+        },
+        {
+          title: "Indicator 9c - Protection from harassment",
+          name: "step-6",
+          fields: [
+            {
+              component: "radio",
+              name: "protectionFromHarassment[userInteraction]",
+              label:
+                "Does this project facilitate interactions with or between users or contributors?",
+              description: "",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              component: "radio",
+              name:
+                "protectionFromHarassment[addressSafetySecurityUnderageUsers]",
+              label:
+                "If yes - does the project take steps to address the safety and security of underage users?",
+              description: "",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              condition: {
+                when: "protectionFromHarassment[userInteraction]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name:
+                "protectionFromHarassment[stepsAddressRiskPreventSafetyUnderageUsers]",
+              component: "field-array",
+              label: "Steps to address risk",
+              description:
+                "If yes - please describe the steps this project takes to address risk or prevent access by underage users:",
+              helperText: "",
+              condition: {
+                when: "protectionFromHarassment[userInteraction]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+              fields: [
+                {
+                  component: "text-field",
+                },
+              ],
+              classes: { root: "conditional" },
+            },
+            {
+              component: "radio",
+              name: "protectionFromHarassment[griefAbuseHarassmentProtection]",
+              label:
+                "If yes - does the project help users and contributors protect themselves against grief, abuse, and harassment.",
+              description: "",
+              options: [
+                {
+                  label: "Yes",
+                  value: "Yes",
+                },
+                {
+                  label: "No",
+                  value: "No",
+                },
+                {
+                  label: "Unknown",
+                  value: "Unknown",
+                },
+              ],
+              condition: {
+                when: "protectionFromHarassment[userInteraction]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name: "protectionFromHarassment[harassmentProtectionSteps]",
+              component: "field-array",
+              label: "Steps to address risk",
+              description:
+                "If yes - please describe the steps taken to help users protect themselves.",
+              helperText: "",
+              condition: {
+                when: "protectionFromHarassment[userInteraction]",
+                pattern: /Yes/,
+              },
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+              fields: [
+                {
+                  component: "text-field",
                 },
               ],
               classes: { root: "conditional" },

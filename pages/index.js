@@ -92,10 +92,13 @@ const validate = (values) => {
 };
 
 function openPR(values) {
+  // Exclude contact information from pull request
+  delete values["contact"];
+
   let sdgNumber, evidenceText;
   for (let i = 0; i < values.SDGs.length; i++) {
     sdgNumber = parseInt(values.SDGs[i]);
-    evidenceText = "evidenceText".concat(sdgNumber); //
+    evidenceText = "evidenceText".concat(sdgNumber);
 
     values.SDGs[i] = {
       SDGNumber: sdgNumber,

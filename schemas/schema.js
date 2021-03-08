@@ -16,6 +16,7 @@ const schema = {
             {
               component: "field-array",
               name: "nicePeople",
+              fieldKey: "field_array",
               title: "Nice people",
               description:
                 "This allow you to add nice people to the list dynamically",

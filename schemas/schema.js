@@ -14,6 +14,29 @@ const schema = {
           nextStep: "step-2",
           fields: [
             {
+              component: "field-array",
+              name: "nicePeople",
+              title: "Nice people",
+              description:
+                "This allow you to add nice people to the list dynamically",
+              itemDefault: {
+                name: "enter a name",
+                lastName: "enter a last name",
+              },
+              fields: [
+                {
+                  component: "text-field",
+                  name: "name",
+                  label: "Name",
+                },
+                {
+                  component: "text-field",
+                  name: "lastName",
+                  label: "Last Name",
+                },
+              ],
+            },
+            {
               name: "name",
               component: "text-field",
               label: "Project name",

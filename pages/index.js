@@ -67,9 +67,82 @@ const theme = createMuiTheme({
   },
 });
 
+const wrapperStyles = {
+  padding: 16,
+  borderRadius: 4,
+  fontFamily: "Roboto",
+};
+const getBackgroundColor = (variant) =>
+  ({
+    primary: "RebeccaPurple",
+    add: "LimeGreen",
+    remove: "#FF4136",
+  }[variant] || "#888");
+
+const getButtonStyle = (variant) => ({
+  color: "White",
+  backgroundColor: getBackgroundColor(variant),
+  padding: "8px 16px",
+  borderRadius: 4,
+  cursor: "pointer",
+  border: "none",
+  marginRight: 4,
+});
+
+const Button = ({ children, label, variant, ...props }) => (
+  <button style={getButtonStyle(variant)} {...props}>
+    {label}
+  </button>
+);
+
 const MyFormTemplate = (props) => (
   <FormTemplate {...props} showFormControls={false} />
 );
+
+const FieldArrayCustom = (props) => {
+  const {
+    fieldKey,
+    arrayValidator,
+    title,
+    description,
+    fields,
+    itemDefault,
+    meta,
+    ...rest
+  } = useFieldApi(props);
+  const { dirty, submitFailed, error } = meta;
+  const isError = (dirty || submitFailed) && error && typeof error === "string";
+  return (
+    <FieldArray key={fieldKey} name={rest.input.name} validate={arrayValidator}>
+      {(cosi) => (
+        <Fragment>
+          {title && <h3>{title}</h3>}
+          {description && <p>{description}</p>}
+          {cosi.fields.map((name, index) => (
+            <ArrayItem
+              key={`${name || fieldKey}-${index}`}
+              fields={fields}
+              name={name}
+              fieldKey={fieldKey}
+              fieldIndex={index}
+              remove={cosi.fields.remove}
+            />
+          ))}
+          {isError && error}
+          <br />
+          <Button
+            type="button"
+            variant="add"
+            onClick={() => cosi.fields.push(itemDefault)}
+            label="Add +"
+          />
+          <br />
+          <br />
+        </Fragment>
+      )}
+    </FieldArray>
+  );
+};
 
 const validate = (values) => {
   console.log(values);

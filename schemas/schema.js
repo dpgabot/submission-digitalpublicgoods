@@ -51,6 +51,29 @@ const schema = {
               ],
             },
             {
+              name: "contact[name]",
+              component: "text-field",
+              label: "Contact name",
+              helperText:
+                "If there is someone from the project we can contact for more information - please provide their full name",
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name: "contact[email]",
+              component: "text-field",
+              label: "Contact email",
+              helperText: "Please provide the email of the contact person",
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
               name: "type",
               component: "checkbox",
               label: "What category best describes this project?",

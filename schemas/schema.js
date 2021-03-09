@@ -22,18 +22,14 @@ const schema = {
                 "This allow you to add nice people to the list dynamically",
               itemDefault: {
                 name: "enter a name",
-                lastName: "enter a last name",
               },
+              RemoveButtonGridProps: {xs: 3},
+              FieldGroupGridProps: {xs: 9},
               fields: [
                 {
                   component: "text-field",
                   name: "name",
                   label: "Name",
-                },
-                {
-                  component: "text-field",
-                  name: "lastName",
-                  label: "Last Name",
                 },
               ],
             },

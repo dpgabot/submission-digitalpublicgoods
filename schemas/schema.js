@@ -14,26 +14,6 @@ const schema = {
           nextStep: "step-2",
           fields: [
             {
-              component: "field-array",
-              name: "nicePeople",
-              fieldKey: "field_array",
-              title: "Nice people",
-              description:
-                "This allow you to add nice people to the list dynamically",
-              itemDefault: {
-                name: "enter a name",
-              },
-              RemoveButtonGridProps: {xs: 3},
-              FieldGroupGridProps: {xs: 9},
-              fields: [
-                {
-                  component: "text-field",
-                  name: "name",
-                  label: "Name",
-                },
-              ],
-            },
-            {
               name: "name",
               component: "text-field",
               label: "Project name",
@@ -67,6 +47,29 @@ const schema = {
                 },
                 {
                   type: validatorTypes.URL,
+                },
+              ],
+            },
+            {
+              name: "contact[name]",
+              component: "text-field",
+              label: "Contact name",
+              helperText:
+                "If there is someone from the project we can contact for more information - please provide their full name",
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+            {
+              name: "contact[email]",
+              component: "text-field",
+              label: "Contact email",
+              helperText: "Please provide the email of the contact person",
+              validate: [
+                {
+                  type: "required",
                 },
               ],
             },
@@ -266,576 +269,593 @@ const schema = {
           nextStep: "step-3",
           fields: [
             {
-              component: "select",
-              name: "license[spdx]",
+              component: "field-array",
+              name: "license",
               label: "Choose License",
+
+              fieldKey: "field_array",
+              title: "Choose License",
               description:
                 "DPGs must use an open license. Please identify which of these approved open licenses this project uses: *. For Open Source Software, we only accept OSI approved licenses. For Open Content we require the use of a Creative Commons license while we encourage projects to use a license which allows for both derivatives and commercial reuse or dedicate content to the public domain (CC0) we also accept licenses which do not allow for commercial reuse: CC-BY-NC and CC-BY-NC-SA. For data we require a Open Data Commons approved license listed at opendefinition.org/licenses/. IF YOU USE A LICENSE THAT IS NOT CURRENTLY LISTED HERE BUT YOU BELIEVE SHOULD BE INCLUDED PLEASE EMAIL nominations@digitalpublicgoods.net",
-              validate: [
-                {
-                  type: "required",
-                },
-              ],
-              simpleValue: true,
-              options: [
-                {
-                  label: "0BSD:0-clause BSD License",
-                  value: "0BSD",
-                },
-                {
-                  label: "AAL:Attribution Assurance License",
-                  value: "AAL",
-                },
-                {
-                  label: "AFL-3.0:Academic Free License 3.0",
-                  value: "AFL-3.0",
-                },
-                {
-                  label: "GNU Affero General Public License version 3",
-                  value: "AGPL-3.0",
-                },
-                {
-                  label: "Apache Software License 1.1",
-                  value: "Apache-1.1",
-                },
-                {
-                  label: "Apache License 2.0",
-                  value: "Apache-2.0",
-                },
-                {
-                  label: "Adaptive Public License",
-                  value: "APL-1.0",
-                },
-                {
-                  label: "Apple Public Source License",
-                  value: "APSL-2.0",
-                },
-                {
-                  label: "Artistic license 1.0",
-                  value: "Artistic-1.0",
-                },
-                {
-                  label: "Artistic License 2.0",
-                  value: "Artistic-2.0",
-                },
-                {
-                  label: "1-clause BSD License",
-                  value: "BSD-1-Clause",
-                },
-                {
-                  label: "2-clause BSD License",
-                  value: "BSD-2-Clause",
-                },
-                {
-                  label: "BSD+Patent",
-                  value: "BSD-2-Clause-Patent",
-                },
-                {
-                  label: "3-clause BSD License",
-                  value: "BSD-3-Clause",
-                },
-                {
-                  label: "BSD-3-Clause-LBNL",
-                  value: "BSD-3-Clause-LBNL",
-                },
-                {
-                  label: "Boost Software License",
-                  value: "BSL-1.0",
-                },
-                {
-                  label: "Cryptographic Autonomy License v.1.0",
-                  value: "CAL-1.0",
-                },
-                {
-                  label: "Cryptographic Autonomy License v.1.0",
-                  value: "CAL-1.0-Combined-Work-Exception",
-                },
-                {
-                  label: "Computer Associates Trusted Open Source License 1.1",
-                  value: "CATOSL-1.1",
-                },
-                {
-                  label: "Creative Commons Attribution 1.0 Generic",
-                  value: "CC-BY-1.0",
-                },
-                {
-                  label: "Creative Commons Attribution 2.0 Generic",
-                  value: "CC-BY-2.0",
-                },
-                {
-                  label: "Creative Commons Attribution 2.5 Generic",
-                  value: "CC-BY-2.5",
-                },
-                {
-                  label: "Creative Commons Attribution 3.0 Unported",
-                  value: "CC-BY-3.0",
-                },
-                {
-                  label: "Creative Commons Attribution 3.0 Austria",
-                  value: "CC-BY-3.0-AT",
-                },
-                {
-                  label: "Creative Commons Attribution 3.0 United States",
-                  value: "CC-BY-3.0-US",
-                },
-                {
-                  label: "Creative Commons Attribution 4.0 International",
-                  value: "CC-BY-4.0",
-                },
-                {
-                  label:
-                    "Creative Commons Attribution Non Commercial 1.0 Generic",
-                  value: "CC-BY-NC-1.0",
-                },
-                {
-                  label:
-                    "Creative Commons Attribution Non Commercial 2.0 Generic",
-                  value: "CC-BY-NC-2.0",
-                },
-                {
-                  label:
-                    "Creative Commons Attribution Non Commercial 2.5 Generic",
-                  value: "CC-BY-NC-2.5",
-                },
-                {
-                  label:
-                    "Creative Commons Attribution Non Commercial 3.0 Unported",
-                  value: "CC-BY-NC-3.0",
-                },
-                {
-                  label:
-                    "Creative Commons Attribution Non Commercial 3.0 United States",
-                  value: "CC-BY-NC-3.0-US",
-                },
-                {
-                  label:
-                    "Creative Commons Attribution Non Commercial 4.0 International",
-                  value: "CC-BY-NC-4.0",
-                },
-                {
-                  label:
-                    "Creative Commons Attribution Non Commercial Share Alike 1.0 Generic",
-                  value: "CC-BY-NC-SA-1.0",
-                },
-                {
-                  label:
-                    "Creative Commons Attribution Non Commercial Share Alike 2.0 Generic",
-                  value: "CC-BY-NC-SA-2.0",
-                },
-                {
-                  label:
-                    "Creative Commons Attribution Non Commercial Share Alike 2.5 Generic",
-                  value: "CC-BY-NC-SA-2.5",
-                },
-                {
-                  label:
-                    "Creative Commons Attribution Non Commercial Share Alike 3.0 Unported",
-                  value: "CC-BY-NC-SA-3.0",
-                },
-                {
-                  label:
-                    "Creative Commons Attribution Non Commercial Share Alike 3.0 United States",
-                  value: "CC-BY-NC-SA-3.0-US",
-                },
-                {
-                  label:
-                    "Creative Commons Attribution Non Commercial Share Alike 4.0 International",
-                  value: "CC-BY-NC-SA-4.0",
-                },
-                {
-                  label: "Creative Commons Attribution Share Alike 1.0 Generic",
-                  value: "CC-BY-SA-1.0",
-                },
-                {
-                  label: "Creative Commons Attribution Share Alike 2.0 Generic",
-                  value: "CC-BY-SA-2.0",
-                },
-                {
-                  label: "Creative Commons Attribution Share Alike 2.5 Generic",
-                  value: "CC-BY-SA-2.5",
-                },
-                {
-                  label:
-                    "Creative Commons Attribution Share Alike 3.0 Unported",
-                  value: "CC-BY-SA-3.0",
-                },
-                {
-                  label: "Creative Commons Attribution Share Alike 3.0 Austria",
-                  value: "CC-BY-SA-3.0-AT",
-                },
-                {
-                  label:
-                    "Creative Commons Attribution Share Alike 3.0 United States",
-                  value: "CC-BY-SA-3.0-US",
-                },
-                {
-                  label:
-                    "Creative Commons Attribution Share Alike 4.0 International",
-                  value: "CC-BY-SA-4.0",
-                },
-                {
-                  label: "Creative Commons Zero v1.0 Universal",
-                  value: "CC0-1.0",
-                },
-                {
-                  label: "Common Development and Distribution License 1.0",
-                  value: "CDDL-1.0",
-                },
-                {
-                  label: "CeCILL License 2.1",
-                  value: "CECILL-2.1",
-                },
-                {
-                  label: "CNRI Python license",
-                  value: "CNRI-Python",
-                },
-                {
-                  label: "Common Public Attribution License 1.0",
-                  value: "CPAL-1.0",
-                },
-                {
-                  label: "Common Public License 1.0",
-                  value: "CPL-1.0",
-                },
-                {
-                  label: "Educational Community License, Version 1.0",
-                  value: "ECL-1.0",
-                },
-                {
-                  label: "Educational Community License, Version 2.0",
-                  value: "ECL-2.0",
-                },
-                {
-                  label: "Eiffel Forum License V1.0",
-                  value: "EFL-1.0",
-                },
-                {
-                  label: "Eiffel Forum License V2.0",
-                  value: "EFL-2.0",
-                },
-                {
-                  label: "Entessa Public License",
-                  value: "Entessa",
-                },
-                {
-                  label: "Eclipse Public License 1.0",
-                  value: "EPL-1.0",
-                },
-                {
-                  label: "Eclipse Public License 2.0",
-                  value: "EPL-2.0",
-                },
-                {
-                  label: "EU DataGrid Software License",
-                  value: "EUDatagrid",
-                },
-                {
-                  label: "European Union Public License 1.2",
-                  value: "EUPL-1.2",
-                },
-                {
-                  label: "Fair License",
-                  value: "Fair",
-                },
-                {
-                  label: "Frameworx License",
-                  value: "Frameworx-1.0",
-                },
-                {
-                  label: "GNU General Public License version 2",
-                  value: "GPL-2.0",
-                },
-                {
-                  label: "GNU General Public License version 3",
-                  value: "GPL-3.0",
-                },
-                {
-                  label: "Historical Permission Notice and Disclaimer",
-                  value: "HPND",
-                },
-                {
-                  label: "IPA Font License",
-                  value: "IPA",
-                },
-                {
-                  label: "IBM Public License 1.0",
-                  value: "IPL-1.0",
-                },
-                {
-                  label: "ISC License",
-                  value: "ISC",
-                },
-                {
-                  label: "GNU Lesser General Public License version 2.1",
-                  value: "LGPL-2.1",
-                },
-                {
-                  label: "GNU Lesser General Public License version 3",
-                  value: "LGPL-3.0",
-                },
-                {
-                  label: "Licence Libre du Québec – Permissive",
-                  value: "LiLiQ-P-1.1",
-                },
-                {
-                  label: "Licence Libre du Québec – Réciprocité",
-                  value: "LiLiQ-R-1.1",
-                },
-                {
-                  label: "Licence Libre du Québec – Réciprocité forte",
-                  value: "LiLiQ-Rplus-1.1",
-                },
-                {
-                  label: "Lucent Public License",
-                  value: "LPL-1.0",
-                },
-                {
-                  label: "Lucent Public License Version 1.02",
-                  value: "LPL-1.02",
-                },
-                {
-                  label: "LaTeX Project Public License 1.3c",
-                  value: "LPPL-1.3c",
-                },
-                {
-                  label: "MirOS Licence",
-                  value: "MirOS",
-                },
-                {
-                  label: "MIT License",
-                  value: "MIT",
-                },
-                {
-                  label: "MIT No Attribution License",
-                  value: "MIT-0",
-                },
-                {
-                  label: "Motosoto License",
-                  value: "Motosoto",
-                },
-                {
-                  label: "Mozilla Public License 1.0",
-                  value: "MPL-1.0",
-                },
-                {
-                  label: "Mozilla Public License 1.1",
-                  value: "MPL-1.1",
-                },
-                {
-                  label: "Mozilla Public License 2.0",
-                  value: "MPL-2.0",
-                },
-                {
-                  label: "Mozilla Public License 2.0, no copyleft exception",
-                  value: "MPL-2.0-no-copyleft-exception",
-                },
-                {
-                  label: "Microsoft Public License",
-                  value: "MS-PL",
-                },
-                {
-                  label: "Microsoft Reciprocal License",
-                  value: "MS-RL",
-                },
-                {
-                  label: "Mulan Permissive Software License v2",
-                  value: "MulanPSL-2.0",
-                },
-                {
-                  label: "Multics License",
-                  value: "Multics",
-                },
-                {
-                  label: "NASA Open Source Agreement 1.3",
-                  value: "NASA-1.3",
-                },
-                {
-                  label: "Naumen Public License",
-                  value: "Naumen",
-                },
-                {
-                  label: "University of Illinois/NCSA Open Source License",
-                  value: "NCSA",
-                },
-                {
-                  label: "Nethack General Public License",
-                  value: "NGPL",
-                },
-                {
-                  label: "Nokia Open Source License",
-                  value: "Nokia",
-                },
-                {
-                  label: "Non-Profit Open Software License 3.0",
-                  value: "NPOSL-3.0",
-                },
-                {
-                  label: "NTP License",
-                  value: "NTP",
-                },
-                {
-                  label: "OCLC Research Public License 2.0",
-                  value: "OCLC-2.0",
-                },
-                {
-                  label: "Open Data Commons Open Database License 1.0",
-                  value: "ODbL-1.0",
-                },
-                {
-                  label: "Open Data Commons Attribution License 1.0",
-                  value: "ODC-By-1.0",
-                },
-                {
-                  label: "SIL Open Font License 1.1",
-                  value: "OFL-1.1",
-                },
-                {
-                  label: "SIL Open Font License 1.1",
-                  value: "OFL-1.1-no-RFN",
-                },
-                {
-                  label: "SIL Open Font License 1.1",
-                  value: "OFL-1.1-RFN",
-                },
-                {
-                  label: "Open Group Test Suite License",
-                  value: "OGTSL",
-                },
-                {
-                  label: "OpenLDAP Public License Version 2.8",
-                  value: "OLDAP-2.8",
-                },
-                {
-                  label: "OSET Public License version 2.1",
-                  value: "OSET-PL-2.1",
-                },
-                {
-                  label: "Open Software License 1.0",
-                  value: "OSL-1.0",
-                },
-                {
-                  label: "Open Software License 2.1",
-                  value: "OSL-2.1",
-                },
-                {
-                  label: "Open Software License 3.0",
-                  value: "OSL-3.0",
-                },
-                {
-                  label:
-                    "Open Data Commons Public Domain Dedication and Licence 1.0",
-                  value: "PDDL-1.0",
-                },
-                {
-                  label: "PHP License 3.0",
-                  value: "PHP-3.0",
-                },
-                {
-                  label: "PHP License 3.01",
-                  value: "PHP-3.01",
-                },
-                {
-                  label: "The PostgreSQL License",
-                  value: "PostgreSQL",
-                },
-                {
-                  label: "Python License",
-                  value: "Python-2.0",
-                },
-                {
-                  label: "Q Public License",
-                  value: "QPL-1.0",
-                },
-                {
-                  label: "Reciprocal Public License, version 1.1",
-                  value: "RPL-1.1",
-                },
-                {
-                  label: "Reciprocal Public License 1.5",
-                  value: "RPL-1.5",
-                },
-                {
-                  label: "RealNetworks Public Source License V1.0",
-                  value: "RPSL-1.0",
-                },
-                {
-                  label: "Ricoh Source Code Public License",
-                  value: "RSCPL",
-                },
-                {
-                  label: "Simple Public License 2.0",
-                  value: "SimPL-2.0",
-                },
-                {
-                  label: "Sleepycat License",
-                  value: "Sleepycat",
-                },
-                {
-                  label: "Sun Public License 1.0",
-                  value: "SPL-1.0",
-                },
-                {
-                  label: "Upstream Compatibility License v1.0",
-                  value: "UCL-1.0",
-                },
-                {
-                  label: "Unicode Data Files and Software License",
-                  value: "Unicode-DFS-2015",
-                },
-                {
-                  label: "Unicode Data Files and Software License",
-                  value: "Unicode-DFS-2016",
-                },
-                {
-                  label: "The Unlicense",
-                  value: "Unlicense",
-                },
-                {
-                  label: "Universal Permissive License",
-                  value: "UPL-1.0",
-                },
-                {
-                  label: "Vovida Software License v. 1.0",
-                  value: "VSL-1.0",
-                },
-                {
-                  label: "W3C License",
-                  value: "W3C",
-                },
-                {
-                  label: "Sybase Open Watcom Public License 1.0",
-                  value: "Watcom-1.0",
-                },
-                {
-                  label: "X.Net License",
-                  value: "Xnet",
-                },
-                {
-                  label: "wxWindows Library License",
-                  value: "wxWindows",
-                },
-                {
-                  label: "zlib/libpng license",
-                  value: "Zlib",
-                },
-                {
-                  label: "Zope Public License 2.0",
-                  value: "ZPL-2.0",
-                },
-              ],
-            },
-            {
-              name: "license[licenseURL]",
-              component: "text-field",
-              label: "License URL",
-              description:
-                "Please link to where the license is indicated for this project: * I.e. GitHub Repo or page of website.",
-              validate: [
-                {
-                  type: "required",
-                },
-                {
-                  type: validatorTypes.URL,
+              RemoveButtonGridProps: { xs: 3 },
+              FieldGroupGridProps: { xs: 9 },
+              fields: [
+                {
+                  component: "select",
+                  name: "spdx",
+                  validate: [
+                    {
+                      type: "required",
+                    },
+                  ],
+                  simpleValue: true,
+                  options: [
+                    {
+                      label: "0BSD:0-clause BSD License",
+                      value: "0BSD",
+                    },
+                    {
+                      label: "AAL:Attribution Assurance License",
+                      value: "AAL",
+                    },
+                    {
+                      label: "AFL-3.0:Academic Free License 3.0",
+                      value: "AFL-3.0",
+                    },
+                    {
+                      label: "GNU Affero General Public License version 3",
+                      value: "AGPL-3.0",
+                    },
+                    {
+                      label: "Apache Software License 1.1",
+                      value: "Apache-1.1",
+                    },
+                    {
+                      label: "Apache License 2.0",
+                      value: "Apache-2.0",
+                    },
+                    {
+                      label: "Adaptive Public License",
+                      value: "APL-1.0",
+                    },
+                    {
+                      label: "Apple Public Source License",
+                      value: "APSL-2.0",
+                    },
+                    {
+                      label: "Artistic license 1.0",
+                      value: "Artistic-1.0",
+                    },
+                    {
+                      label: "Artistic License 2.0",
+                      value: "Artistic-2.0",
+                    },
+                    {
+                      label: "1-clause BSD License",
+                      value: "BSD-1-Clause",
+                    },
+                    {
+                      label: "2-clause BSD License",
+                      value: "BSD-2-Clause",
+                    },
+                    {
+                      label: "BSD+Patent",
+                      value: "BSD-2-Clause-Patent",
+                    },
+                    {
+                      label: "3-clause BSD License",
+                      value: "BSD-3-Clause",
+                    },
+                    {
+                      label: "BSD-3-Clause-LBNL",
+                      value: "BSD-3-Clause-LBNL",
+                    },
+                    {
+                      label: "Boost Software License",
+                      value: "BSL-1.0",
+                    },
+                    {
+                      label: "Cryptographic Autonomy License v.1.0",
+                      value: "CAL-1.0",
+                    },
+                    {
+                      label: "Cryptographic Autonomy License v.1.0",
+                      value: "CAL-1.0-Combined-Work-Exception",
+                    },
+                    {
+                      label:
+                        "Computer Associates Trusted Open Source License 1.1",
+                      value: "CATOSL-1.1",
+                    },
+                    {
+                      label: "Creative Commons Attribution 1.0 Generic",
+                      value: "CC-BY-1.0",
+                    },
+                    {
+                      label: "Creative Commons Attribution 2.0 Generic",
+                      value: "CC-BY-2.0",
+                    },
+                    {
+                      label: "Creative Commons Attribution 2.5 Generic",
+                      value: "CC-BY-2.5",
+                    },
+                    {
+                      label: "Creative Commons Attribution 3.0 Unported",
+                      value: "CC-BY-3.0",
+                    },
+                    {
+                      label: "Creative Commons Attribution 3.0 Austria",
+                      value: "CC-BY-3.0-AT",
+                    },
+                    {
+                      label: "Creative Commons Attribution 3.0 United States",
+                      value: "CC-BY-3.0-US",
+                    },
+                    {
+                      label: "Creative Commons Attribution 4.0 International",
+                      value: "CC-BY-4.0",
+                    },
+                    {
+                      label:
+                        "Creative Commons Attribution Non Commercial 1.0 Generic",
+                      value: "CC-BY-NC-1.0",
+                    },
+                    {
+                      label:
+                        "Creative Commons Attribution Non Commercial 2.0 Generic",
+                      value: "CC-BY-NC-2.0",
+                    },
+                    {
+                      label:
+                        "Creative Commons Attribution Non Commercial 2.5 Generic",
+                      value: "CC-BY-NC-2.5",
+                    },
+                    {
+                      label:
+                        "Creative Commons Attribution Non Commercial 3.0 Unported",
+                      value: "CC-BY-NC-3.0",
+                    },
+                    {
+                      label:
+                        "Creative Commons Attribution Non Commercial 3.0 United States",
+                      value: "CC-BY-NC-3.0-US",
+                    },
+                    {
+                      label:
+                        "Creative Commons Attribution Non Commercial 4.0 International",
+                      value: "CC-BY-NC-4.0",
+                    },
+                    {
+                      label:
+                        "Creative Commons Attribution Non Commercial Share Alike 1.0 Generic",
+                      value: "CC-BY-NC-SA-1.0",
+                    },
+                    {
+                      label:
+                        "Creative Commons Attribution Non Commercial Share Alike 2.0 Generic",
+                      value: "CC-BY-NC-SA-2.0",
+                    },
+                    {
+                      label:
+                        "Creative Commons Attribution Non Commercial Share Alike 2.5 Generic",
+                      value: "CC-BY-NC-SA-2.5",
+                    },
+                    {
+                      label:
+                        "Creative Commons Attribution Non Commercial Share Alike 3.0 Unported",
+                      value: "CC-BY-NC-SA-3.0",
+                    },
+                    {
+                      label:
+                        "Creative Commons Attribution Non Commercial Share Alike 3.0 United States",
+                      value: "CC-BY-NC-SA-3.0-US",
+                    },
+                    {
+                      label:
+                        "Creative Commons Attribution Non Commercial Share Alike 4.0 International",
+                      value: "CC-BY-NC-SA-4.0",
+                    },
+                    {
+                      label:
+                        "Creative Commons Attribution Share Alike 1.0 Generic",
+                      value: "CC-BY-SA-1.0",
+                    },
+                    {
+                      label:
+                        "Creative Commons Attribution Share Alike 2.0 Generic",
+                      value: "CC-BY-SA-2.0",
+                    },
+                    {
+                      label:
+                        "Creative Commons Attribution Share Alike 2.5 Generic",
+                      value: "CC-BY-SA-2.5",
+                    },
+                    {
+                      label:
+                        "Creative Commons Attribution Share Alike 3.0 Unported",
+                      value: "CC-BY-SA-3.0",
+                    },
+                    {
+                      label:
+                        "Creative Commons Attribution Share Alike 3.0 Austria",
+                      value: "CC-BY-SA-3.0-AT",
+                    },
+                    {
+                      label:
+                        "Creative Commons Attribution Share Alike 3.0 United States",
+                      value: "CC-BY-SA-3.0-US",
+                    },
+                    {
+                      label:
+                        "Creative Commons Attribution Share Alike 4.0 International",
+                      value: "CC-BY-SA-4.0",
+                    },
+                    {
+                      label: "Creative Commons Zero v1.0 Universal",
+                      value: "CC0-1.0",
+                    },
+                    {
+                      label: "Common Development and Distribution License 1.0",
+                      value: "CDDL-1.0",
+                    },
+                    {
+                      label: "CeCILL License 2.1",
+                      value: "CECILL-2.1",
+                    },
+                    {
+                      label: "CNRI Python license",
+                      value: "CNRI-Python",
+                    },
+                    {
+                      label: "Common Public Attribution License 1.0",
+                      value: "CPAL-1.0",
+                    },
+                    {
+                      label: "Common Public License 1.0",
+                      value: "CPL-1.0",
+                    },
+                    {
+                      label: "Educational Community License, Version 1.0",
+                      value: "ECL-1.0",
+                    },
+                    {
+                      label: "Educational Community License, Version 2.0",
+                      value: "ECL-2.0",
+                    },
+                    {
+                      label: "Eiffel Forum License V1.0",
+                      value: "EFL-1.0",
+                    },
+                    {
+                      label: "Eiffel Forum License V2.0",
+                      value: "EFL-2.0",
+                    },
+                    {
+                      label: "Entessa Public License",
+                      value: "Entessa",
+                    },
+                    {
+                      label: "Eclipse Public License 1.0",
+                      value: "EPL-1.0",
+                    },
+                    {
+                      label: "Eclipse Public License 2.0",
+                      value: "EPL-2.0",
+                    },
+                    {
+                      label: "EU DataGrid Software License",
+                      value: "EUDatagrid",
+                    },
+                    {
+                      label: "European Union Public License 1.2",
+                      value: "EUPL-1.2",
+                    },
+                    {
+                      label: "Fair License",
+                      value: "Fair",
+                    },
+                    {
+                      label: "Frameworx License",
+                      value: "Frameworx-1.0",
+                    },
+                    {
+                      label: "GNU General Public License version 2",
+                      value: "GPL-2.0",
+                    },
+                    {
+                      label: "GNU General Public License version 3",
+                      value: "GPL-3.0",
+                    },
+                    {
+                      label: "Historical Permission Notice and Disclaimer",
+                      value: "HPND",
+                    },
+                    {
+                      label: "IPA Font License",
+                      value: "IPA",
+                    },
+                    {
+                      label: "IBM Public License 1.0",
+                      value: "IPL-1.0",
+                    },
+                    {
+                      label: "ISC License",
+                      value: "ISC",
+                    },
+                    {
+                      label: "GNU Lesser General Public License version 2.1",
+                      value: "LGPL-2.1",
+                    },
+                    {
+                      label: "GNU Lesser General Public License version 3",
+                      value: "LGPL-3.0",
+                    },
+                    {
+                      label: "Licence Libre du Québec – Permissive",
+                      value: "LiLiQ-P-1.1",
+                    },
+                    {
+                      label: "Licence Libre du Québec – Réciprocité",
+                      value: "LiLiQ-R-1.1",
+                    },
+                    {
+                      label: "Licence Libre du Québec – Réciprocité forte",
+                      value: "LiLiQ-Rplus-1.1",
+                    },
+                    {
+                      label: "Lucent Public License",
+                      value: "LPL-1.0",
+                    },
+                    {
+                      label: "Lucent Public License Version 1.02",
+                      value: "LPL-1.02",
+                    },
+                    {
+                      label: "LaTeX Project Public License 1.3c",
+                      value: "LPPL-1.3c",
+                    },
+                    {
+                      label: "MirOS Licence",
+                      value: "MirOS",
+                    },
+                    {
+                      label: "MIT License",
+                      value: "MIT",
+                    },
+                    {
+                      label: "MIT No Attribution License",
+                      value: "MIT-0",
+                    },
+                    {
+                      label: "Motosoto License",
+                      value: "Motosoto",
+                    },
+                    {
+                      label: "Mozilla Public License 1.0",
+                      value: "MPL-1.0",
+                    },
+                    {
+                      label: "Mozilla Public License 1.1",
+                      value: "MPL-1.1",
+                    },
+                    {
+                      label: "Mozilla Public License 2.0",
+                      value: "MPL-2.0",
+                    },
+                    {
+                      label:
+                        "Mozilla Public License 2.0, no copyleft exception",
+                      value: "MPL-2.0-no-copyleft-exception",
+                    },
+                    {
+                      label: "Microsoft Public License",
+                      value: "MS-PL",
+                    },
+                    {
+                      label: "Microsoft Reciprocal License",
+                      value: "MS-RL",
+                    },
+                    {
+                      label: "Mulan Permissive Software License v2",
+                      value: "MulanPSL-2.0",
+                    },
+                    {
+                      label: "Multics License",
+                      value: "Multics",
+                    },
+                    {
+                      label: "NASA Open Source Agreement 1.3",
+                      value: "NASA-1.3",
+                    },
+                    {
+                      label: "Naumen Public License",
+                      value: "Naumen",
+                    },
+                    {
+                      label: "University of Illinois/NCSA Open Source License",
+                      value: "NCSA",
+                    },
+                    {
+                      label: "Nethack General Public License",
+                      value: "NGPL",
+                    },
+                    {
+                      label: "Nokia Open Source License",
+                      value: "Nokia",
+                    },
+                    {
+                      label: "Non-Profit Open Software License 3.0",
+                      value: "NPOSL-3.0",
+                    },
+                    {
+                      label: "NTP License",
+                      value: "NTP",
+                    },
+                    {
+                      label: "OCLC Research Public License 2.0",
+                      value: "OCLC-2.0",
+                    },
+                    {
+                      label: "Open Data Commons Open Database License 1.0",
+                      value: "ODbL-1.0",
+                    },
+                    {
+                      label: "Open Data Commons Attribution License 1.0",
+                      value: "ODC-By-1.0",
+                    },
+                    {
+                      label: "SIL Open Font License 1.1",
+                      value: "OFL-1.1",
+                    },
+                    {
+                      label: "SIL Open Font License 1.1",
+                      value: "OFL-1.1-no-RFN",
+                    },
+                    {
+                      label: "SIL Open Font License 1.1",
+                      value: "OFL-1.1-RFN",
+                    },
+                    {
+                      label: "Open Group Test Suite License",
+                      value: "OGTSL",
+                    },
+                    {
+                      label: "OpenLDAP Public License Version 2.8",
+                      value: "OLDAP-2.8",
+                    },
+                    {
+                      label: "OSET Public License version 2.1",
+                      value: "OSET-PL-2.1",
+                    },
+                    {
+                      label: "Open Software License 1.0",
+                      value: "OSL-1.0",
+                    },
+                    {
+                      label: "Open Software License 2.1",
+                      value: "OSL-2.1",
+                    },
+                    {
+                      label: "Open Software License 3.0",
+                      value: "OSL-3.0",
+                    },
+                    {
+                      label:
+                        "Open Data Commons Public Domain Dedication and Licence 1.0",
+                      value: "PDDL-1.0",
+                    },
+                    {
+                      label: "PHP License 3.0",
+                      value: "PHP-3.0",
+                    },
+                    {
+                      label: "PHP License 3.01",
+                      value: "PHP-3.01",
+                    },
+                    {
+                      label: "The PostgreSQL License",
+                      value: "PostgreSQL",
+                    },
+                    {
+                      label: "Python License",
+                      value: "Python-2.0",
+                    },
+                    {
+                      label: "Q Public License",
+                      value: "QPL-1.0",
+                    },
+                    {
+                      label: "Reciprocal Public License, version 1.1",
+                      value: "RPL-1.1",
+                    },
+                    {
+                      label: "Reciprocal Public License 1.5",
+                      value: "RPL-1.5",
+                    },
+                    {
+                      label: "RealNetworks Public Source License V1.0",
+                      value: "RPSL-1.0",
+                    },
+                    {
+                      label: "Ricoh Source Code Public License",
+                      value: "RSCPL",
+                    },
+                    {
+                      label: "Simple Public License 2.0",
+                      value: "SimPL-2.0",
+                    },
+                    {
+                      label: "Sleepycat License",
+                      value: "Sleepycat",
+                    },
+                    {
+                      label: "Sun Public License 1.0",
+                      value: "SPL-1.0",
+                    },
+                    {
+                      label: "Upstream Compatibility License v1.0",
+                      value: "UCL-1.0",
+                    },
+                    {
+                      label: "Unicode Data Files and Software License",
+                      value: "Unicode-DFS-2015",
+                    },
+                    {
+                      label: "Unicode Data Files and Software License",
+                      value: "Unicode-DFS-2016",
+                    },
+                    {
+                      label: "The Unlicense",
+                      value: "Unlicense",
+                    },
+                    {
+                      label: "Universal Permissive License",
+                      value: "UPL-1.0",
+                    },
+                    {
+                      label: "Vovida Software License v. 1.0",
+                      value: "VSL-1.0",
+                    },
+                    {
+                      label: "W3C License",
+                      value: "W3C",
+                    },
+                    {
+                      label: "Sybase Open Watcom Public License 1.0",
+                      value: "Watcom-1.0",
+                    },
+                    {
+                      label: "X.Net License",
+                      value: "Xnet",
+                    },
+                    {
+                      label: "wxWindows Library License",
+                      value: "wxWindows",
+                    },
+                    {
+                      label: "zlib/libpng license",
+                      value: "Zlib",
+                    },
+                    {
+                      label: "Zope Public License 2.0",
+                      value: "ZPL-2.0",
+                    },
+                  ],
+                },
+                {
+                  name: "licenseURL",
+                  component: "text-field",
+                  label: "License URL",
+                  description:
+                    "Please link to where the license is indicated for this project: * I.e. GitHub Repo or page of website.",
+                  validate: [
+                    {
+                      type: "required",
+                    },
+                    {
+                      type: validatorTypes.URL,
+                    },
+                  ],
                 },
               ],
             },

@@ -255,7 +255,7 @@ const schema = {
                   label: "Contact name",
                 },
                 {
-                  name: "contact_email",
+                  name: "organizations[contact_email]",
                   component: "text-field",
                   label: "Contact email",
                 },

@@ -16,6 +16,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Octokit } from "@octokit/core";
 import { createPullRequest } from "octokit-plugin-create-pull-request";
 
+import axios from "axios";
+
 import schema from "../schemas/schema";
 
 const validatorMapper = {};
@@ -224,7 +226,26 @@ function openPR(values) {
         },
       ],
     })
-    .then((pr) => console.log(pr.data.number));
+    .then((pr) => submitToGoogleSheet());
+}
+
+function submitToGoogleSheet() {
+  axios
+    .post(
+      "https://sheet.best/api/sheets/822480cc-089d-403b-9d90-0e105a286578",
+      {
+        firstName: "Finn",
+        lastName: "Williams",
+      }
+    )
+    .then(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
 }
 
 export default function Home() {

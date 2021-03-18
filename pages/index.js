@@ -20,12 +20,6 @@ import schema from "../schemas/schema";
 
 const validatorMapper = {};
 
-const GITHUB_OWNER = "nathanbaleeta";
-const GITHUB_REPO = "submission-form";
-const GITHUB_BRANCH = "main"; /* optional: defaults to default branch */
-
-const TOKEN = process.env.ACCESS_TOKEN; // create token at https://github.com/settings/tokens/new?scopes=repo
-
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -164,67 +158,19 @@ const validate = (values) => {
   return errors;
 };
 
-function openPR(values) {
-  // Exclude contact information from pull request
-  delete values["contact"];
-
-  let sdgNumber, evidenceText;
-  for (let i = 0; i < values.SDGs.length; i++) {
-    sdgNumber = parseInt(values.SDGs[i]);
-    evidenceText = "evidenceText".concat(sdgNumber);
-
-    values.SDGs[i] = {
-      SDGNumber: sdgNumber,
-      evidenceText: values[evidenceText],
-    };
-
-    delete values[evidenceText];
-  }
-
-  const myJSON = JSON.stringify(values, null, "\t");
-
-  // Return project json file aligned with naming convention(includes removing accents)
-  let name =
-    values.name
-      .normalize("NFD")
-      .toLowerCase()
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/ /g, "-") + ".json";
-
-  const MyOctokit = Octokit.plugin(createPullRequest);
-
-  const octokit = new MyOctokit({
-    auth: TOKEN,
-  });
-
-  // Returns a normal Octokit PR response
-  // See https://octokit.github.io/rest.js/#octokit-routes-pulls-create
-  octokit
-    .createPullRequest({
-      owner: GITHUB_OWNER,
-      repo: GITHUB_REPO,
-      title: `Add nominee: ${values.name}`,
-      body:
-        "Automatic addition of a new nominee submitted through the online form available at https://digitalpublicgoods.net/submission",
-      base: GITHUB_BRANCH,
-      head:
-        `${name}`.split(".").slice(0, -1).join(".") +
-        "-" +
-        (Math.random() * 10 ** 16).toString(36),
-      changes: [
-        {
-          /* optional: if `files` is not passed, an empty commit is created instead */
-          files: {
-            [name]: {
-              content: myJSON,
-              encoding: "utf-8",
-            },
-          },
-          commit: `BLD: Add ${values.name}`,
-        },
-      ],
+async function openPR(values){
+  const response = await fetch("/api/openPR", {
+    'method': 'POST',
+    'headers': {
+      'content-type': 'application/json',
+      'accept': 'application/json'
+    },
+    'body': JSON.stringify({
+      values: values
     })
-    .then((pr) => console.log(pr.data.number));
+  })
+  const result = await response.json()
+  console.log(result)
 }
 
 export default function Home() {

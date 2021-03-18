@@ -179,11 +179,19 @@ async function openPR(values) {
 }
 
 async function saveContactToGoogleSpreadsheet(values) {
-  const data = JSON.stringify(values["contact"]);
+  // Access contact key from values
+  const contact = values["contact"];
+  // Create empty form data element
+  let formData = new FormData();
+
+  // Add contact key value pairs to formData
+  formData.append("Project Name", values.name);
+  formData.append("Contact Name", contact.name);
+  formData.append("Email Address", contact.email);
 
   fetch(scriptURL, {
     method: "POST",
-    body: data,
+    body: formData,
   })
     .then((response) => {
       console.log(response.status);

@@ -18,6 +18,11 @@ import { createPullRequest } from "octokit-plugin-create-pull-request";
 
 import schema from "../schemas/schema";
 
+//const scriptURL = process.env.GOOGLE_SPREADSHEET_SCRIPT_URL;
+
+const scriptURL =
+  "https://script.google.com/macros/s/AKfycbx5HwOrXAiUpEHpSJOo-bFykOVGno_Ze8tp5pp_c-rlZAewmcQ1YGPMaXdYzr1-FxBOKQ/exec";
+
 const validatorMapper = {};
 
 const useStyles = makeStyles((theme) => ({
@@ -158,19 +163,37 @@ const validate = (values) => {
   return errors;
 };
 
-async function openPR(values){
+async function openPR(values) {
   const response = await fetch("/api/openPR", {
-    'method': 'POST',
-    'headers': {
-      'content-type': 'application/json',
-      'accept': 'application/json'
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      accept: "application/json",
     },
-    'body': JSON.stringify({
-      values: values
-    })
+    body: JSON.stringify({
+      values: values,
+    }),
+  });
+  const result = await response.json();
+  console.log(result);
+
+  // Save contact information to google spreadsheet
+  saveContactToGoogleSpreadsheet(values);
+}
+
+async function saveContactToGoogleSpreadsheet(values) {
+  const data = JSON.stringify(values["contact"]);
+
+  fetch(scriptURL, {
+    method: "POST",
+    body: data,
   })
-  const result = await response.json()
-  console.log(result)
+    .then((response) => {
+      console.log(response.status);
+    })
+    .catch((error) => {
+      console.log("Error!", error.message);
+    });
 }
 
 export default function Home() {

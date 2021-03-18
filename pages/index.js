@@ -18,10 +18,7 @@ import { createPullRequest } from "octokit-plugin-create-pull-request";
 
 import schema from "../schemas/schema";
 
-//const scriptURL = process.env.GOOGLE_SPREADSHEET_SCRIPT_URL;
-
-const scriptURL =
-  "https://script.google.com/macros/s/AKfycbx5HwOrXAiUpEHpSJOo-bFykOVGno_Ze8tp5pp_c-rlZAewmcQ1YGPMaXdYzr1-FxBOKQ/exec";
+const scriptURL = process.env.NEXT_PUBLIC_GOOGLE_SPREADSHEET_SCRIPT_URL;
 
 const validatorMapper = {};
 

@@ -176,6 +176,9 @@ async function openPR(values) {
 
   // Save contact information to google spreadsheet
   saveContactToGoogleSpreadsheet(values);
+
+  // Clear form fields after clicking submit
+  window.location = "";
 }
 
 async function saveContactToGoogleSpreadsheet(values) {

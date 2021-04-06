@@ -15,6 +15,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { Octokit } from "@octokit/core";
 import { createPullRequest } from "octokit-plugin-create-pull-request";
+import { Redirect } from "react-router-dom";
 
 import schema from "../schemas/schema";
 
@@ -178,7 +179,7 @@ async function openPR(values) {
   saveContactToGoogleSpreadsheet(values);
 
   // Clear form fields after clicking submit
-  window.location = "";
+  return <Redirect to="/thank-you" />;
 }
 
 async function saveContactToGoogleSpreadsheet(values) {

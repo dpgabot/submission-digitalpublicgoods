@@ -15,7 +15,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { Octokit } from "@octokit/core";
 import { createPullRequest } from "octokit-plugin-create-pull-request";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 import schema from "../schemas/schema";
 

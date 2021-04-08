@@ -10,7 +10,6 @@ const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO
   ? process.env.NEXT_PUBLIC_GITHUB_REPO
   : "submission-form";
 
-
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -40,44 +39,39 @@ const Button = ({ children, label, variant, ...props }) => (
 );
 
 function ThankYou(props) {
-	const classes = useStyles();
-	const router = useRouter();
-
-	console.log(router.query)
-
+  const classes = useStyles();
+  const router = useRouter();
 
   return (
-  	 <Container component="main" maxWidth="sm">
+    <Container component="main" maxWidth="sm">
       <Head>
         <title>Thank you</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <div className={classes.paper}>
-	    <h1>
-	      Thank you!
-	    </h1>
+        <h1>
+          Thank you!
+        </h1>
 
-	   <p style={{fontSize: '1.3em'}}>Your nomination for a digital public good has been submitted successfully. 
-	   We will review your submission promptly, and we will be in contact with any follow up questions as needed.</p>
+        <p style={{fontSize: '1.3em'}}>Your nomination for a digital public good has been submitted successfully. 
+        We will review your submission promptly, and we will be in contact with any follow up questions as needed.</p>
 
-	   <p style={{fontSize: '1.3em'}}>You can track the progress of your nomination through&nbsp;
-	   <a href={'https://github.com/'+GITHUB_OWNER+'/'+GITHUB_REPO+'/pull/'+router.query.pr} target="_blank" rel="noreferrer">
-	   	this pull request
-	   </a>
-	   &nbsp;on our open source code repository.</p>
+        <p style={{fontSize: '1.3em'}}>You can track the progress of your nomination through&nbsp;
+        <a href={'https://github.com/'+GITHUB_OWNER+'/'+GITHUB_REPO+'/pull/'+router.query.pr} target="_blank" rel="noreferrer">
+        this pull request
+        </a>
+        &nbsp;on our open source code repository.</p>
 
-	   <p>&nbsp;</p>
+        <p>&nbsp;</p>
 
-		<Button
-		type="button"
-		variant="add"
-		onClick={() => router.push('/')}
-		label="Start a New Nomination"
-		/>
-
-	  </div>
-	</Container>
+        <Button
+          type="button"
+          variant="add"
+          onClick={() => router.push('/')}
+          label="Start a New Nomination"
+        />
+      </div>
+    </Container>
   );
 }
 

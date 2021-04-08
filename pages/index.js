@@ -1,21 +1,17 @@
 import Head from "next/head";
+import { useRouter } from 'next/router';
 import FormRenderer from "@data-driven-forms/react-form-renderer";
 import {
   FormTemplate,
   componentMapper,
 } from "@data-driven-forms/mui-component-mapper";
-
 import Box from "@material-ui/core/Box";
-
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from "@material-ui/core/styles";
-
 import { Octokit } from "@octokit/core";
 import { createPullRequest } from "octokit-plugin-create-pull-request";
-import { Link, Redirect } from "react-router-dom";
 
 import schema from "../schemas/schema";
 
@@ -161,27 +157,6 @@ const validate = (values) => {
   return errors;
 };
 
-async function openPR(values) {
-  const response = await fetch("/api/openPR", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      accept: "application/json",
-    },
-    body: JSON.stringify({
-      values: values,
-    }),
-  });
-  const result = await response.json();
-  console.log(result);
-
-  // Save contact information to google spreadsheet
-  saveContactToGoogleSpreadsheet(values);
-
-  // Clear form fields after clicking submit
-  return <Redirect to="/thank-you" />;
-}
-
 async function saveContactToGoogleSpreadsheet(values) {
   // Access contact key from values
   const contact = values["contact"];
@@ -207,12 +182,35 @@ async function saveContactToGoogleSpreadsheet(values) {
 
 export default function Home() {
   const classes = useStyles();
+  const router = useRouter();
+
+  async function openPR(values) {
+    const response = await fetch("/api/openPR", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        accept: "application/json",
+      },
+      body: JSON.stringify({
+        values: values,
+      }),
+    });
+    const result = await response.json();
+
+    // Save contact information to google spreadsheet
+    saveContactToGoogleSpreadsheet(values);
+
+    // Clear form fields after clicking submit
+    router.push({
+      pathname: '/thank-you',
+      query: { pr: result.number}
+    });
+  }
 
   return (
     <Container component="main" maxWidth="sm">
       <Head>
         <title>DPG Submission Form</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <div className={classes.paper}>

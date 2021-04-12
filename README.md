@@ -39,8 +39,8 @@ The forms are [Data Driven Forms](https://data-driven-forms.org/), configured th
 Set the following environment variables in a `.env.local` file:
 ```bash
 ACCESS_TOKEN={YOUR_GITHUB_TOKEN_HERE}
-GITHUB_OWNER=lacabra
-GITHUB_REPO=submission-digitalpublicgoods
+NEXT_PUBLIC_GITHUB_OWNER=lacabra
+NEXT_PUBLIC_GITHUB_REPO=submission-digitalpublicgoods
 GITHUB_BRANCH=main
 NEXT_PUBLIC_GOOGLE_SPREADSHEET_SCRIPT_URL={GOOGLE_SPREADSHEET_SCRIPT_URL}
 ```

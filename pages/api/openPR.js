@@ -5,11 +5,11 @@ import {
 } from "octokit-plugin-create-pull-request";
 
 const TOKEN = process.env.ACCESS_TOKEN; // create token at https://github.com/settings/tokens/new?scopes=repo
-const GITHUB_OWNER = process.env.GITHUB_OWNER
-  ? process.env.GITHUB_OWNER
-  : "nathanbaleeta";
-const GITHUB_REPO = process.env.GITHUB_REPO
-  ? process.env.GITHUB_REPO
+const GITHUB_OWNER = process.env.NEXT_PUBLIC_GITHUB_OWNER
+  ? process.env.NEXT_PUBLIC_GITHUB_OWNER
+  : "unicef";
+const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO
+  ? process.env.NEXT_PUBLIC_GITHUB_REPO
   : "submission-form";
 const GITHUB_BRANCH = process.env.GITHUB_BRANCH
   ? process.env.GITHUB_BRANCH
@@ -37,7 +37,10 @@ export default async (req, res) => {
     }
 
     // Convert JavaScript object to JSON string
-    const myJSON = JSON.stringify(values, null, "\t");
+    let myJSON = JSON.stringify(values, null, "\t");
+
+    // Add newline at end of file
+    myJSON += "\r\n";
 
     // Return project json file aligned with naming convention (includes removing accents)
     let name =
@@ -80,13 +83,9 @@ export default async (req, res) => {
       ],
     });
 
-    console.log(response);
-
     const result = {
       number: response.data.number,
     };
-
-    console.log(result);
 
     // return an unconditional success response
     res.statusCode = 200;

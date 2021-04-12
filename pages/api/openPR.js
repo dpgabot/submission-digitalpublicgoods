@@ -37,7 +37,10 @@ export default async (req, res) => {
     }
 
     // Convert JavaScript object to JSON string
-    const myJSON = JSON.stringify(values, null, "\t");
+    let myJSON = JSON.stringify(values, null, "\t");
+
+    // Add newline at end of file
+    myJSON += "\r\n";
 
     // Return project json file aligned with naming convention (includes removing accents)
     let name =

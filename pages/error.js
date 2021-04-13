@@ -67,7 +67,7 @@ function Error(props) {
   }, []);
 
   return (
-    <Container component="main" maxWidth="sm">
+    <Container component="main" maxWidth="sm" className={classes.root}>
       <Head>
         <title>Error</title>
       </Head>

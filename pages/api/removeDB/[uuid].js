@@ -21,14 +21,14 @@ export default async (req, res) => {
 
     let output
     try {
-      const result = await docClient.get(params).promise();
+      const result = await docClient.delete(params).promise();
       res.statusCode = 200;
-      output = result.Item ? JSON.stringify(result.Item.formData) :  JSON.stringify({});
-      // console.log("GetItem succeeded:", JSON.stringify(result, null, 2));
+      output = JSON.stringify(result)
+      // console.log("DeleteItem succeeded:", JSON.stringify(result, null, 2));
     } catch (err) {
       res.statusCode = 500;
-      output = {error: "Unable to read item. Error JSON: " + JSON.stringify(err, null, 2)}
-      // console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
+      output = {error: "Unable to delete item. Error JSON: " + JSON.stringify(err, null, 2)}
+      // console.error("Unable to delete item. Error JSON:", JSON.stringify(err, null, 2));
     }
 
     // return response

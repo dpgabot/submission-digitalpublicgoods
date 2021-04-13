@@ -182,21 +182,6 @@ const debounce = (func, wait) => {
   };
 };
 
-async function saveToDb(values, uuid) {
-  console.log(values);
-  const response = await fetch("/api/saveDB", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      accept: "application/json",
-    },
-    body: JSON.stringify({
-      values: values,
-      uuid: uuid
-    }),
-  });
-}
-
 export default function Home() {
   const classes = useStyles();
   const router = useRouter();
@@ -224,9 +209,24 @@ export default function Home() {
   }, []);
 
   const debouncedSave = useCallback(
-    debounce(values => saveToDb(values, cookies.uuid), 1000),
-    {}
+    debounce(values => saveToDb(values), 1000),
+    [cookies.uuid]
   );
+
+  async function saveToDb(values) {
+    if(cookies.uuid) {
+      const response = await fetch(`/api/saveDB/${cookies.uuid}`, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          accept: 'application/json',
+        },
+        body: JSON.stringify({
+          values: values
+        }),
+      });
+    }
+  }
 
   async function openPR(values, formApi, state) {
 

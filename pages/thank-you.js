@@ -1,7 +1,10 @@
+import React, { useState, useEffect } from 'react';
 import Head from "next/head";
 import { useRouter } from 'next/router';
+import { useCookies } from 'react-cookie';
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
+
 
 const GITHUB_OWNER = process.env.NEXT_PUBLIC_GITHUB_OWNER
   ? process.env.NEXT_PUBLIC_GITHUB_OWNER
@@ -41,6 +44,18 @@ const Button = ({ children, label, variant, ...props }) => (
 function ThankYou(props) {
   const classes = useStyles();
   const router = useRouter();
+
+  const [cookies, setCookie, removeCookie] = useCookies(['uuid']);
+  
+  useEffect(() => {
+    // Delete the submission data from the DB
+    async function fetchData() {
+      const result = await fetch(`/api/removeDB/${cookies.uuid}`);
+    }
+    fetchData();
+    // Remove the cookie, no longer needed
+    removeCookie('uuid');
+  }, []);
 
   return (
     <Container component="main" maxWidth="sm">

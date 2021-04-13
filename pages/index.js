@@ -1,10 +1,19 @@
+import React, { useState, useCallback, useEffect } from 'react';
+import { useCookies } from 'react-cookie';
+import { v4 as uuidv4 } from 'uuid';
 import Head from "next/head";
 import { useRouter } from 'next/router';
 import FormRenderer from "@data-driven-forms/react-form-renderer";
+
 import {
   FormTemplate,
   componentMapper,
 } from "@data-driven-forms/mui-component-mapper";
+import Alert from '@material-ui/lab/Alert';
+import IconButton from '@material-ui/core/IconButton';
+import Collapse from '@material-ui/core/Collapse';
+import CloseIcon from '@material-ui/icons/Close';
+
 import Box from "@material-ui/core/Box";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -12,6 +21,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from "@material-ui/core/styles";
 import { Octokit } from "@octokit/core";
 import { createPullRequest } from "octokit-plugin-create-pull-request";
+import LoadingOverlay from 'react-loading-overlay';
 
 import schema from "../schemas/schema";
 
@@ -137,26 +147,6 @@ const FieldArrayCustom = (props) => {
   );
 };
 
-const validate = (values) => {
-  console.log(values);
-  const errors = {};
-
-  for (let i = 1; i <= 17; i++) {
-    if (
-      values.SDGs &&
-      values.SDGs.includes(i) &&
-      !values["evidenceText" + i] &&
-      !values["evidenceURL" + i]
-    ) {
-      errors["evidenceText" + i] =
-        "Either the description or a URL is required";
-      errors["evidenceURL" + i] = "Either the description or a URL is required";
-    }
-  }
-
-  return errors;
-};
-
 async function saveContactToGoogleSpreadsheet(values) {
   // Access contact key from values
   const contact = values["contact"];
@@ -180,11 +170,68 @@ async function saveContactToGoogleSpreadsheet(values) {
     });
 }
 
+const debounce = (func, wait) => {
+  let timeout;
+  return function(...args) {
+    const context = this;
+    if (timeout) clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      timeout = null;
+      func.apply(context, args);
+    }, wait);
+  };
+};
+
+async function saveToDb(values, uuid) {
+  console.log(values);
+  const response = await fetch("/api/saveDB", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      accept: "application/json",
+    },
+    body: JSON.stringify({
+      values: values,
+      uuid: uuid
+    }),
+  });
+}
+
 export default function Home() {
   const classes = useStyles();
   const router = useRouter();
+  const [loadingOverlayActive, setLoadingOverlayActive] = useState(false);
+  const [values, setValues] = useState({});
+  const [cookies, setCookie] = useCookies(['uuid']);
+  const [initialValues, setInitialValues] = useState({});
+  const [showAlert, setShowAlert] = useState(false);
 
-  async function openPR(values) {
+
+  useEffect(() => {
+    // Initialize cookie if not present
+    const userId = uuidv4();
+    if(!cookies.uuid){
+      setCookie('uuid', userId, { path: '/', maxAge: 2592000 }); // maxAge: 30 days
+    } else {
+      async function fetchData() {
+        const result = await fetch(`/api/loadDB/${cookies.uuid}`);
+        const values = await result.json();
+        setInitialValues(values);
+        setShowAlert(true);
+      }
+      fetchData();
+    }
+  }, []);
+
+  const debouncedSave = useCallback(
+    debounce(values => saveToDb(values, cookies.uuid), 1000),
+    {}
+  );
+
+  async function openPR(values, formApi, state) {
+
+    setLoadingOverlayActive(true);
+
     const response = await fetch("/api/openPR", {
       method: "POST",
       headers: {
@@ -195,17 +242,46 @@ export default function Home() {
         values: values,
       }),
     });
+
     const result = await response.json();
 
     // Save contact information to google spreadsheet
     saveContactToGoogleSpreadsheet(values);
 
-    // Clear form fields after clicking submit
-    router.push({
-      pathname: '/thank-you',
-      query: { pr: result.number}
-    });
+    if('error' in result) {
+      router.push({
+        pathname: '/error',
+        query: { error: result.error},
+        state: values
+      });
+    } else {
+      // Clear form fields after clicking submit
+      router.push({
+        pathname: '/thank-you',
+        query: { pr: result.number}
+      });
+    }
   }
+
+  const validate = (values) => {
+    const errors = {};
+
+    for (let i = 1; i <= 17; i++) {
+      if (
+        values.SDGs &&
+        values.SDGs.includes(i) &&
+        !values["evidenceText" + i] &&
+        !values["evidenceURL" + i]
+      ) {
+        errors["evidenceText" + i] =
+          "Either the description or a URL is required";
+        errors["evidenceURL" + i] = "Either the description or a URL is required";
+      }
+    }
+    debouncedSave(values);
+
+    return errors;
+  };
 
   return (
     <Container component="main" maxWidth="sm">
@@ -213,18 +289,46 @@ export default function Home() {
         <title>DPG Submission Form</title>
       </Head>
 
-      <div className={classes.paper}>
-        <ThemeProvider theme={theme}>
-          <FormRenderer
-            validate={validate}
-            schema={schema}
-            onSubmit={(values, formApi) => openPR(values)}
-            FormTemplate={MyFormTemplate}
-            componentMapper={componentMapper}
-            validatorMapper={validatorMapper} // not required
-          />
-        </ThemeProvider>
-      </div>
+      <LoadingOverlay
+          active={loadingOverlayActive}
+          spinner
+          text='Submitting the form...'
+          >
+        <div className={classes.paper}>
+        
+          <Collapse in={showAlert}>
+              <Alert 
+                severity="info"
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setShowAlert(false);
+                    }}
+                  >
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }
+              >
+                Found data from a previous session, and loaded into the form.
+              </Alert>
+            </Collapse>
+
+          <ThemeProvider theme={theme}>
+            <FormRenderer
+              validate={validate}
+              schema={schema}
+              onSubmit={(values, formApi) => openPR(values)}
+              FormTemplate={MyFormTemplate}
+              componentMapper={componentMapper}
+              validatorMapper={validatorMapper} // not required
+              initialValues={initialValues}
+            />
+          </ThemeProvider>
+        </div>
+      </LoadingOverlay>
     </Container>
   );
 }

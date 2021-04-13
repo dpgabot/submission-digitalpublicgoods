@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import { useCookies } from 'react-cookie';
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
+import FooterComponent from '../components/footerComponent';
+
 
 const GITHUB_OWNER = process.env.NEXT_PUBLIC_GITHUB_OWNER
   ? process.env.NEXT_PUBLIC_GITHUB_OWNER
@@ -13,6 +15,15 @@ const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO
   : "submission-form";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+  },
+  main: {
+    marginTop: theme.spacing(8),
+    marginBottom: theme.spacing(2),
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
@@ -77,6 +88,7 @@ function Error(props) {
         <pre style={{alignSelf: 'flex-start'}}>{JSON.stringify(values, null, 2)}</pre>
 
       </div>
+      <FooterComponent />
     </Container>
   );
 }

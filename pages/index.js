@@ -22,6 +22,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Octokit } from "@octokit/core";
 import { createPullRequest } from "octokit-plugin-create-pull-request";
 import LoadingOverlay from 'react-loading-overlay';
+import FooterComponent from '../components/footerComponent';
+
 
 import schema from "../schemas/schema";
 
@@ -30,6 +32,15 @@ const scriptURL = process.env.NEXT_PUBLIC_GOOGLE_SPREADSHEET_SCRIPT_URL;
 const validatorMapper = {};
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+  },
+  main: {
+    marginTop: theme.spacing(8),
+    marginBottom: theme.spacing(2),
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
@@ -329,6 +340,7 @@ export default function Home() {
           </ThemeProvider>
         </div>
       </LoadingOverlay>
+      <FooterComponent />
     </Container>
   );
 }

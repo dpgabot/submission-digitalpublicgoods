@@ -1,3 +1,7 @@
+body {
+	margin:0;
+}
+
 .MuiGrid-container {
 	padding: 8px;
 	margin-top: 16px;
@@ -23,4 +27,20 @@
 
 .conditional .MuiInputLabel-formControl {
 	left: inherit;
+}
+
+footer {
+    padding: 0.1em 1em;
+    margin-top: auto;
+    background-color: #424242;
+    color: #fff;
+}
+
+footer a {
+	color: #fff;
+	text-decoration: none;
+}
+
+footer a:hover {
+	text-decoration: underline;
 }

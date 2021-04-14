@@ -1,230 +1,73 @@
-import Head from "next/head";
-import { useRouter } from 'next/router';
-import FormRenderer from "@data-driven-forms/react-form-renderer";
-import {
-  FormTemplate,
-  componentMapper,
-} from "@data-driven-forms/mui-component-mapper";
-import Box from "@material-ui/core/Box";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import Head from 'next/head';
+import Link from 'next/link';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
 import Container from "@material-ui/core/Container";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import Typography from '@material-ui/core/Typography';
+import FooterComponent from '../components/footerComponent';
 import { makeStyles } from "@material-ui/core/styles";
-import { Octokit } from "@octokit/core";
-import { createPullRequest } from "octokit-plugin-create-pull-request";
 
-import schema from "../schemas/schema";
-
-const scriptURL = process.env.NEXT_PUBLIC_GOOGLE_SPREADSHEET_SCRIPT_URL;
-
-const validatorMapper = {};
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+  },
+  main: {
     marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    marginBottom: theme.spacing(2),
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
+  disclaimer: {
+    fontSize: '0.9em',
+    color: 'darkgrey',
+    fontStyle: 'italic',
   },
 }));
 
-const theme = createMuiTheme({
-  overrides: {
-    MuiButton: {
-      root: {
-        background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
-        borderRadius: 3,
-        border: 0,
-        color: "white",
-        height: 48,
-        padding: "0 30px",
-        boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
-      },
-    },
-    MuiCheckbox: {
-      root: {
-        padding: "1px 9px",
-      },
-    },
-  },
-});
-
-const wrapperStyles = {
-  padding: 16,
-  borderRadius: 4,
-  fontFamily: "Roboto",
-};
-const getBackgroundColor = (variant) =>
-  ({
-    primary: "RebeccaPurple",
-    add: "LimeGreen",
-    remove: "#FF4136",
-  }[variant] || "#888");
-
-const getButtonStyle = (variant) => ({
-  color: "White",
-  backgroundColor: getBackgroundColor(variant),
-  padding: "8px 16px",
-  borderRadius: 4,
-  cursor: "pointer",
-  border: "none",
-  marginRight: 4,
-});
-
-const Button = ({ children, label, variant, ...props }) => (
-  <button style={getButtonStyle(variant)} {...props}>
-    {label}
-  </button>
-);
-
-const MyFormTemplate = (props) => (
-  <FormTemplate {...props} showFormControls={false} />
-);
-
-const FieldArrayCustom = (props) => {
-  const {
-    fieldKey,
-    arrayValidator,
-    title,
-    description,
-    fields,
-    itemDefault,
-    meta,
-    ...rest
-  } = useFieldApi(props);
-  const { dirty, submitFailed, error } = meta;
-  const isError = (dirty || submitFailed) && error && typeof error === "string";
-  return (
-    <FieldArray key={fieldKey} name={rest.input.name} validate={arrayValidator}>
-      {(cosi) => (
-        <Fragment>
-          {title && <h3>{title}</h3>}
-          {description && <p>{description}</p>}
-          {cosi.fields.map((name, index) => (
-            <ArrayItem
-              key={`${name || fieldKey}-${index}`}
-              fields={fields}
-              name={name}
-              fieldKey={fieldKey}
-              fieldIndex={index}
-              remove={cosi.fields.remove}
-            />
-          ))}
-          {isError && error}
-          <br />
-          <Button
-            type="button"
-            variant="add"
-            onClick={() => cosi.fields.push(itemDefault)}
-            label="Add +"
-          />
-          <br />
-          <br />
-        </Fragment>
-      )}
-    </FieldArray>
-  );
-};
-
-const validate = (values) => {
-  console.log(values);
-  const errors = {};
-
-  for (let i = 1; i <= 17; i++) {
-    if (
-      values.SDGs &&
-      values.SDGs.includes(i) &&
-      !values["evidenceText" + i] &&
-      !values["evidenceURL" + i]
-    ) {
-      errors["evidenceText" + i] =
-        "Either the description or a URL is required";
-      errors["evidenceURL" + i] = "Either the description or a URL is required";
-    }
-  }
-
-  return errors;
-};
-
-async function saveContactToGoogleSpreadsheet(values) {
-  // Access contact key from values
-  const contact = values["contact"];
-  // Create empty form data element
-  let formData = new FormData();
-
-  // Add contact key value pairs to formData
-  formData.append("Project Name", values.name);
-  formData.append("Contact Name", contact.name);
-  formData.append("Email Address", contact.email);
-
-  fetch(scriptURL, {
-    method: "POST",
-    body: formData,
-  })
-    .then((response) => {
-      console.log(response.status);
-    })
-    .catch((error) => {
-      console.log("Error!", error.message);
-    });
-}
-
-export default function Home() {
+export default function Intro(props) {
   const classes = useStyles();
-  const router = useRouter();
-
-  async function openPR(values) {
-    const response = await fetch("/api/openPR", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        accept: "application/json",
-      },
-      body: JSON.stringify({
-        values: values,
-      }),
-    });
-    const result = await response.json();
-
-    // Save contact information to google spreadsheet
-    saveContactToGoogleSpreadsheet(values);
-
-    // Clear form fields after clicking submit
-    router.push({
-      pathname: '/thank-you',
-      query: { pr: result.number}
-    });
-  }
 
   return (
-    <Container component="main" maxWidth="sm">
-      <Head>
-        <title>DPG Submission Form</title>
-      </Head>
+    <Container component="main" maxWidth="sm" className={classes.root}>
+		<Head>
+			<title>DPG Submission Form</title>
+		</Head>
 
-      <div className={classes.paper}>
-        <ThemeProvider theme={theme}>
-          <FormRenderer
-            validate={validate}
-            schema={schema}
-            onSubmit={(values, formApi) => openPR(values)}
-            FormTemplate={MyFormTemplate}
-            componentMapper={componentMapper}
-            validatorMapper={validatorMapper} // not required
-          />
-        </ThemeProvider>
-      </div>
+    <main>
+  		<Typography component="div" variant="body1">
+  			<a name="top">
+  				<h1 style={{fontSize: '3rem'}}>DPG Submission Form</h1>
+  			</a>
+
+  			<p>This submission form requests information that will be used to assess whether a 
+        project meets the minimum requirements to be considered a Digital Public Good according 
+        to the DPG Alliance. This process is being regularly updated and improved so additional
+        information may be requested in addition to what is collected through this form.</p>
+
+        <p>Please check the&nbsp;
+        <a href="http://digitalpublicgoods.net/submission-guide" target="_blank" rel="noreferrer">submission guide</a>
+        &nbsp;in advance to know what information will be requested of you. If you do not have all of
+        the information about a project you may still submit it. Please provide as much information
+        as possible. Projects with more complete information will move more quickly through the vetting process.</p>
+
+        <p>Problems? <a href="mailto:nominations@digitalpublicgoods.net">nominations@digitalpublicgoods.net</a></p>
+
+        <Box textAlign='center' style={{marginTop: '3em'}}>
+          <Link href="/form">
+            <Button variant="contained" color="primary">Start</Button>
+          </Link>
+        </Box>
+        
+        <p className={classes.disclaimer}>This site uses cookies to "remember" you, and autosave the information that you are entering in this form until you submit. 
+        By doing so, you can come back to a previous session and continue where you left off your form. By continuing, you are agreeing
+        to our <a href="/legal#cookies-policy">use of cookies</a> and <a href="/legal#terms-of-use">terms of use</a>.</p>
+
+  		</Typography>
+    </main>
+
+		<FooterComponent />
+
     </Container>
-  );
+  )
 }

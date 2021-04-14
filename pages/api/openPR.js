@@ -56,36 +56,41 @@ export default async (req, res) => {
       auth: TOKEN,
     });
 
-    // Returns a normal Octokit PR response
-    // See https://octokit.github.io/rest.js/#octokit-routes-pulls-create
-    const response = await composeCreatePullRequest(octokit, {
-      owner: GITHUB_OWNER,
-      repo: GITHUB_REPO,
-      title: `Add nominee: ${values.name}`,
-      body:
-        "Automatic addition of a new nominee submitted through the online form available at https://digitalpublicgoods.net/submission",
-      base: GITHUB_BRANCH,
-      head:
-        `${name}`.split(".").slice(0, -1).join(".") +
-        "-" +
-        (Math.random() * 10 ** 16).toString(36),
-      changes: [
-        {
-          /* optional: if `files` is not passed, an empty commit is created instead */
-          files: {
-            [name]: {
-              content: myJSON,
-              encoding: "utf-8",
+    let result;
+    try {
+      // Returns a normal Octokit PR response
+      // See https://octokit.github.io/rest.js/#octokit-routes-pulls-create
+      const response = await composeCreatePullRequest(octokit, {
+        owner: GITHUB_OWNER,
+        repo: GITHUB_REPO,
+        title: `Add nominee: ${values.name}`,
+        body:
+          "Automatic addition of a new nominee submitted through the online form available at https://digitalpublicgoods.net/submission",
+        base: GITHUB_BRANCH,
+        head:
+          `${name}`.split(".").slice(0, -1).join(".") +
+          "-" +
+          (Math.random() * 10 ** 16).toString(36),
+        changes: [
+          {
+            /* optional: if `files` is not passed, an empty commit is created instead */
+            files: {
+              [name]: {
+                content: myJSON,
+                encoding: "utf-8",
+              },
             },
+            commit: `BLD: Add ${values.name}`,
           },
-          commit: `BLD: Add ${values.name}`,
-        },
-      ],
-    });
+        ],
+      });
 
-    const result = {
-      number: response.data.number,
-    };
+      result = {
+        number: response.data.number,
+      };
+    } catch (err) {
+      result = {error: err.message || err.toString()}
+    }
 
     // return an unconditional success response
     res.statusCode = 200;

@@ -213,7 +213,6 @@ const schema = {
               component: "sub-form",
               description:
                 "Provide the primary organization or maintainer of this project i.e. Wikipedia",
-              classes: { root: "NoBottomMargin" },
               fields: [
                 {
                   name: "organizations[org_type]",
@@ -847,7 +846,7 @@ const schema = {
                   component: "text-field",
                   label: "License URL",
                   description:
-                    "Please link to where the license is indicated for this project: * I.e. GitHub Repo or page of website.",
+                    "Please link to where the license is indicated for this project: * i.e. license file in GitHub repository or license link in website.",
                   validate: [
                     {
                       type: "required",

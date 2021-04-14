@@ -18,6 +18,11 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(8),
     marginBottom: theme.spacing(2),
   },
+  disclaimer: {
+    fontSize: '0.9em',
+    color: 'darkgrey',
+    fontStyle: 'italic',
+  },
 }));
 
 export default function Intro(props) {
@@ -30,7 +35,7 @@ export default function Intro(props) {
 		</Head>
 
     <main>
-  		<Typography variant="body1">
+  		<Typography component="div" variant="body1">
   			<a name="top">
   				<h1 style={{fontSize: '3rem'}}>DPG Submission Form</h1>
   			</a>
@@ -54,7 +59,7 @@ export default function Intro(props) {
           </Link>
         </Box>
         
-        <p className="disclaimer">This site uses cookies to "remember" you, and autosave the information that you are entering in this form until you submit. 
+        <p className={classes.disclaimer}>This site uses cookies to "remember" you, and autosave the information that you are entering in this form until you submit. 
         By doing so, you can come back to a previous session and continue where you left off your form. By continuing, you are agreeing
         to our <a href="/legal#cookies-policy">use of cookies</a> and <a href="/legal#terms-of-use">terms of use</a>.</p>
 

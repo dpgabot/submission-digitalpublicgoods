@@ -12,9 +12,17 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100vh',
   },
   footer: {
-    padding: '0.1em',
+    padding: '0.6em',
     marginTop: 'auto',
     backgroundColor: theme.palette.grey[800],
+    color: '#fff',
+    '& a': {
+      color: '#fff',
+      textDecoration: 'none'
+    },
+    '& a:hover': {
+      textDecoration: 'underline',
+    }
   },
 }));
 
@@ -24,14 +32,12 @@ export default function componentFooter() {
   return (
       <footer className={classes.footer}>
         <Container maxWidth="sm">
-          <Typography variant="body1">
-          	<p style={{textAlign:"center"}}>
-				<a href="/legal">Legal</a>
-				&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-				<a href="https://github.com/lacabra/submission-digitalpublicgoods" target="_blank" rel="noopener">Source Code</a>
-				&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-				<a href="mailto:info@digitalpublicgoods.net">Contact us</a>
-			</p>
+          <Typography variant="body1" style={{textAlign:"center"}}>
+    				<a href="/legal">Legal</a>
+    				&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+    				<a href="https://github.com/lacabra/submission-digitalpublicgoods" target="_blank" rel="noopener">Source Code</a>
+    				&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+    				<a href="mailto:info@digitalpublicgoods.net">Contact us</a>
           </Typography>
         </Container>
       </footer>

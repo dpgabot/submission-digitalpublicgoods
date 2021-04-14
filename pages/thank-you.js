@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Head from "next/head";
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useCookies } from 'react-cookie';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
 import Container from "@material-ui/core/Container";
+import Typography from '@material-ui/core/Typography';
 import { makeStyles } from "@material-ui/core/styles";
 import FooterComponent from '../components/footerComponent';
 
@@ -35,21 +39,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const getButtonStyle = (variant) => ({
-  color: "White",
-  backgroundColor: "blue",
-  padding: "8px 16px",
-  borderRadius: 4,
-  cursor: "pointer",
-  border: "none",
-  marginRight: 4,
-});
-
-const Button = ({ children, label, variant, ...props }) => (
-  <button style={getButtonStyle(variant)} {...props}>
-    {label}
-  </button>
-);
 
 function ThankYou(props) {
   const classes = useStyles();
@@ -73,29 +62,29 @@ function ThankYou(props) {
         <title>Thank you</title>
       </Head>
 
-      <div className={classes.paper}>
-        <h1>
-          Thank you!
-        </h1>
+      <main>
+        <Typography component="div" variant="body1">
+          <h1>
+            Thank you!
+          </h1>
 
-        <p style={{fontSize: '1.3em'}}>Your nomination for a digital public good has been submitted successfully. 
-        We will review your submission promptly, and we will be in contact with any follow up questions as needed.</p>
+          <p>Your nomination for a digital public good has been submitted successfully. 
+          We will review your submission promptly, and we will be in contact with any follow up questions as needed.</p>
 
-        <p style={{fontSize: '1.3em'}}>You can track the progress of your nomination through&nbsp;
-        <a href={'https://github.com/'+GITHUB_OWNER+'/'+GITHUB_REPO+'/pull/'+router.query.pr} target="_blank" rel="noreferrer">
-        this pull request
-        </a>
-        &nbsp;on our open source code repository.</p>
+          <p>You can track the progress of your nomination through&nbsp;
+          <a href={'https://github.com/'+GITHUB_OWNER+'/'+GITHUB_REPO+'/pull/'+router.query.pr} target="_blank" rel="noreferrer">
+          this pull request
+          </a>
+          &nbsp;on our open source code repository.</p>
 
-        <p>&nbsp;</p>
+          <Box textAlign='center' style={{marginTop: '3em'}}>
+            <Link href="/">
+              <Button variant="contained" color="primary">Start a New Nomination</Button>
+            </Link>
+          </Box>
 
-        <Button
-          type="button"
-          variant="add"
-          onClick={() => router.push('/')}
-          label="Start a New Nomination"
-        />
-      </div>
+        </Typography>
+      </main>
       <FooterComponent />
     </Container>
   );

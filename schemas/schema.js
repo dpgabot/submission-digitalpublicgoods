@@ -2509,8 +2509,8 @@ const schema = {
                       value: "Thailand",
                     },
                     {
-                      label: "Timor-Leste	",
-                      value: "Timor-Leste	",
+                      label: "Timor-Leste",
+                      value: "Timor-Leste",
                     },
                     {
                       label: "Togo",
@@ -3296,8 +3296,8 @@ const schema = {
                       value: "Thailand",
                     },
                     {
-                      label: "Timor-Leste	",
-                      value: "Timor-Leste	",
+                      label: "Timor-Leste",
+                      value: "Timor-Leste",
                     },
                     {
                       label: "Togo",

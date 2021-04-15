@@ -11,7 +11,9 @@ const schema = {
         {
           title: "Get started with submission wizard form",
           name: "step-1",
-          nextStep: "step-2",
+          //nextStep: "step-2",
+          nextStep: ({ values, props }) =>
+            values.submissionType === "full" ? "step-2" : "step-7",
           fields: [
             {
               name: "name",
@@ -275,6 +277,9 @@ const schema = {
                   value: "full",
                 },
               ],
+              resolveProps: (props) => ({
+                label: props.label || "default label",
+              }),
               validate: [
                 {
                   type: "required",

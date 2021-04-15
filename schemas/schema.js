@@ -260,6 +260,27 @@ const schema = {
                 },
               ],
             },
+            {
+              component: "radio",
+              name: "submissionType",
+              label: "What would you like to do?",
+              description: "",
+              options: [
+                {
+                  label: "Submit now as a DPG Nominee",
+                  value: "partial",
+                },
+                {
+                  label: "Continue with the full submission process",
+                  value: "full",
+                },
+              ],
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
           ],
         },
         {
@@ -1285,7 +1306,6 @@ const schema = {
               fields: [
                 {
                   component: "text-field",
-                  //name: "bestPractices",
                 },
               ],
               classes: { root: "conditional" },

@@ -24,12 +24,18 @@ const schema = {
               name: "name",
               component: "text-field",
               label: "Project name",
-              helperText: "For example, Wikipedia.",
+              helperText: "For example: Wikipedia.",
               validate: [
                 {
                   type: "required",
                 },
               ],
+            },
+            {
+              name: "aliases",
+              component: "text-field",
+              label: "Project aliases",
+              helperText: "For example: acronymns",
             },
             {
               name: "description",

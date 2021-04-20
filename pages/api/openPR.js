@@ -19,7 +19,7 @@ export default async (req, res) => {
   if (req.method === "POST") {
     const values = req.body.values;
 
-    let sdgNumber, evidenceText, nomineePath;
+    let myJSON, sdgNumber, evidenceText, nomineePath;
 
     // Exclude contact & locations information from pull request
     delete values["contact"];
@@ -38,8 +38,28 @@ export default async (req, res) => {
       delete values[evidenceText];
     }
 
-    // Convert JavaScript object to JSON string
-    let myJSON = JSON.stringify(values, null, "\t");
+    let sortedObject;
+    // Sort entries by iterating through object and unpacking entries
+    Object.entries(values).forEach(
+      ([key, value]) =>
+        (sortedObject = {
+          name: values.name ? values.name : "",
+          aliases: values.aliases ? values.aliases : [""],
+          description: values.description ? values.description : "",
+          website: values.website ? values.website : "",
+          license: values.license ? values.license : [],
+          SDGs: values.SDGs ? values.SDGs : [],
+          sectors: values.sectors ? values.sectors : [],
+          type: values.type ? values.type : [],
+          repositoryURL: values.repositoryURL ? values.repositoryURL : "",
+          organizations: values.organizations ? values.organizations : [],
+          stage: values.stage ? values.stage : "",
+        })
+    );
+
+    //console.log(sortedObject);
+
+    myJSON = JSON.stringify(sortedObject, null, 3); // Convert JavaScript object to JSON string
 
     // Add newline at end of file
     myJSON += "\r\n";

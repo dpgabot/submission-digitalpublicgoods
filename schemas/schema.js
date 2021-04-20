@@ -216,86 +216,6 @@ const schema = {
               ],
             },
             {
-              name: "organizations",
-              component: "sub-form",
-              description:
-                "Provide the primary organization or maintainer of this project i.e. Wikipedia",
-              fields: [
-                {
-                  name: "organizations[org_type]",
-                  component: "text-field",
-                  initialValue: "owner",
-                  hideField: true,
-                  validate: [
-                    {
-                      type: "required",
-                    },
-                  ],
-                },
-                {
-                  name: "organizations[name]",
-                  component: "text-field",
-                  label: "Name of the organization",
-                  validate: [
-                    {
-                      type: "required",
-                    },
-                  ],
-                },
-                {
-                  name: "organizations[website]",
-                  component: "text-field",
-                  label: "Website of the organization",
-                  validate: [
-                    {
-                      type: "required",
-                    },
-                    {
-                      type: validatorTypes.URL,
-                    },
-                  ],
-                },
-                {
-                  name: "organizations[contact_name]",
-                  component: "text-field",
-                  label: "Contact name",
-                },
-                {
-                  name: "organizations[contact_email]",
-                  component: "text-field",
-                  label: "Contact email",
-                },
-              ],
-            },
-            {
-              component: "radio",
-              name: "stage",
-              label: "What would you like to do?",
-              description: "",
-              options: [
-                {
-                  label: "Submit now as a DPG Nominee",
-                  value: "nominee",
-                },
-                {
-                  label: "Continue with the full submission process",
-                  value: "DPG",
-                },
-              ],
-              validate: [
-                {
-                  type: "required",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          title: "DPG Candidates",
-          name: "step-2",
-          nextStep: "step-3",
-          fields: [
-            {
               component: "field-array",
               name: "license",
               label: "Choose License",
@@ -886,6 +806,87 @@ const schema = {
                 },
               ],
             },
+
+            {
+              name: "organizations",
+              component: "sub-form",
+              description:
+                "Provide the primary organization or maintainer of this project i.e. Wikipedia",
+              fields: [
+                {
+                  name: "organizations[org_type]",
+                  component: "text-field",
+                  initialValue: "owner",
+                  hideField: true,
+                  validate: [
+                    {
+                      type: "required",
+                    },
+                  ],
+                },
+                {
+                  name: "organizations[name]",
+                  component: "text-field",
+                  label: "Name of the organization",
+                  validate: [
+                    {
+                      type: "required",
+                    },
+                  ],
+                },
+                {
+                  name: "organizations[website]",
+                  component: "text-field",
+                  label: "Website of the organization",
+                  validate: [
+                    {
+                      type: "required",
+                    },
+                    {
+                      type: validatorTypes.URL,
+                    },
+                  ],
+                },
+                {
+                  name: "organizations[contact_name]",
+                  component: "text-field",
+                  label: "Contact name",
+                },
+                {
+                  name: "organizations[contact_email]",
+                  component: "text-field",
+                  label: "Contact email",
+                },
+              ],
+            },
+            {
+              component: "radio",
+              name: "stage",
+              label: "What would you like to do?",
+              description: "",
+              options: [
+                {
+                  label: "Submit now as a DPG Nominee",
+                  value: "nominee",
+                },
+                {
+                  label: "Continue with the full submission process",
+                  value: "DPG",
+                },
+              ],
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          title: "DPG Candidates",
+          name: "step-2",
+          nextStep: "step-3",
+          fields: [
             {
               component: "radio",
               label:

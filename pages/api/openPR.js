@@ -18,12 +18,14 @@ const GITHUB_BRANCH = process.env.GITHUB_BRANCH
 export default async (req, res) => {
   if (req.method === "POST") {
     const values = req.body.values;
-    console.log(values);
 
-    // Exclude contact information from pull request
+    let sdgNumber, evidenceText, nomineePath;
+
+    // Exclude contact & locations information from pull request
     delete values["contact"];
+    delete values["locations"];
 
-    let sdgNumber, evidenceText;
+    //Loop through SDG array and parse SDG information
     for (let i = 0; i < values.SDGs.length; i++) {
       sdgNumber = parseInt(values.SDGs[i]);
       evidenceText = "evidenceText".concat(sdgNumber);
@@ -50,6 +52,9 @@ export default async (req, res) => {
         .replace(/[\u0300-\u036f]/g, "")
         .replace(/ /g, "-") + ".json";
 
+    // Add partial submission to nominee directory
+    nomineePath = "nominees/" + `${name}`;
+
     const MyOctokit = Octokit.plugin(createPullRequest);
 
     const octokit = new MyOctokit({
@@ -75,7 +80,7 @@ export default async (req, res) => {
           {
             /* optional: if `files` is not passed, an empty commit is created instead */
             files: {
-              [name]: {
+              [nomineePath]: {
                 content: myJSON,
                 encoding: "utf-8",
               },
@@ -89,7 +94,7 @@ export default async (req, res) => {
         number: response.data.number,
       };
     } catch (err) {
-      result = {error: err.message || err.toString()}
+      result = { error: err.message || err.toString() };
     }
 
     // return an unconditional success response

@@ -12,8 +12,13 @@ const schema = {
           title: "Get started with submission wizard form",
           name: "step-1",
           //nextStep: "step-2",
-          nextStep: ({ values, props }) =>
-            values.submissionType === "full" ? "step-2" : "step-7",
+          nextStep: {
+            when: "stage",
+            stepMapper: {
+              nominee: "step-7",
+              DPG: "step-2",
+            },
+          },
           fields: [
             {
               name: "name",
@@ -264,22 +269,19 @@ const schema = {
             },
             {
               component: "radio",
-              name: "submissionType",
+              name: "stage",
               label: "What would you like to do?",
               description: "",
               options: [
                 {
                   label: "Submit now as a DPG Nominee",
-                  value: "partial",
+                  value: "nominee",
                 },
                 {
                   label: "Continue with the full submission process",
-                  value: "full",
+                  value: "DPG",
                 },
               ],
-              resolveProps: (props) => ({
-                label: props.label || "default label",
-              }),
               validate: [
                 {
                   type: "required",

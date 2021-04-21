@@ -1,5 +1,5 @@
-import validatorTypes from '@data-driven-forms/react-form-renderer/validator-types';
-
+import validatorTypes from "@data-driven-forms/react-form-renderer/validator-types";
+import { CONDITIONAL_SUBMIT_FLAG } from "@data-driven-forms/common/wizard";
 const schema = {
   title: "Digital Public Goods Submission",
   description: `This is a BETA version of our submission form and process which means we'll be learning from it and may contact you for follow-up information and input on the process as well as your project submission.`,
@@ -11,11 +11,10 @@ const schema = {
         {
           title: "Get started with submission wizard form",
           name: "step-1",
-          //nextStep: "step-2",
           nextStep: {
             when: "stage",
             stepMapper: {
-              nominee: "step-7",
+              nominee: CONDITIONAL_SUBMIT_FLAG,
               DPG: "step-2",
             },
           },

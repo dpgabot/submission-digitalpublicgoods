@@ -1,5 +1,6 @@
 import validatorTypes from "@data-driven-forms/react-form-renderer/validator-types";
 import { CONDITIONAL_SUBMIT_FLAG } from "@data-driven-forms/common/wizard";
+
 const schema = {
   title: "Digital Public Goods Submission",
   description: `This is a BETA version of our submission form and process which means we'll be learning from it and may contact you for follow-up information and input on the process as well as your project submission.`,
@@ -819,10 +820,28 @@ const schema = {
                 "Provide the primary organization or maintainer of this project i.e. Wikipedia",
               fields: [
                 {
+                  component: "select",
+                  label: "Select",
                   name: "organizations[org_type]",
-                  component: "text-field",
-                  initialValue: "owner",
-                  hideField: true,
+                  simpleValue: true,
+                  options: [
+                    {
+                      label: "Owner",
+                      value: "owner",
+                    },
+                    {
+                      label: "Maintainer",
+                      value: "maintainer",
+                    },
+                    {
+                      label: "Funder",
+                      value: "funder",
+                    },
+                    {
+                      label: "Implementer",
+                      value: "implementer",
+                    },
+                  ],
                   validate: [
                     {
                       type: "required",

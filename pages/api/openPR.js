@@ -21,9 +21,8 @@ export default async (req, res) => {
 
     let myJSON, sdgNumber, evidenceText, nomineePath;
 
-    // Exclude contact & locations information from pull request
+    // Exclude contact information from pull request
     delete values["contact"];
-    delete values["locations"];
 
     //Loop through SDG array and parse SDG information
     for (let i = 0; i < values.SDGs.length; i++) {
@@ -44,7 +43,7 @@ export default async (req, res) => {
       ([key, value]) =>
         (sortedObject = {
           name: values.name ? values.name : "",
-          aliases: values.aliases ? values.aliases : [""],
+          aliases: values.aliases ? [values.aliases] : [""],
           description: values.description ? values.description : "",
           website: values.website ? values.website : "",
           license: values.license ? values.license : [],

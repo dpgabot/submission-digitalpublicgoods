@@ -3,7 +3,7 @@ import { useCookies } from "react-cookie";
 import { v4 as uuidv4 } from "uuid";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import FormRenderer from "@data-driven-forms/react-form-renderer";
+import { FormRenderer } from "@data-driven-forms/react-form-renderer";
 
 import {
   FormTemplate,

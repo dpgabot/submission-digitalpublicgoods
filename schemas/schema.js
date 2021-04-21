@@ -1,4 +1,4 @@
-import validatorTypes from "@data-driven-forms/react-form-renderer/dist/cjs/validator-types";
+import validatorTypes from '@data-driven-forms/react-form-renderer/validator-types';
 
 const schema = {
   title: "Digital Public Goods Submission",

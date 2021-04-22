@@ -33,7 +33,7 @@ function getSDGRelevanceInfo(values, sdgNumber, evidenceText) {
 }
 
 // Nominee processing before opening pull request
-function nomination(values, sortedSubmission, myJSON) {
+function nomination(values, sortedSubmission) {
   // Sort entries by iterating through object and unpacking entries
   Object.entries(values).forEach(
     ([key, value]) =>
@@ -56,7 +56,7 @@ function nomination(values, sortedSubmission, myJSON) {
 }
 
 // DPG candidate processing before opening pull request
-function dpgReview(values) {
+function dpgReview(values, sortedSubmission) {
   // Delete multiple DPG nomination fields
   [
     "aliases",
@@ -69,8 +69,28 @@ function dpgReview(values) {
     "stage",
     "repositoryURL",
   ].forEach((e) => delete values[e]);
-  console.log(values);
-  return values;
+
+  // Order fields by iterating through object
+  Object.entries(values).forEach(
+    ([key, value]) =>
+      (sortedSubmission = {
+        name: values.name ? values.name : "",
+        clearOwnership: values.clearOwnership ? values.clearOwnership : "",
+        platformIndependence: values.platformIndependence
+          ? values.platformIndependence
+          : "",
+        documentation: values.documentation ? values.documentation : "",
+        NonPII: values.NonPII ? values.NonPII : "",
+        privacy: values.privacy ? values.privacy : "",
+        standards: values.standards ? values.standards : "",
+
+        doNoHarm: values.doNoHarm ? values.doNoHarm : "",
+
+        locations: values.locations ? values.locations : {},
+      })
+  );
+  console.log(sortedSubmission);
+  return sortedSubmission;
 }
 
 function getFilePath(values, name, nomineePath, dpgPath) {

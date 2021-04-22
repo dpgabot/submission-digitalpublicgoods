@@ -15,64 +15,115 @@ const GITHUB_BRANCH = process.env.GITHUB_BRANCH
   ? process.env.GITHUB_BRANCH
   : "main"; /* optional: defaults to default branch */
 
+// Get SDG relevance info
+function getSDGRelevanceInfo(values, sdgNumber, evidenceText) {
+  //Loop through SDG array and parse SDG information
+  for (let i = 0; i < values.SDGs.length; i++) {
+    sdgNumber = parseInt(values.SDGs[i]);
+    evidenceText = "evidenceText".concat(sdgNumber);
+
+    values.SDGs[i] = {
+      SDGNumber: sdgNumber,
+      evidenceText: values[evidenceText],
+    };
+
+    delete values[evidenceText];
+  }
+  return values;
+}
+
+// Nominee processing before opening pull request
+function nomination(values, sortedSubmission, myJSON) {
+  // Sort entries by iterating through object and unpacking entries
+  Object.entries(values).forEach(
+    ([key, value]) =>
+      (sortedSubmission = {
+        name: values.name ? values.name : "",
+        aliases: values.aliases ? [values.aliases] : [""],
+        description: values.description ? values.description : "",
+        website: values.website ? values.website : "",
+        license: values.license ? values.license : [],
+        SDGs: values.SDGs ? values.SDGs : [],
+        sectors: values.sectors ? values.sectors : [],
+        type: values.type ? values.type : [],
+        repositoryURL: values.repositoryURL ? values.repositoryURL : "",
+        organizations: values.organizations ? values.organizations : [],
+        stage: values.stage ? values.stage : "",
+      })
+  );
+
+  return sortedSubmission;
+}
+
+// DPG candidate processing before opening pull request
+function dpgReview(values) {
+  // Delete multiple DPG nomination fields
+  [
+    "aliases",
+    "description",
+    "website",
+    "type",
+    "SDGs",
+    "license",
+    "organizations",
+    "stage",
+    "repositoryURL",
+  ].forEach((e) => delete values[e]);
+  console.log(values);
+  return values;
+}
+
+function getFilePath(values, name, nomineePath, dpgPath) {
+  // Return project json file aligned with naming convention (includes removing accents)
+  name =
+    values.name
+      .normalize("NFD")
+      .toLowerCase()
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/ /g, "-") + ".json";
+
+  // Add nominee submission to nominee directory
+  nomineePath = "nominees/" + `${name}`;
+
+  // Add DPG submission to screening directory
+  dpgPath = "screening/" + `${name}`;
+
+  return values.stage === "nominee" ? nomineePath : dpgPath;
+}
+
 export default async (req, res) => {
   if (req.method === "POST") {
-    const values = req.body.values;
+    let values = req.body.values;
 
-    let myJSON, sdgNumber, evidenceText, nomineePath;
+    let myJSON,
+      name,
+      sdgNumber,
+      evidenceText,
+      filePath,
+      nomineePath,
+      dpgPath,
+      sortedSubmission;
 
     // Exclude contact information from pull request
     delete values["contact"];
 
-    //Loop through SDG array and parse SDG information
-    for (let i = 0; i < values.SDGs.length; i++) {
-      sdgNumber = parseInt(values.SDGs[i]);
-      evidenceText = "evidenceText".concat(sdgNumber);
+    // Parse SDG information
+    values = getSDGRelevanceInfo(values, sdgNumber, evidenceText);
 
-      values.SDGs[i] = {
-        SDGNumber: sdgNumber,
-        evidenceText: values[evidenceText],
-      };
+    // Verify submission stage(nominee/ DPG) and channel to nomination or DPG review processing
+    sortedSubmission =
+      values.stage === "nominee"
+        ? nomination(values, sortedSubmission)
+        : dpgReview(values);
 
-      delete values[evidenceText];
-    }
-
-    let sortedObject;
-    // Sort entries by iterating through object and unpacking entries
-    Object.entries(values).forEach(
-      ([key, value]) =>
-        (sortedObject = {
-          name: values.name ? values.name : "",
-          aliases: values.aliases ? [values.aliases] : [""],
-          description: values.description ? values.description : "",
-          website: values.website ? values.website : "",
-          license: values.license ? values.license : [],
-          SDGs: values.SDGs ? values.SDGs : [],
-          sectors: values.sectors ? values.sectors : [],
-          type: values.type ? values.type : [],
-          repositoryURL: values.repositoryURL ? values.repositoryURL : "",
-          organizations: values.organizations ? values.organizations : [],
-          stage: values.stage ? values.stage : "",
-        })
-    );
-
-    //console.log(sortedObject);
-
-    myJSON = JSON.stringify(sortedObject, null, 3); // Convert JavaScript object to JSON string
+    // Convert JavaScript submission sorted object into JSON string
+    myJSON = JSON.stringify(sortedSubmission, null, 3);
 
     // Add newline at end of file
     myJSON += "\r\n";
 
-    // Return project json file aligned with naming convention (includes removing accents)
-    let name =
-      values.name
-        .normalize("NFD")
-        .toLowerCase()
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/ /g, "-") + ".json";
-
-    // Add partial submission to nominee directory
-    nomineePath = "nominees/" + `${name}`;
+    // Get file path & correct naming for nominee or DPG
+    filePath = getFilePath(values, name, nomineePath, dpgPath);
 
     const MyOctokit = Octokit.plugin(createPullRequest);
 
@@ -99,7 +150,7 @@ export default async (req, res) => {
           {
             /* optional: if `files` is not passed, an empty commit is created instead */
             files: {
-              [nomineePath]: {
+              [filePath]: {
                 content: myJSON,
                 encoding: "utf-8",
               },

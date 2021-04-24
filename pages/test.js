@@ -6,9 +6,9 @@ import validatorTypes from '@data-driven-forms/react-form-renderer/dist/cjs/vali
 import FormTemplate from '@data-driven-forms/mui-component-mapper/dist/cjs/form-template';
 import TextField from '@data-driven-forms/mui-component-mapper/dist/cjs/text-field';
 
-const LocalStorageSpy = () => (
-  <FormSpy onChange={({ values }) => console.log(values)} />
-);
+      const LocalStorageSpy = () => (
+        <FormSpy onChange={({ values }) => console.log(values)} />
+      );
 
 const schema = {
   fields: [

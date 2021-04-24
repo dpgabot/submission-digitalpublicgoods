@@ -1,28 +1,28 @@
-var AWS = require("aws-sdk");
+const AWS = require('aws-sdk');
 
 AWS.config.update({
-  region: "us-east-1",
+  region: 'us-east-1',
   accessKeyId: process.env.MY_AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.MY_AWS_SECRET_ACCESS_KEY
+  secretAccessKey: process.env.MY_AWS_SECRET_ACCESS_KEY,
 });
 
-var docClient = new AWS.DynamoDB.DocumentClient();
+const docClient = new AWS.DynamoDB.DocumentClient();
 
 export default async (req, res) => {
-  if (req.method === "POST") {
-    const values = req.body.values;
-    const uuid = req.query.uuid;
+  if (req.method === 'POST') {
+    const { values } = req.body;
+    const { uuid } = req.query;
 
-    var params = {
+    const params = {
       TableName: 'submission',
-      Key:{
-        "user_id": uuid,
+      Key: {
+        user_id: uuid,
       },
-      UpdateExpression: "set formData = :v",
-      ExpressionAttributeValues:{
-          ":v": values
+      UpdateExpression: 'set formData = :v',
+      ExpressionAttributeValues: {
+        ':v': values,
       },
-      ReturnValues:"UPDATED_NEW"
+      ReturnValues: 'UPDATED_NEW',
     };
 
     try {
@@ -35,7 +35,7 @@ export default async (req, res) => {
     }
 
     // return response
-    res.setHeader("Content-Type", "application/json");
+    res.setHeader('Content-Type', 'application/json');
     res.end();
   } else {
     // If it's not a POST request, return 405 - Method Not Allowed

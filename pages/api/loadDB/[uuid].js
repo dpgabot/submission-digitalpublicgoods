@@ -1,38 +1,46 @@
-var AWS = require("aws-sdk");
+const AWS = require('aws-sdk');
 
 AWS.config.update({
-  region: "us-east-1",
+  region: 'us-east-1',
   accessKeyId: process.env.MY_AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.MY_AWS_SECRET_ACCESS_KEY
+  secretAccessKey: process.env.MY_AWS_SECRET_ACCESS_KEY,
 });
 
-var docClient = new AWS.DynamoDB.DocumentClient();
+const docClient = new AWS.DynamoDB.DocumentClient();
 
 export default async (req, res) => {
-  if (req.method === "GET") {
-    const uuid = req.query.uuid;
+  if (req.method === 'GET') {
+    const { uuid } = req.query;
 
-    var params = {
+    const params = {
       TableName: 'submission',
-      Key:{
-        "user_id": uuid,
-      }
+      Key: {
+        user_id: uuid,
+      },
     };
 
-    let output
+    let output;
     try {
       const result = await docClient.get(params).promise();
       res.statusCode = 200;
-      output = result.Item ? JSON.stringify(result.Item.formData) :  JSON.stringify({});
+      output = result.Item
+        ? JSON.stringify(result.Item.formData)
+        : JSON.stringify({});
       // console.log("GetItem succeeded:", JSON.stringify(result, null, 2));
     } catch (err) {
       res.statusCode = 500;
-      output = {error: "Unable to read item. Error JSON: " + JSON.stringify(err, null, 2)}
+      output = {
+        error: `Unable to read item. Error JSON: ${JSON.stringify(
+          err,
+          null,
+          2
+        )}`,
+      };
       // console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
     }
 
     // return response
-    res.setHeader("Content-Type", "application/json");
+    res.setHeader('Content-Type', 'application/json');
     res.end(output);
   } else {
     // If it's not a GET request, return 405 - Method Not Allowed

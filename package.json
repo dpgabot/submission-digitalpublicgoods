@@ -57,8 +57,12 @@
     }
   },
   "lint-staged": {
-    "*.{js,json,css,md}": [
-      "prettier --single-quote --write",
+    "*.+(js|jsx)": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.+(json|css|md)": [
+      "prettier --write",
       "git add"
     ]
   }

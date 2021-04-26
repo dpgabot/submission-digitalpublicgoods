@@ -16,6 +16,11 @@ const GITHUB_BRANCH = process.env.GITHUB_BRANCH
   : "main"; /* optional: defaults to default branch */
 
 // Return Project name
+function myFunction() {
+  return;
+}
+
+// Return Project name
 function getProjectName(values) {
   return values.name;
 }
@@ -105,7 +110,9 @@ function dpgSubmission(values, sortedSubmission) {
   return sortedSubmission;
 }
 
-function getFilePath(values, name, nomineePath, dpgPath) {
+function getFilePath(values, name, nomineeFile, dpgFile) {
+  let nomineePath, dpgPath;
+  let dpgSubmissionPaths = [];
   // Return project json file aligned with naming convention (includes removing accents)
   name =
     values.name
@@ -120,7 +127,13 @@ function getFilePath(values, name, nomineePath, dpgPath) {
   // Add DPG submission to screening directory
   dpgPath = "screening/" + `${name}`;
 
-  return values.stage === "nominee" ? nomineePath : dpgPath;
+  // Push file paths onto new array
+  dpgSubmissionPaths = [nomineePath, "screening/" + `${name}`];
+
+  // Destructure Array to unpack values
+  [nomineeFile, dpgFile] = dpgSubmissionPaths;
+
+  return values.stage === "nominee" ? nomineePath : nomineeFile, dpgFile;
 }
 
 export default async (req, res) => {
@@ -132,8 +145,8 @@ export default async (req, res) => {
       sdgNumber,
       evidenceText,
       filePath,
-      nomineePath,
-      dpgPath,
+      nomineeFile,
+      dpgFile,
       sortedSubmission;
 
     // Exclude contact information from pull request
@@ -155,7 +168,7 @@ export default async (req, res) => {
     myJSON += "\r\n";
 
     // Get file path & correct naming for nominee or DPG
-    filePath = getFilePath(values, name, nomineePath, dpgPath);
+    filePath = getFilePath(values, name, nomineeFile, dpgFile);
 
     const MyOctokit = Octokit.plugin(createPullRequest);
 
@@ -182,6 +195,18 @@ export default async (req, res) => {
               [filePath]: {
                 content: myJSON,
                 encoding: "utf-8",
+              },
+              [dpgFile]: ({ exists, encoding, myJSON }) => {
+                // do not create the file if it does not exist
+                if (!exists) return null;
+
+                return Buffer.from(myJSON, encoding).toString("utf-8");
+              },
+              [nomineeFile]: ({ exists, encoding, myJSON }) => {
+                // do not create the file if it does not exist
+                if (!exists) return null;
+
+                return Buffer.from(myJSON, encoding).toString("utf-8");
               },
             },
             commit: `BLD: Add ${getProjectName(values)}`,

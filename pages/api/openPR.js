@@ -15,9 +15,32 @@ const GITHUB_BRANCH = process.env.GITHUB_BRANCH
   ? process.env.GITHUB_BRANCH
   : "main"; /* optional: defaults to default branch */
 
-// Return Project name
-function myFunction() {
-  return;
+// Return multiple submission files
+function getSubmissionFiles(content) {
+  let files = {};
+  let name = "dhis2" + ".json";
+  let nominee, DPG;
+
+  // Add nominee submission to nominee directory
+  nominee = "nominees/" + `${name}`;
+
+  // Add DPG submission to screening directory
+  DPG = "screening/" + `${name}`;
+
+  Object.entries(content).forEach(
+    ([key, value]) =>
+      (files = {
+        [nominee]: {
+          content: content,
+          encoding: "utf-8",
+        },
+        [DPG]: {
+          content: content,
+          encoding: "utf-8",
+        },
+      })
+  );
+  return files;
 }
 
 // Return Project name
@@ -110,9 +133,8 @@ function dpgSubmission(values, sortedSubmission) {
   return sortedSubmission;
 }
 
-function getFilePath(values, name, nomineeFile, dpgFile) {
+function getFilePath(values, name, dpgSubmissionPaths, nomineeFile, dpgFile) {
   let nomineePath, dpgPath;
-  let dpgSubmissionPaths = [];
   // Return project json file aligned with naming convention (includes removing accents)
   name =
     values.name
@@ -128,7 +150,7 @@ function getFilePath(values, name, nomineeFile, dpgFile) {
   dpgPath = "screening/" + `${name}`;
 
   // Push file paths onto new array
-  dpgSubmissionPaths = [nomineePath, "screening/" + `${name}`];
+  dpgSubmissionPaths = [nomineePath, dpgPath];
 
   // Destructure Array to unpack values
   [nomineeFile, dpgFile] = dpgSubmissionPaths;
@@ -146,6 +168,7 @@ export default async (req, res) => {
       sdgNumber,
       evidenceText,
       filePath,
+      dpgSubmissionPaths,
       nomineeFile,
       dpgFile,
       sortedSubmission;
@@ -169,7 +192,13 @@ export default async (req, res) => {
     myJSON += "\r\n";
 
     // Get file path & correct naming for nominee or DPG
-    filePath = getFilePath(values, name, nomineeFile, dpgFile);
+    filePath = getFilePath(
+      values,
+      name,
+      dpgSubmissionPaths,
+      nomineeFile,
+      dpgFile
+    );
 
     const MyOctokit = Octokit.plugin(createPullRequest);
 
@@ -192,12 +221,12 @@ export default async (req, res) => {
         changes: [
           {
             /* optional: if `files` is not passed, an empty commit is created instead */
-            files: {
-              [filePath]: {
-                content: myJSON,
-                encoding: "utf-8",
-              },
-            },
+            files:
+              // [filePath]: {
+              //   content: myJSON,
+              //   encoding: "utf-8",
+              //}
+              getSubmissionFiles(myJSON),
             commit: `BLD: Add ${getProjectName(values)}`,
           },
         ],

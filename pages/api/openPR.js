@@ -15,6 +15,15 @@ const GITHUB_BRANCH = process.env.GITHUB_BRANCH
   ? process.env.GITHUB_BRANCH
   : "main"; /* optional: defaults to default branch */
 
+// Create Github checkout branch for current submissions
+function createGithubCheckoutBranch(name) {
+  const checkoutBranch =
+    `${name}`.split(".").slice(0, -1).join(".") +
+    "-" +
+    (Math.random() * 10 ** 16).toString(36);
+  return checkoutBranch;
+}
+
 // Get SDG relevance info
 function getSDGRelevanceInfo(values, sdgNumber, evidenceText) {
   //Loop through SDG array and parse SDG information
@@ -160,10 +169,7 @@ export default async (req, res) => {
         body:
           "Automatic addition of a new nominee submitted through the online form available at https://digitalpublicgoods.net/submission",
         base: GITHUB_BRANCH,
-        head:
-          `${name}`.split(".").slice(0, -1).join(".") +
-          "-" +
-          (Math.random() * 10 ** 16).toString(36),
+        head: createGithubCheckoutBranch(name),
         changes: [
           {
             /* optional: if `files` is not passed, an empty commit is created instead */

@@ -197,18 +197,6 @@ export default async (req, res) => {
                 content: myJSON,
                 encoding: "utf-8",
               },
-              [nomineeFile]: ({ exists, encoding, myJSON }) => {
-                // do not create the file if it does not exist
-                if (!exists) return null;
-
-                return Buffer.from(myJSON, encoding).toString("utf-8");
-              },
-              [dpgFile]: ({ exists, encoding, myJSON }) => {
-                // do not create the file if it does not exist
-                if (!exists) return null;
-
-                return Buffer.from(myJSON, encoding).toString("utf-8");
-              },
             },
             commit: `BLD: Add ${getProjectName(values)}`,
           },

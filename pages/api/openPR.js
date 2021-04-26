@@ -33,7 +33,7 @@ function getSDGRelevanceInfo(values, sdgNumber, evidenceText) {
 }
 
 // Nominee processing before opening pull request
-function nomination(values, sortedSubmission) {
+function nomineeSubmission(values, sortedSubmission) {
   // Sort entries by iterating through object and unpacking entries
   Object.entries(values).forEach(
     ([key, value]) =>
@@ -56,7 +56,7 @@ function nomination(values, sortedSubmission) {
 }
 
 // DPG candidate processing before opening pull request
-function dpgReview(values, sortedSubmission) {
+function dpgSubmission(values, sortedSubmission) {
   // Delete multiple DPG nomination fields
   [
     "aliases",
@@ -83,9 +83,7 @@ function dpgReview(values, sortedSubmission) {
         NonPII: values.NonPII ? values.NonPII : "",
         privacy: values.privacy ? values.privacy : "",
         standards: values.standards ? values.standards : "",
-
         doNoHarm: values.doNoHarm ? values.doNoHarm : "",
-
         locations: values.locations ? values.locations : {},
       })
   );
@@ -133,8 +131,8 @@ export default async (req, res) => {
     // Verify submission stage(nominee/ DPG) and channel to nomination or DPG review processing
     sortedSubmission =
       values.stage === "nominee"
-        ? nomination(values, sortedSubmission)
-        : dpgReview(values);
+        ? nomineeSubmission(values, sortedSubmission)
+        : dpgSubmission(values);
 
     // Convert JavaScript submission sorted object into JSON string
     myJSON = JSON.stringify(sortedSubmission, null, 3);

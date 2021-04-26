@@ -133,7 +133,8 @@ function getFilePath(values, name, nomineeFile, dpgFile) {
   // Destructure Array to unpack values
   [nomineeFile, dpgFile] = dpgSubmissionPaths;
 
-  return values.stage === "nominee" ? nomineePath : nomineeFile, dpgFile;
+  //return values.stage === "nominee" ? nomineePath : nomineeFile, dpgFile;
+  return values.stage === "nominee" ? nomineePath : dpgSubmissionPaths;
 }
 
 export default async (req, res) => {
@@ -196,13 +197,13 @@ export default async (req, res) => {
                 content: myJSON,
                 encoding: "utf-8",
               },
-              [dpgFile]: ({ exists, encoding, myJSON }) => {
+              [nomineeFile]: ({ exists, encoding, myJSON }) => {
                 // do not create the file if it does not exist
                 if (!exists) return null;
 
                 return Buffer.from(myJSON, encoding).toString("utf-8");
               },
-              [nomineeFile]: ({ exists, encoding, myJSON }) => {
+              [dpgFile]: ({ exists, encoding, myJSON }) => {
                 // do not create the file if it does not exist
                 if (!exists) return null;
 

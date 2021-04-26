@@ -15,6 +15,11 @@ const GITHUB_BRANCH = process.env.GITHUB_BRANCH
   ? process.env.GITHUB_BRANCH
   : "main"; /* optional: defaults to default branch */
 
+// Return Project name
+function getProjectName(values) {
+  return values.name;
+}
+
 // Create Github checkout branch for current submissions
 function createGithubCheckoutBranch(name) {
   const checkoutBranch =
@@ -165,7 +170,7 @@ export default async (req, res) => {
       const response = await composeCreatePullRequest(octokit, {
         owner: GITHUB_OWNER,
         repo: GITHUB_REPO,
-        title: `Add nominee: ${values.name}`,
+        title: `Add nominee: ${getProjectName(values)}`,
         body:
           "Automatic addition of a new nominee submitted through the online form available at https://digitalpublicgoods.net/submission",
         base: GITHUB_BRANCH,
@@ -179,7 +184,7 @@ export default async (req, res) => {
                 encoding: "utf-8",
               },
             },
-            commit: `BLD: Add ${values.name}`,
+            commit: `BLD: Add ${getProjectName(values)}`,
           },
         ],
       });

@@ -26,35 +26,51 @@ function parseProjectName(values) {
   );
 }
 
-// Return multiple submission files
-function getSubmissionFiles(values, content) {
-  let files = {};
-  //let name = `${getProjectName(values)}` + ".json";
+// Return multiple submission files including corresponding filepaths
+function getSubmissionFiles(values, myJSON) {
+  let name,
+    nomineePath,
+    dpgPath,
+    files = {};
 
-  let name = parseProjectName(values);
+  let dpgJSON = JSON.stringify(myJSON, null, 3);
 
-  //let name = "dhis2" + ".json";
-  let nominee, DPG;
+  // Add newline at end of file
+  dpgJSON += "\r\n";
+
+  // Parse project names using DPG naming convention for filenames
+  name = parseProjectName(values);
 
   // Add nominee submission to nominee directory
-  nominee = "nominees/" + `${name}`;
+  nomineePath = "nominees/" + `${name}`;
 
   // Add DPG submission to screening directory
-  DPG = "screening/" + `${name}`;
+  dpgPath = "screening/" + `${name}`;
 
-  Object.entries(content).forEach(
-    ([key, value]) =>
-      (files = {
-        [nominee]: {
-          content: content,
-          encoding: "utf-8",
-        },
-        [DPG]: {
-          content: content,
-          encoding: "utf-8",
-        },
-      })
-  );
+  values.stage === "nominee"
+    ? Object.entries(myJSON).forEach(
+        ([key, value]) =>
+          (files = {
+            [nomineePath]: {
+              content: myJSON,
+              encoding: "utf-8",
+            },
+          })
+      )
+    : Object.entries(dpgJSON).forEach(
+        ([key, value]) =>
+          (files = {
+            [nomineePath]: {
+              content: dpgJSON[0],
+              encoding: "utf-8",
+            },
+            [dpgPath]: {
+              content: dpgJSON[1],
+              encoding: "utf-8",
+            },
+          })
+      );
+
   return files;
 }
 
@@ -90,11 +106,11 @@ function getSDGRelevanceInfo(values, sdgNumber, evidenceText) {
 }
 
 // Nominee processing before opening pull request
-function nomineeSubmission(values, sortedSubmission) {
+function nomineeSubmission(values, sortedNomineeSubmission) {
   // Sort entries by iterating through object and unpacking entries
   Object.entries(values).forEach(
     ([key, value]) =>
-      (sortedSubmission = {
+      (sortedNomineeSubmission = {
         name: values.name ? values.name : "",
         aliases: values.aliases ? [values.aliases] : [""],
         description: values.description ? values.description : "",
@@ -109,11 +125,18 @@ function nomineeSubmission(values, sortedSubmission) {
       })
   );
 
-  return sortedSubmission;
+  console.log(sortedNomineeSubmission);
+  return sortedNomineeSubmission;
 }
 
 // DPG candidate processing before opening pull request
-function dpgSubmission(values, sortedSubmission) {
+function dpgSubmission(
+  values,
+  sortedNomineeSubmission,
+  sortedDPGSubmission,
+  sortedSubmission
+) {
+  sortedNomineeSubmission = nomineeSubmission(values, sortedNomineeSubmission);
   // Delete multiple DPG nomination fields
   [
     "aliases",
@@ -130,7 +153,7 @@ function dpgSubmission(values, sortedSubmission) {
   // Order fields by iterating through object
   Object.entries(values).forEach(
     ([key, value]) =>
-      (sortedSubmission = {
+      (sortedDPGSubmission = {
         name: values.name ? values.name : "",
         clearOwnership: values.clearOwnership ? values.clearOwnership : "",
         platformIndependence: values.platformIndependence
@@ -144,29 +167,17 @@ function dpgSubmission(values, sortedSubmission) {
         locations: values.locations ? values.locations : {},
       })
   );
+
+  console.log(sortedNomineeSubmission);
+  console.log("###################################################");
+  console.log(sortedDPGSubmission);
+
+  sortedSubmission = [sortedNomineeSubmission, sortedDPGSubmission];
+
+  console.log("###################################################");
   console.log(sortedSubmission);
+
   return sortedSubmission;
-}
-
-function getFilePath(values, name, dpgSubmissionPaths) {
-  let nomineePath, dpgPath;
-  // Return project json file aligned with naming convention (includes removing accents)
-  name = parseProjectName(values);
-
-  // Add nominee submission to nominee directory
-  nomineePath = "nominees/" + `${name}`;
-
-  // Add DPG submission to screening directory
-  dpgPath = "screening/" + `${name}`;
-
-  // Push file paths onto new array
-  dpgSubmissionPaths = [nomineePath, dpgPath];
-
-  // Destructure Array to unpack values
-  //[nomineeFile, dpgFile] = dpgSubmissionPaths;
-
-  //return values.stage === "nominee" ? nomineePath : nomineeFile, dpgFile;
-  return values.stage === "nominee" ? nomineePath : dpgSubmissionPaths;
 }
 
 export default async (req, res) => {
@@ -177,10 +188,8 @@ export default async (req, res) => {
       name,
       sdgNumber,
       evidenceText,
-      filePath,
-      dpgSubmissionPaths,
-      nomineeFile,
-      dpgFile,
+      sortedNomineeSubmission,
+      sortedDPGSubmission,
       sortedSubmission;
 
     // Exclude contact information from pull request
@@ -190,19 +199,23 @@ export default async (req, res) => {
     values = getSDGRelevanceInfo(values, sdgNumber, evidenceText);
 
     // Verify submission stage(nominee/ DPG) and channel to nomination or DPG review processing
+
     sortedSubmission =
       values.stage === "nominee"
-        ? nomineeSubmission(values, sortedSubmission)
-        : dpgSubmission(values);
+        ? nomineeSubmission(values, sortedNomineeSubmission)
+        : dpgSubmission(
+            values,
+            sortedNomineeSubmission,
+            sortedDPGSubmission,
+            sortedSubmission
+          );
 
     // Convert JavaScript submission sorted object into JSON string
+
     myJSON = JSON.stringify(sortedSubmission, null, 3);
 
     // Add newline at end of file
     myJSON += "\r\n";
-
-    // Get file path & correct naming for nominee or DPG
-    filePath = getFilePath(values, name, dpgSubmissionPaths);
 
     const MyOctokit = Octokit.plugin(createPullRequest);
 

@@ -136,7 +136,7 @@ function nomineeSubmission(values, sortedSubmission) {
         sectors: values.sectors ? values.sectors : [],
         type: values.type ? values.type : [],
         repositoryURL: values.repositoryURL ? values.repositoryURL : "",
-        organizations: values.organizations ? values.organizations : [],
+        organizations: values.organizations ? [values.organizations] : [],
         stage: values.stage ? values.stage : "",
       })
   );

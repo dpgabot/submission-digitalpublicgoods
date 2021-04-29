@@ -64,6 +64,8 @@ function getSubmissionFiles(values, myJSON) {
     dpgPath,
     files = {};
 
+  let stage = values.stage;
+
   // Delete multiple DPG nomination fields
   [
     "aliases",
@@ -92,7 +94,7 @@ function getSubmissionFiles(values, myJSON) {
   // Add DPG submission to screening directory
   dpgPath = "screening/" + `${name}`;
 
-  values.stage === "nominee"
+  stage === "nominee"
     ? Object.entries(myJSON).forEach(
         ([key, value]) =>
           (files = {
@@ -102,7 +104,7 @@ function getSubmissionFiles(values, myJSON) {
             },
           })
       )
-    : Object.entries(data).forEach(
+    : Object.entries(myJSON).forEach(
         ([key, value]) =>
           (files = {
             [nomineePath]: {

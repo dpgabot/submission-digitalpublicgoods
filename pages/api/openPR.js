@@ -62,9 +62,11 @@ function getSubmissionFiles(values, myJSON) {
   let name,
     nomineePath,
     dpgPath,
+    stage,
+    data,
     files = {};
 
-  let stage = values.stage;
+  stage = values.stage;
 
   // Delete multiple DPG nomination fields
   [
@@ -80,10 +82,7 @@ function getSubmissionFiles(values, myJSON) {
   ].forEach((e) => delete values[e]);
 
   // Convert JavaScript submission sorted object into JSON string and add newline at EOF
-  let data = JSON.stringify(values, null, 3).concat("\n");
-
-  // Convert string into Javascript object then delete unnecessary keys from object
-  //myJSON = JSON.parse(myJSON);
+  data = JSON.stringify(values, null, 2).concat("\n");
 
   // Parse project names using DPG naming convention for filenames
   name = parseProjectName(values);
@@ -147,7 +146,7 @@ function nomineeSubmission(values, sortedSubmission) {
 
 // DPG candidate processing before opening pull request
 function dpgSubmission(values, sortedSubmission) {
-  // Order fields by iterating through object
+  // Sort entries by iterating through object and unpacking entries
   Object.entries(values).forEach(
     ([key, value]) =>
       (sortedSubmission = {
@@ -160,21 +159,12 @@ function dpgSubmission(values, sortedSubmission) {
         sectors: values.sectors ? values.sectors : [],
         type: values.type ? values.type : [],
         repositoryURL: values.repositoryURL ? values.repositoryURL : "",
-        organizations: values.organizations ? values.organizations : [],
+        organizations: values.organizations ? [values.organizations] : [],
         stage: values.stage ? values.stage : "",
-        /* clearOwnership: values.clearOwnership ? values.clearOwnership : "",
-        platformIndependence: values.platformIndependence
-          ? values.platformIndependence
-          : "",
-        documentation: values.documentation ? values.documentation : "",
-        NonPII: values.NonPII ? values.NonPII : "",
-        privacy: values.privacy ? values.privacy : "",
-        standards: values.standards ? values.standards : "",
-        doNoHarm: values.doNoHarm ? values.doNoHarm : "",
-        locations: values.locations ? values.locations : {}, */
       })
   );
 
+  console.log(sortedSubmission);
   return sortedSubmission;
 }
 
@@ -191,14 +181,13 @@ export default async (req, res) => {
     values = getSDGRelevanceInfo(values, sdgNumber, evidenceText);
 
     // Verify submission stage(nominee/ DPG) and channel to nomination or DPG review processing
-
     sortedSubmission =
       values.stage === "nominee"
         ? nomineeSubmission(values, sortedSubmission)
-        : nomineeSubmission(values, sortedSubmission);
+        : dpgSubmission(values, sortedSubmission);
 
     // Convert JavaScript submission sorted object into JSON string and add newline at EOF
-    myJSON = JSON.stringify(sortedSubmission, null, 3).concat("\n");
+    myJSON = JSON.stringify(sortedSubmission, null, 2).concat("\n");
 
     const MyOctokit = Octokit.plugin(createPullRequest);
 

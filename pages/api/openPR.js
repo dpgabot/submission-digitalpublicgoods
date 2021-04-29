@@ -217,7 +217,7 @@ export default async (req, res) => {
         body:
           "Automatic addition of a new nominee submitted through the online form available at https://digitalpublicgoods.net/submission",
         base: GITHUB_BRANCH,
-        head: createGithubCheckoutBranch(getProjectName(values)),
+        head: createGithubCheckoutBranch(parseProjectName(values)),
         changes: [
           {
             /* optional: if `files` is not passed, an empty commit is created instead */

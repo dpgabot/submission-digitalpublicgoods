@@ -57,6 +57,24 @@ function getSDGRelevanceInfo(values, sdgNumber, evidenceText) {
   return values;
 }
 
+// Order fields e.g organizations
+function orderFields(values) {
+  let name, website, org_type;
+  // Order all entries for organizations
+  for (let i = 0; i < values.organizations.length; i++) {
+    name = values.organizations[i].name;
+    website = values.organizations[i].website;
+    org_type = values.organizations[i].org_type;
+
+    values.organizations[i] = {
+      name: name,
+      website: website,
+      org_type: org_type,
+    };
+  }
+  return values;
+}
+
 // Return multiple submission files including corresponding filepaths
 function getSubmissionFiles(values, myJSON) {
   let name,
@@ -140,7 +158,8 @@ function nomineeSubmission(values, sortedSubmission) {
       })
   );
 
-  console.log(sortedSubmission);
+  // Order nominee fields in the correct order e.g organizations
+  sortedSubmission = orderFields(sortedSubmission);
   return sortedSubmission;
 }
 
@@ -172,7 +191,7 @@ export default async (req, res) => {
   if (req.method === "POST") {
     let values = req.body.values;
 
-    let myJSON, name, sdgNumber, evidenceText, sortedSubmission;
+    let myJSON, sdgNumber, evidenceText, sortedSubmission;
 
     // Exclude contact information from pull request
     delete values["contact"];

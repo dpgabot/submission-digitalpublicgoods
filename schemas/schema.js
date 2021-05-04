@@ -1351,7 +1351,7 @@ const schema = {
           fields: [
             {
               component: "radio",
-              name: "preventHarm[stepsToPreventHarm]",
+              name: "doNoHarm[preventHarm[stepsToPreventHarm]]",
               label:
                 "On the whole, does this project take steps to ensure that it anticipates, prevents and does no harm?",
               description: "",
@@ -1391,7 +1391,7 @@ const schema = {
             },
             {
               component: "radio",
-              name: "dataPrivacySecurity[collectsPII]",
+              name: "doNoHarm[dataPrivacySecurity[collectsPII]]",
               label:
                 "Does this project collect or store personally identifiable information (PII) data?",
               description: "",
@@ -1423,7 +1423,7 @@ const schema = {
                 "If yes - please list the types of data collected and/or stored by the project:",
               helperText: "",
               condition: {
-                when: "dataPrivacySecurity[collectsPII]",
+                when: "doNoHarm[dataPrivacySecurity[collectsPII]]",
                 pattern: /Yes/,
               },
               validate: [
@@ -1440,7 +1440,7 @@ const schema = {
             },
             {
               component: "radio",
-              name: "dataPrivacySecurity[thirdPartyDataSharing]",
+              name: "doNoHarm[dataPrivacySecurity[thirdPartyDataSharing]]",
               label:
                 "If yes - does this project share this data with third parties?",
               description: "",
@@ -1469,7 +1469,7 @@ const schema = {
               ],
             },
             {
-              name: "dataPrivacySecurity[dataSharingCircumstances]",
+              name: "doNoHarm[dataPrivacySecurity[dataSharingCircumstances]]",
               component: "field-array",
               label: "Data sharing circumstances",
               description:
@@ -1493,7 +1493,7 @@ const schema = {
             },
             {
               component: "radio",
-              name: "dataPrivacySecurity[ensurePrivacySecurity]",
+              name: "doNoHarm[dataPrivacySecurity[ensurePrivacySecurity]]",
               label: "Ensure privacy and security",
               description:
                 "If yes - does the project ensure the privacy and security of this data and has it taken steps to prevent adverse impacts resulting from its collection, storage and distribution.",
@@ -1512,7 +1512,7 @@ const schema = {
                 },
               ],
               condition: {
-                when: "dataPrivacySecurity[thirdPartyDataSharing]",
+                when: "doNoHarm[dataPrivacySecurity[collectsPII]]",
                 pattern: /Yes/,
               },
               validate: [
@@ -1522,7 +1522,7 @@ const schema = {
               ],
             },
             {
-              name: "dataPrivacySecurity[privacySecurityDescription]",
+              name: "doNoHarm[dataPrivacySecurity[privacySecurityDescription]]",
               component: "text-field",
               label: "Privacy security description",
               description:
@@ -1548,7 +1548,8 @@ const schema = {
           fields: [
             {
               component: "radio",
-              name: "inappropriateIllegalContent[collectStoreDistribute]",
+              name:
+                "doNoHarm[inappropriateIllegalContent[collectStoreDistribute]]",
               label: "Does this project collect, store or distribute content?",
               description: "",
               options: [
@@ -1699,7 +1700,7 @@ const schema = {
           fields: [
             {
               component: "radio",
-              name: "protectionFromHarassment[userInteraction]",
+              name: "doNoHarm[protectionFromHarassment[userInteraction]]",
               label:
                 "Does this project facilitate interactions with or between users or contributors?",
               description: "",

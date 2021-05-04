@@ -116,51 +116,42 @@ function getSubmissionFiles(values, nomineeJSON) {
   dpgPath = "screening/" + `${name}`;
 
   stage === "nominee"
-    ? Object.entries(nomineeJSON).forEach(
-        () =>
-          (files = {
-            [nomineePath]: {
-              content: nomineeJSON,
-              encoding: "utf-8",
-            },
-          })
-      )
-    : Object.entries(nomineeJSON).forEach(
-        () =>
-          (files = {
-            [nomineePath]: {
-              content: nomineeJSON,
-              encoding: "utf-8",
-            },
-            [dpgPath]: {
-              content: data,
-              encoding: "utf-8",
-            },
-          })
-      );
+    ? (files = {
+        [nomineePath]: {
+          content: nomineeJSON,
+          encoding: "utf-8",
+        },
+      })
+    : (files = {
+        [nomineePath]: {
+          content: nomineeJSON,
+          encoding: "utf-8",
+        },
+        [dpgPath]: {
+          content: data,
+          encoding: "utf-8",
+        },
+      });
 
   return files;
 }
 
 // Nominee processing before opening pull request
 function nomineeSubmission(values, sortedSubmission) {
-  // Sort entries by iterating through object and unpacking entries
-  Object.entries(values).forEach(
-    () =>
-      (sortedSubmission = {
-        name: values.name ? values.name : "",
-        aliases: values.aliases ? [values.aliases] : [""],
-        description: values.description ? values.description : "",
-        website: values.website ? values.website : "",
-        license: values.license ? values.license : [],
-        SDGs: values.SDGs ? values.SDGs : [],
-        sectors: values.sectors ? values.sectors : [],
-        type: values.type ? values.type : [],
-        repositoryURL: values.repositoryURL ? values.repositoryURL : "",
-        organizations: values.organizations ? [values.organizations] : [],
-        stage: values.stage ? values.stage : "",
-      })
-  );
+  // Sort entries
+  sortedSubmission = {
+    name: values.name ? values.name : "",
+    aliases: values.aliases ? [values.aliases] : [""],
+    description: values.description ? values.description : "",
+    website: values.website ? values.website : "",
+    license: values.license ? values.license : [],
+    SDGs: values.SDGs ? values.SDGs : [],
+    sectors: values.sectors ? values.sectors : [],
+    type: values.type ? values.type : [],
+    repositoryURL: values.repositoryURL ? values.repositoryURL : "",
+    organizations: values.organizations ? [values.organizations] : [],
+    stage: values.stage ? values.stage : "",
+  };
 
   // Order nominee fields in the correct order e.g organizations
   sortedSubmission = orderFields(sortedSubmission);
@@ -178,12 +169,6 @@ export default async (req, res) => {
 
     // Parse SDG information
     values = getSDGRelevanceInfo(values, sdgNumber, evidenceText);
-
-    // Verify submission stage(nominee/ DPG) and channel to nomination or DPG review processing
-    //sortedSubmission =
-    //  values.stage === "nominee"
-    //    ? nomineeSubmission(values, sortedSubmission)
-    //    : nomineeSubmission(values, sortedSubmission);
 
     sortedSubmission = nomineeSubmission(values, sortedSubmission);
 

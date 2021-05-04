@@ -167,31 +167,6 @@ function nomineeSubmission(values, sortedSubmission) {
   return sortedSubmission;
 }
 
-// DPG candidate processing before opening pull request
-function dpgSubmission(values, sortedSubmission) {
-  // Sort entries by iterating through object and unpacking entries
-  Object.entries(values).forEach(
-    () =>
-      (sortedSubmission = {
-        name: values.name ? values.name : "",
-        aliases: values.aliases ? [values.aliases] : [""],
-        description: values.description ? values.description : "",
-        website: values.website ? values.website : "",
-        license: values.license ? values.license : [],
-        SDGs: values.SDGs ? values.SDGs : [],
-        sectors: values.sectors ? values.sectors : [],
-        type: values.type ? values.type : [],
-        repositoryURL: values.repositoryURL ? values.repositoryURL : "",
-        organizations: values.organizations ? [values.organizations] : [],
-        stage: values.stage ? values.stage : "",
-      })
-  );
-
-  // Order fields in the correct order e.g nominee organizations
-  sortedSubmission = orderFields(sortedSubmission);
-  return sortedSubmission;
-}
-
 export default async (req, res) => {
   if (req.method === "POST") {
     let values = req.body.values;
@@ -208,7 +183,7 @@ export default async (req, res) => {
     sortedSubmission =
       values.stage === "nominee"
         ? nomineeSubmission(values, sortedSubmission)
-        : dpgSubmission(values, sortedSubmission);
+        : nomineeSubmission(values, sortedSubmission);
 
     // Convert JavaScript submission sorted object into JSON string and add newline at EOF
     nomineeJSON = JSON.stringify(sortedSubmission, null, 2).concat("\n");

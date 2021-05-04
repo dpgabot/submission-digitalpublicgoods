@@ -80,7 +80,7 @@ function orderFields(values) {
 }
 
 // Return multiple submission files including corresponding filepaths
-function getSubmissionFiles(values, myJSON) {
+function getSubmissionFiles(values, nomineeJSON) {
   let name,
     nomineePath,
     dpgPath,
@@ -116,20 +116,20 @@ function getSubmissionFiles(values, myJSON) {
   dpgPath = "screening/" + `${name}`;
 
   stage === "nominee"
-    ? Object.entries(myJSON).forEach(
+    ? Object.entries(nomineeJSON).forEach(
         () =>
           (files = {
             [nomineePath]: {
-              content: myJSON,
+              content: nomineeJSON,
               encoding: "utf-8",
             },
           })
       )
-    : Object.entries(myJSON).forEach(
+    : Object.entries(nomineeJSON).forEach(
         () =>
           (files = {
             [nomineePath]: {
-              content: myJSON,
+              content: nomineeJSON,
               encoding: "utf-8",
             },
             [dpgPath]: {
@@ -196,7 +196,7 @@ export default async (req, res) => {
   if (req.method === "POST") {
     let values = req.body.values;
 
-    let myJSON, sdgNumber, evidenceText, sortedSubmission;
+    let nomineeJSON, sdgNumber, evidenceText, sortedSubmission;
 
     // Exclude contact information from pull request
     delete values["contact"];
@@ -211,7 +211,7 @@ export default async (req, res) => {
         : dpgSubmission(values, sortedSubmission);
 
     // Convert JavaScript submission sorted object into JSON string and add newline at EOF
-    myJSON = JSON.stringify(sortedSubmission, null, 2).concat("\n");
+    nomineeJSON = JSON.stringify(sortedSubmission, null, 2).concat("\n");
 
     const MyOctokit = Octokit.plugin(createPullRequest);
 
@@ -234,7 +234,7 @@ export default async (req, res) => {
         changes: [
           {
             /* optional: if `files` is not passed, an empty commit is created instead */
-            files: getSubmissionFiles(values, myJSON),
+            files: getSubmissionFiles(values, nomineeJSON),
             commit: `BLD: Add ${getProjectName(values)}`,
           },
         ],

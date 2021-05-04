@@ -1,5 +1,5 @@
 import validatorTypes from "@data-driven-forms/react-form-renderer/validator-types";
-import { CONDITIONAL_SUBMIT_FLAG } from "@data-driven-forms/common/wizard";
+import {CONDITIONAL_SUBMIT_FLAG} from "@data-driven-forms/common/wizard";
 
 const schema = {
   title: "Digital Public Goods Submission",
@@ -41,8 +41,7 @@ const schema = {
               name: "description",
               component: "text-field",
               label: "Project Description",
-              helperText:
-                "Include a concise 1-line description for this project.",
+              helperText: "Include a concise 1-line description for this project.",
               validate: [
                 {
                   type: "required",
@@ -86,8 +85,8 @@ const schema = {
                 },
                 {
                   type: validatorTypes.PATTERN,
-                  pattern: '[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$',
-                  message: 'Not valid email',
+                  pattern: "[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$",
+                  message: "Not valid email",
                 },
               ],
             },
@@ -128,8 +127,7 @@ const schema = {
               name: "repositoryURL",
               component: "text-field",
               label: "Link to Github (or other) repository",
-              helperText:
-                "Required for open source software - link to public repository",
+              helperText: "Required for open source software - link to public repository",
               condition: {
                 when: "type",
                 pattern: /software/,
@@ -142,7 +140,7 @@ const schema = {
                   type: validatorTypes.URL,
                 },
               ],
-              classes: { root: "conditional" },
+              classes: {root: "conditional"},
             },
             {
               name: "SDGs",
@@ -235,8 +233,8 @@ const schema = {
               title: "Choose License",
               description:
                 "DPGs must use an open license. Please identify which of these approved open licenses this project uses: *. For Open Source Software, we only accept OSI approved licenses. For Open Content we require the use of a Creative Commons license while we encourage projects to use a license which allows for both derivatives and commercial reuse or dedicate content to the public domain (CC0) we also accept licenses which do not allow for commercial reuse: CC-BY-NC and CC-BY-NC-SA. For data we require a Open Data Commons approved license listed at opendefinition.org/licenses/. IF YOU USE A LICENSE THAT IS NOT CURRENTLY LISTED HERE BUT YOU BELIEVE SHOULD BE INCLUDED PLEASE EMAIL nominations@digitalpublicgoods.net",
-              RemoveButtonGridProps: { xs: 3 },
-              FieldGroupGridProps: { xs: 9 },
+              RemoveButtonGridProps: {xs: 3},
+              FieldGroupGridProps: {xs: 9},
               fields: [
                 {
                   component: "select",
@@ -321,8 +319,7 @@ const schema = {
                       value: "CAL-1.0-Combined-Work-Exception",
                     },
                     {
-                      label:
-                        "Computer Associates Trusted Open Source License 1.1",
+                      label: "Computer Associates Trusted Open Source License 1.1",
                       value: "CATOSL-1.1",
                     },
                     {
@@ -354,23 +351,19 @@ const schema = {
                       value: "CC-BY-4.0",
                     },
                     {
-                      label:
-                        "Creative Commons Attribution Non Commercial 1.0 Generic",
+                      label: "Creative Commons Attribution Non Commercial 1.0 Generic",
                       value: "CC-BY-NC-1.0",
                     },
                     {
-                      label:
-                        "Creative Commons Attribution Non Commercial 2.0 Generic",
+                      label: "Creative Commons Attribution Non Commercial 2.0 Generic",
                       value: "CC-BY-NC-2.0",
                     },
                     {
-                      label:
-                        "Creative Commons Attribution Non Commercial 2.5 Generic",
+                      label: "Creative Commons Attribution Non Commercial 2.5 Generic",
                       value: "CC-BY-NC-2.5",
                     },
                     {
-                      label:
-                        "Creative Commons Attribution Non Commercial 3.0 Unported",
+                      label: "Creative Commons Attribution Non Commercial 3.0 Unported",
                       value: "CC-BY-NC-3.0",
                     },
                     {
@@ -414,38 +407,31 @@ const schema = {
                       value: "CC-BY-NC-SA-4.0",
                     },
                     {
-                      label:
-                        "Creative Commons Attribution Share Alike 1.0 Generic",
+                      label: "Creative Commons Attribution Share Alike 1.0 Generic",
                       value: "CC-BY-SA-1.0",
                     },
                     {
-                      label:
-                        "Creative Commons Attribution Share Alike 2.0 Generic",
+                      label: "Creative Commons Attribution Share Alike 2.0 Generic",
                       value: "CC-BY-SA-2.0",
                     },
                     {
-                      label:
-                        "Creative Commons Attribution Share Alike 2.5 Generic",
+                      label: "Creative Commons Attribution Share Alike 2.5 Generic",
                       value: "CC-BY-SA-2.5",
                     },
                     {
-                      label:
-                        "Creative Commons Attribution Share Alike 3.0 Unported",
+                      label: "Creative Commons Attribution Share Alike 3.0 Unported",
                       value: "CC-BY-SA-3.0",
                     },
                     {
-                      label:
-                        "Creative Commons Attribution Share Alike 3.0 Austria",
+                      label: "Creative Commons Attribution Share Alike 3.0 Austria",
                       value: "CC-BY-SA-3.0-AT",
                     },
                     {
-                      label:
-                        "Creative Commons Attribution Share Alike 3.0 United States",
+                      label: "Creative Commons Attribution Share Alike 3.0 United States",
                       value: "CC-BY-SA-3.0-US",
                     },
                     {
-                      label:
-                        "Creative Commons Attribution Share Alike 4.0 International",
+                      label: "Creative Commons Attribution Share Alike 4.0 International",
                       value: "CC-BY-SA-4.0",
                     },
                     {
@@ -601,8 +587,7 @@ const schema = {
                       value: "MPL-2.0",
                     },
                     {
-                      label:
-                        "Mozilla Public License 2.0, no copyleft exception",
+                      label: "Mozilla Public License 2.0, no copyleft exception",
                       value: "MPL-2.0-no-copyleft-exception",
                     },
                     {
@@ -698,8 +683,7 @@ const schema = {
                       value: "OSL-3.0",
                     },
                     {
-                      label:
-                        "Open Data Commons Public Domain Dedication and Licence 1.0",
+                      label: "Open Data Commons Public Domain Dedication and Licence 1.0",
                       value: "PDDL-1.0",
                     },
                     {
@@ -961,7 +945,7 @@ const schema = {
                   type: validatorTypes.URL,
                 },
               ],
-              classes: { root: "conditional" },
+              classes: {root: "conditional"},
             },
             {
               component: "radio",
@@ -1008,8 +992,7 @@ const schema = {
                 },
               ],
               condition: {
-                when:
-                  "platformIndependence[mandatoryDepsCreateMoreRestrictions]",
+                when: "platformIndependence[mandatoryDepsCreateMoreRestrictions]",
                 pattern: /Yes/,
               },
               validate: [
@@ -1017,7 +1000,7 @@ const schema = {
                   type: "required",
                 },
               ],
-              classes: { root: "conditional" },
+              classes: {root: "conditional"},
             },
             {
               name: "platformIndependence[pltIndependenceDesc]",
@@ -1079,7 +1062,7 @@ const schema = {
                   type: validatorTypes.URL,
                 },
               ],
-              classes: { root: "conditional" },
+              classes: {root: "conditional"},
             },
             {
               component: "radio",
@@ -1134,7 +1117,7 @@ const schema = {
                   type: "required",
                 },
               ],
-              classes: { root: "conditional" },
+              classes: {root: "conditional"},
             },
             {
               name: "NonPII[nonPIIAccessMechanism]",
@@ -1151,7 +1134,7 @@ const schema = {
                   type: "required",
                 },
               ],
-              classes: { root: "conditional" },
+              classes: {root: "conditional"},
             },
           ],
         },
@@ -1207,7 +1190,7 @@ const schema = {
                   component: "text-field",
                 },
               ],
-              classes: { root: "conditional" },
+              classes: {root: "conditional"},
             },
             {
               name: "privacy[adherenceSteps]",
@@ -1230,7 +1213,7 @@ const schema = {
                   component: "text-field",
                 },
               ],
-              classes: { root: "conditional" },
+              classes: {root: "conditional"},
             },
             {
               component: "radio",
@@ -1261,8 +1244,7 @@ const schema = {
               name: "standards[standardsList]",
               component: "field-array",
               label: "Standards list",
-              description:
-                "Which standards does this project support (please list)",
+              description: "Which standards does this project support (please list)",
               helperText: "",
               condition: {
                 when: "standards[supportStandards]",
@@ -1278,7 +1260,7 @@ const schema = {
                   component: "text-field",
                 },
               ],
-              classes: { root: "conditional" },
+              classes: {root: "conditional"},
             },
             {
               name: "standards[evidenceStandardSupport]",
@@ -1296,7 +1278,7 @@ const schema = {
                   type: validatorTypes.URL,
                 },
               ],
-              classes: { root: "conditional" },
+              classes: {root: "conditional"},
             },
             {
               component: "radio",
@@ -1345,7 +1327,7 @@ const schema = {
                   component: "text-field",
                 },
               ],
-              classes: { root: "conditional" },
+              classes: {root: "conditional"},
             },
           ],
         },
@@ -1392,7 +1374,7 @@ const schema = {
                 pattern: /Yes/,
               },
               validate: [],
-              classes: { root: "conditional" },
+              classes: {root: "conditional"},
             },
             {
               component: "radio",
@@ -1441,13 +1423,12 @@ const schema = {
                   component: "text-field",
                 },
               ],
-              classes: { root: "conditional" },
+              classes: {root: "conditional"},
             },
             {
               component: "radio",
               name: "doNoHarm[dataPrivacySecurity[thirdPartyDataSharing]]",
-              label:
-                "If yes - does this project share this data with third parties?",
+              label: "If yes - does this project share this data with third parties?",
               description: "",
               options: [
                 {
@@ -1494,7 +1475,7 @@ const schema = {
                   component: "text-field",
                 },
               ],
-              classes: { root: "conditional" },
+              classes: {root: "conditional"},
             },
             {
               component: "radio",
@@ -1542,7 +1523,7 @@ const schema = {
                   type: "required",
                 },
               ],
-              classes: { root: "conditional" },
+              classes: {root: "conditional"},
             },
           ],
         },
@@ -1553,8 +1534,7 @@ const schema = {
           fields: [
             {
               component: "radio",
-              name:
-                "doNoHarm[inappropriateIllegalContent[collectStoreDistribute]]",
+              name: "doNoHarm[inappropriateIllegalContent[collectStoreDistribute]]",
               label: "Does this project collect, store or distribute content?",
               description: "",
               options: [
@@ -1593,7 +1573,7 @@ const schema = {
                   type: "required",
                 },
               ],
-              classes: { root: "conditional" },
+              classes: {root: "conditional"},
             },
             {
               component: "radio",
@@ -1626,8 +1606,7 @@ const schema = {
               ],
             },
             {
-              name:
-                "inappropriateIllegalContent[policyGuidelinesDocumentationLink]",
+              name: "inappropriateIllegalContent[policyGuidelinesDocumentationLink]",
               component: "text-field",
               label: "Policy guideline documentation link",
               description:
@@ -1645,7 +1624,7 @@ const schema = {
                   type: validatorTypes.URL,
                 },
               ],
-              classes: { root: "conditional" },
+              classes: {root: "conditional"},
             },
             {
               component: "radio",
@@ -1678,8 +1657,7 @@ const schema = {
               ],
             },
             {
-              name:
-                "inappropriateIllegalContent[illegalContentDetectionMechanism]",
+              name: "inappropriateIllegalContent[illegalContentDetectionMechanism]",
               component: "text-field",
               label: "Illegal content detection mechanism",
               description:
@@ -1694,7 +1672,7 @@ const schema = {
                   type: "required",
                 },
               ],
-              classes: { root: "conditional" },
+              classes: {root: "conditional"},
             },
           ],
         },
@@ -1731,8 +1709,7 @@ const schema = {
             },
             {
               component: "radio",
-              name:
-                "protectionFromHarassment[addressSafetySecurityUnderageUsers]",
+              name: "protectionFromHarassment[addressSafetySecurityUnderageUsers]",
               label:
                 "If yes - does the project take steps to address the safety and security of underage users?",
               description: "",
@@ -1782,7 +1759,7 @@ const schema = {
                   component: "text-field",
                 },
               ],
-              classes: { root: "conditional" },
+              classes: {root: "conditional"},
             },
             {
               component: "radio",
@@ -1835,7 +1812,7 @@ const schema = {
                   component: "text-field",
                 },
               ],
-              classes: { root: "conditional" },
+              classes: {root: "conditional"},
             },
           ],
         },
@@ -1850,8 +1827,8 @@ const schema = {
               fieldKey: "field_array",
               title: "Choose development countries",
               description: "What country was this project developed in?",
-              RemoveButtonGridProps: { xs: 3 },
-              FieldGroupGridProps: { xs: 9 },
+              RemoveButtonGridProps: {xs: 3},
+              FieldGroupGridProps: {xs: 9},
               fields: [
                 {
                   component: "select",
@@ -2635,10 +2612,9 @@ const schema = {
               label: "Choose deployment countries",
               fieldKey: "field_array",
               title: "Choose deployment countries",
-              description:
-                "What countries is this project actively deployed in?",
-              RemoveButtonGridProps: { xs: 3 },
-              FieldGroupGridProps: { xs: 9 },
+              description: "What countries is this project actively deployed in?",
+              RemoveButtonGridProps: {xs: 3},
+              FieldGroupGridProps: {xs: 9},
               fields: [
                 {
                   component: "select",
@@ -3427,21 +3403,17 @@ const schema = {
 // corresponding SDG checkbox is checked. Validation for these fields is coded in React, not here.
 for (let i = 1; i <= 17; i++) {
   // Insert these fields right after the SDGs so that they get displayed immediately below
-  const SDGindex = schema.fields[0].fields[0].fields.findIndex(
-    (e) => e.name == "SDGs"
-  );
+  const SDGindex = schema.fields[0].fields[0].fields.findIndex((e) => e.name == "SDGs");
   schema.fields[0].fields[0].fields.splice(SDGindex + i, 0, {
     name: "subform" + i,
     component: "sub-form",
     description:
-      "Please supply information or link to support relevance to SDG " +
-      i +
-      ":",
+      "Please supply information or link to support relevance to SDG " + i + ":",
     condition: {
       when: "SDGs",
       pattern: new RegExp("\\b" + i + "\\b"),
     },
-    classes: { root: "conditional" },
+    classes: {root: "conditional"},
     fields: [
       {
         name: "evidenceText" + i,

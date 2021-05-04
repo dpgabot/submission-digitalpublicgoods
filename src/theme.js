@@ -1,4 +1,4 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import {createMuiTheme} from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
   overrides: {
@@ -20,44 +20,44 @@ const theme = createMuiTheme({
     },
     MuiGrid: {
       container: {
-        padding: '8px',
-        marginTop: '16px',
-        '& label': {
-          paddingBottom: '10px'
+        padding: "8px",
+        marginTop: "16px",
+        "& label": {
+          paddingBottom: "10px",
         },
-        '& legend': {
-          paddingBottom: '10px'
+        "& legend": {
+          paddingBottom: "10px",
         },
-        '& .conditional': {
-            background: '#F0F0F0',
-            borderRadius: '5px',
-            marginLeft: '10px',
-            marginTop: '8px',
-            padding: '8px',
-            marginRight: '-10px',
-        }
-      }
+        "& .conditional": {
+          background: "#F0F0F0",
+          borderRadius: "5px",
+          marginLeft: "10px",
+          marginTop: "8px",
+          padding: "8px",
+          marginRight: "-10px",
+        },
+      },
     },
-    MuiFormControl:{
+    MuiFormControl: {
       root: {
-        '& .conditional': {
-            background: '#F0F0F0',
-            borderRadius: '5px',
-            marginLeft: '10px',
-            marginTop: '8px',
-            padding: '8px',
-            marginRight: '-10px',
-        }
-      }
+        "& .conditional": {
+          background: "#F0F0F0",
+          borderRadius: "5px",
+          marginLeft: "10px",
+          marginTop: "8px",
+          padding: "8px",
+          marginRight: "-10px",
+        },
+      },
     },
     NoBottomMargin: {
-      '& MuiTypography': {
+      "& MuiTypography": {
         paragraph: {
-          marginBottom: '0px',
-          marginTop: '1em',
-        }
-      }
-    }
+          marginBottom: "0px",
+          marginTop: "1em",
+        },
+      },
+    },
   },
 });
 

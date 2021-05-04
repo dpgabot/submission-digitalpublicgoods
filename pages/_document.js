@@ -1,11 +1,11 @@
-import * as React from 'react';
-import Document, { Html, Head, Main, NextScript } from 'next/document';
-import { ServerStyleSheets } from '@material-ui/core/styles';
-import createEmotionServer from '@emotion/server/create-instance';
-import theme from '../src/theme';
-import { cache } from './_app.js';
+import * as React from "react";
+import Document, {Html, Head, Main, NextScript} from "next/document";
+import {ServerStyleSheets} from "@material-ui/core/styles";
+import createEmotionServer from "@emotion/server/create-instance";
+import theme from "../src/theme";
+import {cache} from "./_app.js";
 
-const { extractCritical } = createEmotionServer(cache);
+const {extractCritical} = createEmotionServer(cache);
 
 export default class MyDocument extends Document {
   render() {
@@ -73,9 +73,9 @@ MyDocument.getInitialProps = async (ctx) => {
       sheets.getStyleElement(),
       <style
         key="emotion-style-tag"
-        data-emotion={`css ${styles.ids.join(' ')}`}
+        data-emotion={`css ${styles.ids.join(" ")}`}
         // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: styles.css }}
+        dangerouslySetInnerHTML={{__html: styles.css}}
       />,
     ],
   };

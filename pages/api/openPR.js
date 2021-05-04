@@ -1,4 +1,4 @@
-import { Octokit } from "@octokit/core";
+import {Octokit} from "@octokit/core";
 import {
   createPullRequest,
   composeCreatePullRequest,
@@ -206,7 +206,7 @@ export default async (req, res) => {
         number: response.data.number,
       };
     } catch (err) {
-      result = { error: err.message || err.toString() };
+      result = {error: err.message || err.toString()};
     }
 
     // return an unconditional success response

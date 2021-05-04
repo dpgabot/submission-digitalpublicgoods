@@ -180,10 +180,12 @@ export default async (req, res) => {
     values = getSDGRelevanceInfo(values, sdgNumber, evidenceText);
 
     // Verify submission stage(nominee/ DPG) and channel to nomination or DPG review processing
-    sortedSubmission =
-      values.stage === "nominee"
-        ? nomineeSubmission(values, sortedSubmission)
-        : nomineeSubmission(values, sortedSubmission);
+    //sortedSubmission =
+    //  values.stage === "nominee"
+    //    ? nomineeSubmission(values, sortedSubmission)
+    //    : nomineeSubmission(values, sortedSubmission);
+
+    sortedSubmission = nomineeSubmission(values, sortedSubmission);
 
     // Convert JavaScript submission sorted object into JSON string and add newline at EOF
     nomineeJSON = JSON.stringify(sortedSubmission, null, 2).concat("\n");

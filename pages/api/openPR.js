@@ -15,40 +15,165 @@ const GITHUB_BRANCH = process.env.GITHUB_BRANCH
   ? process.env.GITHUB_BRANCH
   : "main"; /* optional: defaults to default branch */
 
+// Return Project name
+function getProjectName(values) {
+  return values.name;
+}
+
+// Parse name of project prior to saving file
+function parseProjectName(values) {
+  return (
+    values.name
+      .normalize("NFD")
+      .toLowerCase()
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/ /g, "-") + ".json"
+  );
+}
+
+// Create Github checkout branch for current submissions
+function createGithubCheckoutBranch(name) {
+  const checkoutBranch =
+    `${name}`.split(".").slice(0, -1).join(".") +
+    "-" +
+    (Math.random() * 10 ** 16).toString(36);
+  return checkoutBranch;
+}
+
+// Get SDG relevance info
+function getSDGRelevanceInfo(values, sdgNumber, evidenceText) {
+  //Loop through SDG array and parse SDG information
+  for (let i = 0; i < values.SDGs.length; i++) {
+    sdgNumber = parseInt(values.SDGs[i]);
+    evidenceText = "evidenceText".concat(sdgNumber);
+
+    values.SDGs[i] = {
+      SDGNumber: sdgNumber,
+      evidenceText: values[evidenceText],
+    };
+
+    delete values[evidenceText];
+  }
+  return values;
+}
+
+// Order fields e.g organizations
+function orderFields(values) {
+  let name, website, org_type, contact_name, contact_email;
+  // Order all entries for organizations
+  for (let i = 0; i < values.organizations.length; i++) {
+    name = values.organizations[i].name;
+    website = values.organizations[i].website;
+    org_type = values.organizations[i].org_type;
+    contact_name = values.organizations[i].contact_name;
+    contact_email = values.organizations[i].contact_email;
+
+    values.organizations[i] = {
+      name: name,
+      website: website,
+      org_type: org_type,
+      contact_name: contact_name,
+      contact_email: contact_email,
+    };
+  }
+  return values;
+}
+
+// Return multiple submission files including corresponding filepaths
+function getSubmissionFiles(values, nomineeJSON) {
+  let name,
+    nomineePath,
+    dpgPath,
+    stage,
+    data,
+    files = {};
+
+  stage = values.stage;
+
+  // Delete multiple DPG nomination fields
+  [
+    "aliases",
+    "description",
+    "website",
+    "type",
+    "SDGs",
+    "license",
+    "organizations",
+    "stage",
+    "repositoryURL",
+  ].forEach((e) => delete values[e]);
+
+  // Convert JavaScript submission sorted object into JSON string and add newline at EOF
+  data = JSON.stringify(values, null, 2).concat("\n");
+
+  // Parse project names using DPG naming convention for filenames
+  name = parseProjectName(values);
+
+  // Add nominee submission to nominee directory
+  nomineePath = "nominees/" + `${name}`;
+
+  // Add DPG submission to screening directory
+  dpgPath = "screening/" + `${name}`;
+
+  stage === "nominee"
+    ? (files = {
+        [nomineePath]: {
+          content: nomineeJSON,
+          encoding: "utf-8",
+        },
+      })
+    : (files = {
+        [nomineePath]: {
+          content: nomineeJSON,
+          encoding: "utf-8",
+        },
+        [dpgPath]: {
+          content: data,
+          encoding: "utf-8",
+        },
+      });
+
+  return files;
+}
+
+// Nominee processing before opening pull request
+function nomineeSubmission(values, sortedSubmission) {
+  // Sort entries
+  sortedSubmission = {
+    name: values.name ? values.name : "",
+    aliases: values.aliases ? [values.aliases] : [""],
+    description: values.description ? values.description : "",
+    website: values.website ? values.website : "",
+    license: values.license ? values.license : [],
+    SDGs: values.SDGs ? values.SDGs : [],
+    sectors: values.sectors ? values.sectors : [],
+    type: values.type ? values.type : [],
+    repositoryURL: values.repositoryURL ? values.repositoryURL : "",
+    organizations: values.organizations ? [values.organizations] : [],
+    stage: values.stage ? values.stage : "",
+  };
+
+  // Order nominee fields in the correct order e.g organizations
+  sortedSubmission = orderFields(sortedSubmission);
+  return sortedSubmission;
+}
+
 export default async (req, res) => {
   if (req.method === "POST") {
-    const values = req.body.values;
-    console.log(values);
+    let values = req.body.values;
+
+    let nomineeJSON, sdgNumber, evidenceText, sortedSubmission;
 
     // Exclude contact information from pull request
     delete values["contact"];
 
-    let sdgNumber, evidenceText;
-    for (let i = 0; i < values.SDGs.length; i++) {
-      sdgNumber = parseInt(values.SDGs[i]);
-      evidenceText = "evidenceText".concat(sdgNumber);
+    // Parse SDG information
+    values = getSDGRelevanceInfo(values, sdgNumber, evidenceText);
 
-      values.SDGs[i] = {
-        SDGNumber: sdgNumber,
-        evidenceText: values[evidenceText],
-      };
+    sortedSubmission = nomineeSubmission(values, sortedSubmission);
 
-      delete values[evidenceText];
-    }
-
-    // Convert JavaScript object to JSON string
-    let myJSON = JSON.stringify(values, null, "\t");
-
-    // Add newline at end of file
-    myJSON += "\r\n";
-
-    // Return project json file aligned with naming convention (includes removing accents)
-    let name =
-      values.name
-        .normalize("NFD")
-        .toLowerCase()
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/ /g, "-") + ".json";
+    // Convert JavaScript submission sorted object into JSON string and add newline at EOF
+    nomineeJSON = JSON.stringify(sortedSubmission, null, 2).concat("\n");
 
     const MyOctokit = Octokit.plugin(createPullRequest);
 
@@ -63,24 +188,16 @@ export default async (req, res) => {
       const response = await composeCreatePullRequest(octokit, {
         owner: GITHUB_OWNER,
         repo: GITHUB_REPO,
-        title: `Add nominee: ${values.name}`,
+        title: `Add nominee: ${getProjectName(values)}`,
         body:
           "Automatic addition of a new nominee submitted through the online form available at https://digitalpublicgoods.net/submission",
         base: GITHUB_BRANCH,
-        head:
-          `${name}`.split(".").slice(0, -1).join(".") +
-          "-" +
-          (Math.random() * 10 ** 16).toString(36),
+        head: createGithubCheckoutBranch(parseProjectName(values)),
         changes: [
           {
             /* optional: if `files` is not passed, an empty commit is created instead */
-            files: {
-              [name]: {
-                content: myJSON,
-                encoding: "utf-8",
-              },
-            },
-            commit: `BLD: Add ${values.name}`,
+            files: getSubmissionFiles(values, nomineeJSON),
+            commit: `BLD: Add ${getProjectName(values)}`,
           },
         ],
       });
@@ -89,7 +206,7 @@ export default async (req, res) => {
         number: response.data.number,
       };
     } catch (err) {
-      result = {error: err.message || err.toString()}
+      result = { error: err.message || err.toString() };
     }
 
     // return an unconditional success response

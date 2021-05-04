@@ -1,4 +1,5 @@
-import validatorTypes from "@data-driven-forms/react-form-renderer/dist/cjs/validator-types";
+import validatorTypes from "@data-driven-forms/react-form-renderer/validator-types";
+import { CONDITIONAL_SUBMIT_FLAG } from "@data-driven-forms/common/wizard";
 
 const schema = {
   title: "Digital Public Goods Submission",
@@ -11,18 +12,30 @@ const schema = {
         {
           title: "Get started with submission wizard form",
           name: "step-1",
-          nextStep: "step-2",
+          nextStep: {
+            when: "stage",
+            stepMapper: {
+              nominee: CONDITIONAL_SUBMIT_FLAG,
+              DPG: "step-2",
+            },
+          },
           fields: [
             {
               name: "name",
               component: "text-field",
               label: "Project name",
-              helperText: "For example, Wikipedia.",
+              helperText: "For example: Wikipedia.",
               validate: [
                 {
                   type: "required",
                 },
               ],
+            },
+            {
+              name: "aliases",
+              component: "text-field",
+              label: "Project aliases",
+              helperText: "For example: acronymns",
             },
             {
               name: "description",
@@ -213,72 +226,6 @@ const schema = {
                 },
               ],
             },
-            {
-              name: "organizations",
-              component: "sub-form",
-              description:
-                "Provide the primary organization or maintainer of this project i.e. Wikipedia",
-              fields: [
-                {
-                  name: "organizations[org_type]",
-                  component: "text-field",
-                  initialValue: "owner",
-                  hideField: true,
-                  validate: [
-                    {
-                      type: "required",
-                    },
-                  ],
-                },
-                {
-                  name: "organizations[name]",
-                  component: "text-field",
-                  label: "Name of the organization",
-                  validate: [
-                    {
-                      type: "required",
-                    },
-                  ],
-                },
-                {
-                  name: "organizations[website]",
-                  component: "text-field",
-                  label: "Website of the organization",
-                  validate: [
-                    {
-                      type: "required",
-                    },
-                    {
-                      type: validatorTypes.URL,
-                    },
-                  ],
-                },
-                {
-                  name: "organizations[contact_name]",
-                  component: "text-field",
-                  label: "Contact name",
-                },
-                {
-                  name: "organizations[contact_email]",
-                  component: "text-field",
-                  label: "Contact email",
-                  validate: [
-                    {
-                      type: validatorTypes.PATTERN,
-                      pattern: '[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$',
-                      message: 'Not valid email',
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          title: "DPG Candidates",
-          name: "step-2",
-          nextStep: "step-3",
-          fields: [
             {
               component: "field-array",
               name: "license",
@@ -870,6 +817,105 @@ const schema = {
                 },
               ],
             },
+
+            {
+              name: "organizations",
+              component: "sub-form",
+              description:
+                "Provide the primary organization or maintainer of this project i.e. Wikipedia",
+              fields: [
+                {
+                  component: "select",
+                  label: "Select",
+                  name: "organizations[org_type]",
+                  simpleValue: true,
+                  options: [
+                    {
+                      label: "Owner",
+                      value: "owner",
+                    },
+                    {
+                      label: "Maintainer",
+                      value: "maintainer",
+                    },
+                    {
+                      label: "Funder",
+                      value: "funder",
+                    },
+                    {
+                      label: "Implementer",
+                      value: "implementer",
+                    },
+                  ],
+                  validate: [
+                    {
+                      type: "required",
+                    },
+                  ],
+                },
+                {
+                  name: "organizations[name]",
+                  component: "text-field",
+                  label: "Name of the organization",
+                  validate: [
+                    {
+                      type: "required",
+                    },
+                  ],
+                },
+                {
+                  name: "organizations[website]",
+                  component: "text-field",
+                  label: "Website of the organization",
+                  validate: [
+                    {
+                      type: "required",
+                    },
+                    {
+                      type: validatorTypes.URL,
+                    },
+                  ],
+                },
+                {
+                  name: "organizations[contact_name]",
+                  component: "text-field",
+                  label: "Contact name",
+                },
+                {
+                  name: "organizations[contact_email]",
+                  component: "text-field",
+                  label: "Contact email",
+                },
+              ],
+            },
+            {
+              component: "radio",
+              name: "stage",
+              label: "What would you like to do?",
+              description: "",
+              options: [
+                {
+                  label: "Submit now as a DPG Nominee",
+                  value: "nominee",
+                },
+                {
+                  label: "Continue with the full submission process",
+                  value: "DPG",
+                },
+              ],
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          title: "DPG Candidates",
+          name: "step-2",
+          nextStep: "step-3",
+          fields: [
             {
               component: "radio",
               label:
@@ -1297,7 +1343,6 @@ const schema = {
               fields: [
                 {
                   component: "text-field",
-                  //name: "bestPractices",
                 },
               ],
               classes: { root: "conditional" },
@@ -1311,7 +1356,7 @@ const schema = {
           fields: [
             {
               component: "radio",
-              name: "preventHarm[stepsToPreventHarm]",
+              name: "doNoHarm[preventHarm[stepsToPreventHarm]]",
               label:
                 "On the whole, does this project take steps to ensure that it anticipates, prevents and does no harm?",
               description: "",
@@ -1351,7 +1396,7 @@ const schema = {
             },
             {
               component: "radio",
-              name: "dataPrivacySecurity[collectsPII]",
+              name: "doNoHarm[dataPrivacySecurity[collectsPII]]",
               label:
                 "Does this project collect or store personally identifiable information (PII) data?",
               description: "",
@@ -1383,7 +1428,7 @@ const schema = {
                 "If yes - please list the types of data collected and/or stored by the project:",
               helperText: "",
               condition: {
-                when: "dataPrivacySecurity[collectsPII]",
+                when: "doNoHarm[dataPrivacySecurity[collectsPII]]",
                 pattern: /Yes/,
               },
               validate: [
@@ -1400,7 +1445,7 @@ const schema = {
             },
             {
               component: "radio",
-              name: "dataPrivacySecurity[thirdPartyDataSharing]",
+              name: "doNoHarm[dataPrivacySecurity[thirdPartyDataSharing]]",
               label:
                 "If yes - does this project share this data with third parties?",
               description: "",
@@ -1429,7 +1474,7 @@ const schema = {
               ],
             },
             {
-              name: "dataPrivacySecurity[dataSharingCircumstances]",
+              name: "doNoHarm[dataPrivacySecurity[dataSharingCircumstances]]",
               component: "field-array",
               label: "Data sharing circumstances",
               description:
@@ -1453,7 +1498,7 @@ const schema = {
             },
             {
               component: "radio",
-              name: "dataPrivacySecurity[ensurePrivacySecurity]",
+              name: "doNoHarm[dataPrivacySecurity[ensurePrivacySecurity]]",
               label: "Ensure privacy and security",
               description:
                 "If yes - does the project ensure the privacy and security of this data and has it taken steps to prevent adverse impacts resulting from its collection, storage and distribution.",
@@ -1472,7 +1517,7 @@ const schema = {
                 },
               ],
               condition: {
-                when: "dataPrivacySecurity[thirdPartyDataSharing]",
+                when: "doNoHarm[dataPrivacySecurity[collectsPII]]",
                 pattern: /Yes/,
               },
               validate: [
@@ -1482,7 +1527,7 @@ const schema = {
               ],
             },
             {
-              name: "dataPrivacySecurity[privacySecurityDescription]",
+              name: "doNoHarm[dataPrivacySecurity[privacySecurityDescription]]",
               component: "text-field",
               label: "Privacy security description",
               description:
@@ -1508,7 +1553,8 @@ const schema = {
           fields: [
             {
               component: "radio",
-              name: "inappropriateIllegalContent[collectStoreDistribute]",
+              name:
+                "doNoHarm[inappropriateIllegalContent[collectStoreDistribute]]",
               label: "Does this project collect, store or distribute content?",
               description: "",
               options: [
@@ -1659,7 +1705,7 @@ const schema = {
           fields: [
             {
               component: "radio",
-              name: "protectionFromHarassment[userInteraction]",
+              name: "doNoHarm[protectionFromHarassment[userInteraction]]",
               label:
                 "Does this project facilitate interactions with or between users or contributors?",
               description: "",
@@ -2496,8 +2542,8 @@ const schema = {
                       value: "Thailand",
                     },
                     {
-                      label: "Timor-Leste	",
-                      value: "Timor-Leste	",
+                      label: "Timor-Leste",
+                      value: "Timor-Leste",
                     },
                     {
                       label: "Togo",
@@ -3283,8 +3329,8 @@ const schema = {
                       value: "Thailand",
                     },
                     {
-                      label: "Timor-Leste	",
-                      value: "Timor-Leste	",
+                      label: "Timor-Leste",
+                      value: "Timor-Leste",
                     },
                     {
                       label: "Togo",

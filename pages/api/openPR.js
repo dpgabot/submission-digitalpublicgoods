@@ -59,17 +59,21 @@ function getSDGRelevanceInfo(values, sdgNumber, evidenceText) {
 
 // Order fields e.g organizations
 function orderFields(values) {
-  let name, website, org_type;
+  let name, website, org_type, contact_name, contact_email;
   // Order all entries for organizations
   for (let i = 0; i < values.organizations.length; i++) {
     name = values.organizations[i].name;
     website = values.organizations[i].website;
     org_type = values.organizations[i].org_type;
+    contact_name = values.organizations[i].contact_name;
+    contact_email = values.organizations[i].contact_email;
 
     values.organizations[i] = {
       name: name,
       website: website,
       org_type: org_type,
+      contact_name: contact_name,
+      contact_email: contact_email,
     };
   }
   return values;

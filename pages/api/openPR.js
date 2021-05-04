@@ -183,7 +183,8 @@ function dpgSubmission(values, sortedSubmission) {
       })
   );
 
-  console.log(sortedSubmission);
+  // Order fields in the correct order e.g nominee organizations
+  sortedSubmission = orderFields(sortedSubmission);
   return sortedSubmission;
 }
 

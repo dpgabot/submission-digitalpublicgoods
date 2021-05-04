@@ -117,7 +117,7 @@ function getSubmissionFiles(values, myJSON) {
 
   stage === "nominee"
     ? Object.entries(myJSON).forEach(
-        ([key, value]) =>
+        () =>
           (files = {
             [nomineePath]: {
               content: myJSON,
@@ -126,7 +126,7 @@ function getSubmissionFiles(values, myJSON) {
           })
       )
     : Object.entries(myJSON).forEach(
-        ([key, value]) =>
+        () =>
           (files = {
             [nomineePath]: {
               content: myJSON,
@@ -146,7 +146,7 @@ function getSubmissionFiles(values, myJSON) {
 function nomineeSubmission(values, sortedSubmission) {
   // Sort entries by iterating through object and unpacking entries
   Object.entries(values).forEach(
-    ([key, value]) =>
+    () =>
       (sortedSubmission = {
         name: values.name ? values.name : "",
         aliases: values.aliases ? [values.aliases] : [""],
@@ -171,7 +171,7 @@ function nomineeSubmission(values, sortedSubmission) {
 function dpgSubmission(values, sortedSubmission) {
   // Sort entries by iterating through object and unpacking entries
   Object.entries(values).forEach(
-    ([key, value]) =>
+    () =>
       (sortedSubmission = {
         name: values.name ? values.name : "",
         aliases: values.aliases ? [values.aliases] : [""],

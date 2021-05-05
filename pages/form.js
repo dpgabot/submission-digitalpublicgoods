@@ -1,26 +1,19 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { useCookies } from "react-cookie";
-import { v4 as uuidv4 } from "uuid";
+import React, {useState, useCallback, useEffect} from "react";
+import {useCookies} from "react-cookie";
+import {v4 as uuidv4} from "uuid";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { FormRenderer } from "@data-driven-forms/react-form-renderer";
+import {useRouter} from "next/router";
+import {FormRenderer} from "@data-driven-forms/react-form-renderer";
 
-import {
-  FormTemplate,
-  componentMapper,
-} from "@data-driven-forms/mui-component-mapper";
+import {FormTemplate, componentMapper} from "@data-driven-forms/mui-component-mapper";
 import Alert from "@material-ui/lab/Alert";
 import IconButton from "@material-ui/core/IconButton";
 import Collapse from "@material-ui/core/Collapse";
 import CloseIcon from "@material-ui/icons/Close";
 
-import Box from "@material-ui/core/Box";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import {ThemeProvider} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { makeStyles } from "@material-ui/core/styles";
-import { Octokit } from "@octokit/core";
-import { createPullRequest } from "octokit-plugin-create-pull-request";
+import {makeStyles} from "@material-ui/core/styles";
 import LoadingOverlay from "react-loading-overlay";
 import FooterComponent from "../components/footerComponent";
 import theme from "../src/theme";
@@ -60,82 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const wrapperStyles = {
-  padding: 16,
-  borderRadius: 4,
-  fontFamily: "Roboto",
-};
-const getBackgroundColor = (variant) =>
-  ({
-    primary: "RebeccaPurple",
-    add: "LimeGreen",
-    remove: "#FF4136",
-  }[variant] || "#888");
-
-const getButtonStyle = (variant) => ({
-  color: "White",
-  backgroundColor: getBackgroundColor(variant),
-  padding: "8px 16px",
-  borderRadius: 4,
-  cursor: "pointer",
-  border: "none",
-  marginRight: 4,
-});
-
-const Button = ({ children, label, variant, ...props }) => (
-  <button style={getButtonStyle(variant)} {...props}>
-    {label}
-  </button>
-);
-
-const MyFormTemplate = (props) => (
-  <FormTemplate {...props} showFormControls={false} />
-);
-
-const FieldArrayCustom = (props) => {
-  const {
-    fieldKey,
-    arrayValidator,
-    title,
-    description,
-    fields,
-    itemDefault,
-    meta,
-    ...rest
-  } = useFieldApi(props);
-  const { dirty, submitFailed, error } = meta;
-  const isError = (dirty || submitFailed) && error && typeof error === "string";
-  return (
-    <FieldArray key={fieldKey} name={rest.input.name} validate={arrayValidator}>
-      {(cosi) => (
-        <Fragment>
-          {title && <h3>{title}</h3>}
-          {description && <p>{description}</p>}
-          {cosi.fields.map((name, index) => (
-            <ArrayItem
-              key={`${name || fieldKey}-${index}`}
-              fields={fields}
-              name={name}
-              fieldKey={fieldKey}
-              fieldIndex={index}
-              remove={cosi.fields.remove}
-            />
-          ))}
-          {isError && error}
-          <br />
-          <Button
-            type="button"
-            variant="add"
-            onClick={() => cosi.fields.push(itemDefault)}
-            label="Add +"
-          />
-          <br />
-          <br />
-        </Fragment>
-      )}
-    </FieldArray>
-  );
-};
+const MyFormTemplate = (props) => <FormTemplate {...props} showFormControls={false} />;
 
 async function saveContactToGoogleSpreadsheet(values) {
   // Access contact key from values
@@ -176,23 +94,23 @@ export default function Home() {
   const classes = useStyles();
   const router = useRouter();
   const [loadingOverlayActive, setLoadingOverlayActive] = useState(false);
-  const [values, setValues] = useState({});
   const [cookies, setCookie] = useCookies(["uuid"]);
   const [initialValues, setInitialValues] = useState({});
   const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
+    async function fetchData() {
+      const result = await fetch(`/api/loadDB/${cookies.uuid}`);
+      const values = await result.json();
+      setInitialValues(values);
+      setShowAlert(true);
+    }
+
     // Initialize cookie if not present
     const userId = uuidv4();
     if (!cookies.uuid) {
-      setCookie("uuid", userId, { path: "/", maxAge: 2592000 }); // maxAge: 30 days
+      setCookie("uuid", userId, {path: "/", maxAge: 2592000}); // maxAge: 30 days
     } else {
-      async function fetchData() {
-        const result = await fetch(`/api/loadDB/${cookies.uuid}`);
-        const values = await result.json();
-        setInitialValues(values);
-        setShowAlert(true);
-      }
       fetchData();
     }
   }, []);
@@ -204,7 +122,7 @@ export default function Home() {
 
   async function saveToDb(values) {
     if (cookies.uuid) {
-      const response = await fetch(`/api/saveDB/${cookies.uuid}`, {
+      await fetch(`/api/saveDB/${cookies.uuid}`, {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -217,7 +135,7 @@ export default function Home() {
     }
   }
 
-  async function openPR(values, formApi, state) {
+  async function openPR(values) {
     setLoadingOverlayActive(true);
 
     const response = await fetch("/api/openPR", {
@@ -239,14 +157,14 @@ export default function Home() {
     if ("error" in result) {
       router.push({
         pathname: "/error",
-        query: { error: result.error },
+        query: {error: result.error},
         state: values,
       });
     } else {
       // Clear form fields after clicking submit
       router.push({
         pathname: "/thank-you",
-        query: { pr: result.number },
+        query: {pr: result.number},
       });
     }
   }
@@ -261,10 +179,8 @@ export default function Home() {
         !values["evidenceText" + i] &&
         !values["evidenceURL" + i]
       ) {
-        errors["evidenceText" + i] =
-          "Either the description or a URL is required";
-        errors["evidenceURL" + i] =
-          "Either the description or a URL is required";
+        errors["evidenceText" + i] = "Either the description or a URL is required";
+        errors["evidenceURL" + i] = "Either the description or a URL is required";
       }
     }
     debouncedSave(values);
@@ -278,11 +194,7 @@ export default function Home() {
         <title>DPG Submission Form</title>
       </Head>
 
-      <LoadingOverlay
-        active={loadingOverlayActive}
-        spinner
-        text="Submitting the form..."
-      >
+      <LoadingOverlay active={loadingOverlayActive} spinner text="Submitting the form...">
         <div className={classes.paper}>
           <Collapse in={showAlert}>
             <Alert
@@ -308,7 +220,7 @@ export default function Home() {
             <FormRenderer
               validate={validate}
               schema={schema}
-              onSubmit={(values, formApi) => openPR(values)}
+              onSubmit={(values) => openPR(values)}
               FormTemplate={MyFormTemplate}
               componentMapper={componentMapper}
               validatorMapper={validatorMapper} // not required

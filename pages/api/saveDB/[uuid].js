@@ -3,7 +3,7 @@ var AWS = require("aws-sdk");
 AWS.config.update({
   region: "us-east-1",
   accessKeyId: process.env.MY_AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.MY_AWS_SECRET_ACCESS_KEY
+  secretAccessKey: process.env.MY_AWS_SECRET_ACCESS_KEY,
 });
 
 var docClient = new AWS.DynamoDB.DocumentClient();
@@ -14,19 +14,19 @@ export default async (req, res) => {
     const uuid = req.query.uuid;
 
     var params = {
-      TableName: 'submission',
-      Key:{
-        "user_id": uuid,
+      TableName: "submission",
+      Key: {
+        user_id: uuid,
       },
       UpdateExpression: "set formData = :v",
-      ExpressionAttributeValues:{
-          ":v": values
+      ExpressionAttributeValues: {
+        ":v": values,
       },
-      ReturnValues:"UPDATED_NEW"
+      ReturnValues: "UPDATED_NEW",
     };
 
     try {
-      const result = await docClient.update(params).promise();
+      await docClient.update(params).promise();
       res.statusCode = 200;
       // console.log("UpdateItem succeeded:", JSON.stringify(result));
     } catch (err) {

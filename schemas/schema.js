@@ -231,6 +231,12 @@ const schema = {
 
               fieldKey: "field_array",
               title: "Choose License",
+              minItems: 1,
+              validate: [
+                {
+                  type: 'required',
+                },
+              ],
               description:
                 "DPGs must use an open license. Please identify which of these approved open licenses this project uses: *. For Open Source Software, we only accept OSI approved licenses. For Open Content we require the use of a Creative Commons license while we encourage projects to use a license which allows for both derivatives and commercial reuse or dedicate content to the public domain (CC0) we also accept licenses which do not allow for commercial reuse: CC-BY-NC and CC-BY-NC-SA. For data we require a Open Data Commons approved license listed at opendefinition.org/licenses/. IF YOU USE A LICENSE THAT IS NOT CURRENTLY LISTED HERE BUT YOU BELIEVE SHOULD BE INCLUDED PLEASE EMAIL nominations@digitalpublicgoods.net",
               RemoveButtonGridProps: {xs: 3},

@@ -234,7 +234,7 @@ const schema = {
               minItems: 1,
               validate: [
                 {
-                  type: 'required',
+                  type: "required",
                 },
               ],
               description:

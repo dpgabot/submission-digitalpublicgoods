@@ -1052,10 +1052,11 @@ const schema = {
               ],
             },
             {
+              component: "field-array",
               name: "documentation[documentationURL]",
-              component: "text-field",
-              label: "If yes - please link to the relevant documentation:",
-              helperText: "",
+              label: "Documentation links",
+              description: "If yes - please link to the relevant documentation:",
+              minItems: 1,
               condition: {
                 when: "documentation[isDocumentationAvailable]",
                 pattern: /Yes/,
@@ -1064,11 +1065,13 @@ const schema = {
                 {
                   type: "required",
                 },
+              ],
+              fields: [
                 {
-                  type: validatorTypes.URL,
+                  component: "text-field",
+                  label: "Documentation URL",
                 },
               ],
-              classes: {root: "conditional"},
             },
             {
               component: "radio",
@@ -1270,7 +1273,7 @@ const schema = {
             },
             {
               name: "standards[evidenceStandardSupport]",
-              component: "text-field",
+              component: "field-array",
               label: "Standards support evidence",
               description:
                 "Can you point to evidence of your support? (i.e. please link to your validator, open test suite, etc.)",
@@ -1281,7 +1284,12 @@ const schema = {
               },
               validate: [
                 {
-                  type: validatorTypes.URL,
+                  type: "required",
+                },
+              ],
+              fields: [
+                {
+                  component: "text-field",
                 },
               ],
               classes: {root: "conditional"},

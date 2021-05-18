@@ -1072,6 +1072,7 @@ const schema = {
                   label: "Documentation URL",
                 },
               ],
+              classes: {root: "conditional"},
             },
             {
               component: "radio",

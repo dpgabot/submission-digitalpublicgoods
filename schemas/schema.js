@@ -1249,8 +1249,8 @@ const schema = {
             {
               name: "standards[standardsList]",
               component: "field-array",
-              label: "Standards list",
-              description: "Which standards does this project support (please list)",
+              label: "Standards list (Please supply either text or URLs)",
+              description: "Which standards does this project support (please list).",
               helperText: "",
               condition: {
                 when: "standards[supportStandards]",

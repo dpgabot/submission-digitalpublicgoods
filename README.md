@@ -14,7 +14,7 @@ The forms are [Data Driven Forms](https://data-driven-forms.org/), configured th
 - [X] Required fields
 - [X] Questions being hidden and presenting themselves based on previous questions i.e. If you select SDG 4
 - [ ] Progress indicator
-- [ ] Sections
+- [X] Sections
 - [ ] Logic (skip questions/go to question based on response) 
 - [ ] Login (authenticate / user management) 
 - [ ] Autosaving 

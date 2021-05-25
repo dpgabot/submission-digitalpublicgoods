@@ -1275,24 +1275,28 @@ const schema = {
               classes: {root: "conditional"},
             },
             {
-              name: "standards[evidenceStandardSupport]",
               component: "field-array",
+              name: "standards[evidenceStandardSupport]",
               label: "Standards support evidence",
               description:
                 "Can you point to evidence of your support? (i.e. please link to your validator, open test suite, etc.)",
-              helperText: "",
+              minItems: 1,
               condition: {
                 when: "standards[supportStandards]",
                 pattern: /Yes/,
               },
-              validate: [
-                {
-                  type: "required",
-                },
-              ],
               fields: [
                 {
                   component: "text-field",
+                  label: "Standards evidence",
+                  validate: [
+                    {
+                      type: "required",
+                    },
+                    {
+                      type: validatorTypes.URL,
+                    },
+                  ],
                 },
               ],
               classes: {root: "conditional"},

@@ -4,7 +4,7 @@
 
 This webapp is built using [Next.js](https://nextjs.org/) as a React Framework and deployed using [Vercel](https://vercel.com/). 
 
-The forms are [Data Driven Forms](https://data-driven-forms.org/), configured through this JSON schema: [schema.json](schemas/schema.json).
+The forms are [Data Driven Forms](https://data-driven-forms.org/), configured through this JSON schema: [schema.js](schemas/schema.js).
 
 ## Design Requirements
 

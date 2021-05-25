@@ -228,7 +228,6 @@ const schema = {
               component: "field-array",
               name: "license",
               label: "Choose License",
-
               fieldKey: "field_array",
               title: "Choose License",
               minItems: 1,

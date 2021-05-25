@@ -13,13 +13,13 @@ The forms are [Data Driven Forms](https://data-driven-forms.org/), configured th
 - [X] Field validation
 - [X] Required fields
 - [X] Questions being hidden and presenting themselves based on previous questions i.e. If you select SDG 4
-- [ ] Progress indicator
 - [X] Sections
-- [ ] Logic (skip questions/go to question based on response) 
+- [X] Logic (skip questions/go to question based on response) 
+- [X] Autosaving 
+- [X] Collect emails 
 - [ ] Login (authenticate / user management) 
-- [ ] Autosaving 
+- [ ] Progress indicator
 - [ ] Save and come back to continue editing
-- [ ] Collect emails 
 - [ ] Mailchimp integration: automatic sending of emails based on certain form responses
 
 * Admin Interface:

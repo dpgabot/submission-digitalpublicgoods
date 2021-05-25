@@ -1065,6 +1065,9 @@ const schema = {
                 {
                   type: "required",
                 },
+                {
+                  type: validatorTypes.URL,
+                },
               ],
               fields: [
                 {

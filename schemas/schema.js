@@ -1060,18 +1060,18 @@ const schema = {
                 when: "documentation[isDocumentationAvailable]",
                 pattern: /Yes/,
               },
-              validate: [
-                {
-                  type: "required",
-                },
-                {
-                  type: validatorTypes.URL,
-                },
-              ],
               fields: [
                 {
                   component: "text-field",
                   label: "Documentation URL",
+                  validate: [
+                    {
+                      type: "required",
+                    },
+                    {
+                      type: validatorTypes.URL,
+                    },
+                  ],
                 },
               ],
               classes: {root: "conditional"},

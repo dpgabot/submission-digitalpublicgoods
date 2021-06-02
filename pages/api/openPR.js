@@ -112,8 +112,8 @@ function getSubmissionFiles(values, nomineeJSON) {
   // Add nominee submission to nominee directory
   nomineePath = "nominees/" + `${name}`;
 
-  // Add DPG submission to screening directory
-  dpgPath = "screening/" + `${name}`;
+  // Add DPG submission to digitalpublicgoods directory
+  dpgPath = "digitalpublicgoods/" + `${name}`;
 
   stage === "nominee"
     ? (files = {

@@ -1,4 +1,4 @@
-import { Octokit } from "@octokit/core";
+import {Octokit} from "@octokit/core";
 import {
   createPullRequest,
   composeCreatePullRequest,
@@ -100,21 +100,21 @@ function getSubmissionFiles(values, nomineeJSON) {
   dpgPath = "digitalpublicgoods/" + `${name}`;
   stage === "nominee"
     ? (files = {
-      [nomineePath]: {
-        content: nomineeJSON,
-        encoding: "utf-8",
-      },
-    })
+        [nomineePath]: {
+          content: nomineeJSON,
+          encoding: "utf-8",
+        },
+      })
     : (files = {
-      [nomineePath]: {
-        content: nomineeJSON,
-        encoding: "utf-8",
-      },
-      [dpgPath]: {
-        content: data,
-        encoding: "utf-8",
-      },
-    });
+        [nomineePath]: {
+          content: nomineeJSON,
+          encoding: "utf-8",
+        },
+        [dpgPath]: {
+          content: data,
+          encoding: "utf-8",
+        },
+      });
   return files;
 }
 // Nominee processing before opening pull request
@@ -139,7 +139,6 @@ function nomineeSubmission(values, sortedSubmission) {
 }
 
 function submitPullRequests(projectName, filesObject) {
-
   const MyOctokit = Octokit.plugin(createPullRequest);
   const octokit = new MyOctokit({
     auth: TOKEN,
@@ -149,28 +148,28 @@ function submitPullRequests(projectName, filesObject) {
   let promiseArray = [];
 
   for (const submission in filesObject) {
-
-    let singleFile = {}
-    singleFile[submission.toString()] = filesObject[submission.toString()]
+    let singleFile = {};
+    singleFile[submission.toString()] = filesObject[submission.toString()];
 
     // Returns a normal Octokit PR response
     // See https://octokit.github.io/rest.js/#octokit-routes-pulls-create
-    promiseArray.push(composeCreatePullRequest(octokit, {
-      owner: GITHUB_OWNER,
-      repo: GITHUB_REPO,
-      title: `Add nominee: ${projectName}`,
-      body:
-        "Automatic addition of a new nominee submitted through the online form available at https://digitalpublicgoods.net/submission",
-      base: GITHUB_BRANCH,
-      head: createGithubCheckoutBranch(projectName),
-      changes: [
-        {
-          // optional: if `files` is not passed, an empty commit is created instead 
-          files: singleFile,
-          commit: `BLD: Add ${projectName}`,
-        },
-      ],
-    })
+    promiseArray.push(
+      composeCreatePullRequest(octokit, {
+        owner: GITHUB_OWNER,
+        repo: GITHUB_REPO,
+        title: `Add nominee: ${projectName}`,
+        body:
+          "Automatic addition of a new nominee submitted through the online form available at https://digitalpublicgoods.net/submission",
+        base: GITHUB_BRANCH,
+        head: createGithubCheckoutBranch(projectName),
+        changes: [
+          {
+            // optional: if `files` is not passed, an empty commit is created instead
+            files: singleFile,
+            commit: `BLD: Add ${projectName}`,
+          },
+        ],
+      })
     );
   }
   // return the array of promises
@@ -192,12 +191,9 @@ export default async (req, res) => {
     nomineeJSON = JSON.stringify(sortedSubmission, null, 2).concat("\n");
 
     let result = await Promise.allSettled(
-      submitPullRequests(
-        getProjectName(values),
-        getSubmissionFiles(values, nomineeJSON)
-      )
-    ).then(results => {
-      console.log('The final result ', results)
+      submitPullRequests(getProjectName(values), getSubmissionFiles(values, nomineeJSON))
+    ).then((results) => {
+      console.log("The final result ", results);
       // There's the opportunity to check if any of them failed but that's for another PR
       let finalResult = results[0].value;
       finalResult.number = results[0].value.data.number;

@@ -195,11 +195,15 @@ export default async (req, res) => {
     let result = await Promise.allSettled(
       submitPullRequests(getProjectName(values), getSubmissionFiles(values, nomineeJSON))
     ).then((results) => {
-      console.log("The final result ", results);
-      // There's the opportunity to check if any of them failed but that's for another PR
-      let finalResult = results[0].value;
-      finalResult.number = results[0].value.data.number;
-      return finalResult;
+      let pullRequestNumbers = [];
+
+      // Only returning successful results in an array of PR number(s)
+      results.forEach((result) => {
+        if (result.status == "fulfilled")
+          pullRequestNumbers.push(result.value.data.number);
+      });
+
+      return pullRequestNumbers;
     });
 
     // return an unconditional success response

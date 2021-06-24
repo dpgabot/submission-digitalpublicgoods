@@ -157,7 +157,9 @@ function submitPullRequests(projectName, filesObject) {
       composeCreatePullRequest(octokit, {
         owner: GITHUB_OWNER,
         repo: GITHUB_REPO,
-        title: `Add nominee: ${projectName}`,
+        title: submission.toString().includes("nominees")
+          ? `Add nominee: ${projectName}`
+          : `Add DPG: ${projectName}`,
         body:
           "Automatic addition of a new nominee submitted through the online form available at https://digitalpublicgoods.net/submission",
         base: GITHUB_BRANCH,

@@ -44,6 +44,22 @@ function ThankYou() {
 
   const [cookies, removeCookie] = useCookies(["uuid"]);
 
+  const pullRequests = Object.values(router.query);
+
+  const listItems = pullRequests.map((number) => (
+    <li key={number.toString()}>
+      <a
+        href={
+          "https://github.com/" + GITHUB_OWNER + "/" + GITHUB_REPO + "/pull/" + number
+        }
+        target="_blank"
+        rel="noreferrer"
+      >
+        https://github.com/{GITHUB_OWNER}/{GITHUB_REPO}/pull/{number}
+      </a>
+    </li>
+  ));
+
   useEffect(() => {
     // Delete the submission data from the DB
     async function fetchData() {
@@ -71,23 +87,10 @@ function ThankYou() {
           </p>
 
           <p>
-            You can track the progress of your nomination through&nbsp;
-            <a
-              href={
-                "https://github.com/" +
-                GITHUB_OWNER +
-                "/" +
-                GITHUB_REPO +
-                "/pull/" +
-                router.query.pr
-              }
-              target="_blank"
-              rel="noreferrer"
-            >
-              this pull request
-            </a>
-            &nbsp;on our open source code repository.
+            You can track the progress of your nomination through the pull request link(s)
+            below on our open source code repository.
           </p>
+          <ul>{listItems}</ul>
 
           <Box textAlign="center" style={{marginTop: "3em"}}>
             <Link href="/">

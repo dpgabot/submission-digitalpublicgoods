@@ -3,7 +3,6 @@ import {
   createPullRequest,
   composeCreatePullRequest,
 } from "octokit-plugin-create-pull-request";
-
 const TOKEN = process.env.ACCESS_TOKEN; // create token at https://github.com/settings/tokens/new?scopes=repo
 const GITHUB_OWNER = process.env.NEXT_PUBLIC_GITHUB_OWNER
   ? process.env.NEXT_PUBLIC_GITHUB_OWNER
@@ -14,12 +13,10 @@ const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO
 const GITHUB_BRANCH = process.env.GITHUB_BRANCH
   ? process.env.GITHUB_BRANCH
   : "main"; /* optional: defaults to default branch */
-
 // Return Project name
 function getProjectName(values) {
   return values.name;
 }
-
 // Parse name of project prior to saving file
 function parseProjectName(values) {
   return (
@@ -30,7 +27,6 @@ function parseProjectName(values) {
       .replace(/ /g, "-") + ".json"
   );
 }
-
 // Create Github checkout branch for current submissions
 function createGithubCheckoutBranch(name) {
   const checkoutBranch =
@@ -39,24 +35,20 @@ function createGithubCheckoutBranch(name) {
     (Math.random() * 10 ** 16).toString(36);
   return checkoutBranch;
 }
-
 // Get SDG relevance info
 function getSDGRelevanceInfo(values, sdgNumber, evidenceText) {
   //Loop through SDG array and parse SDG information
   for (let i = 0; i < values.SDGs.length; i++) {
     sdgNumber = parseInt(values.SDGs[i]);
     evidenceText = "evidenceText".concat(sdgNumber);
-
     values.SDGs[i] = {
       SDGNumber: sdgNumber,
       evidenceText: values[evidenceText],
     };
-
     delete values[evidenceText];
   }
   return values;
 }
-
 // Order fields e.g organizations
 function orderFields(values) {
   let name, website, org_type, contact_name, contact_email;
@@ -67,7 +59,6 @@ function orderFields(values) {
     org_type = values.organizations[i].org_type;
     contact_name = values.organizations[i].contact_name;
     contact_email = values.organizations[i].contact_email;
-
     values.organizations[i] = {
       name: name,
       website: website,
@@ -78,7 +69,6 @@ function orderFields(values) {
   }
   return values;
 }
-
 // Return multiple submission files including corresponding filepaths
 function getSubmissionFiles(values, nomineeJSON) {
   let name,
@@ -87,9 +77,7 @@ function getSubmissionFiles(values, nomineeJSON) {
     stage,
     data,
     files = {};
-
   stage = values.stage;
-
   // Delete multiple DPG nomination fields
   [
     "aliases",
@@ -102,19 +90,14 @@ function getSubmissionFiles(values, nomineeJSON) {
     "stage",
     "repositoryURL",
   ].forEach((e) => delete values[e]);
-
   // Convert JavaScript submission sorted object into JSON string and add newline at EOF
   data = JSON.stringify(values, null, 2).concat("\n");
-
   // Parse project names using DPG naming convention for filenames
   name = parseProjectName(values);
-
   // Add nominee submission to nominee directory
   nomineePath = "nominees/" + `${name}`;
-
   // Add DPG submission to digitalpublicgoods directory
   dpgPath = "digitalpublicgoods/" + `${name}`;
-
   stage === "nominee"
     ? (files = {
         [nomineePath]: {
@@ -132,10 +115,8 @@ function getSubmissionFiles(values, nomineeJSON) {
           encoding: "utf-8",
         },
       });
-
   return files;
 }
-
 // Nominee processing before opening pull request
 function nomineeSubmission(values, sortedSubmission) {
   // Sort entries
@@ -152,16 +133,55 @@ function nomineeSubmission(values, sortedSubmission) {
     organizations: values.organizations ? [values.organizations] : [],
     stage: values.stage ? values.stage : "",
   };
-
   // Order nominee fields in the correct order e.g organizations
   sortedSubmission = orderFields(sortedSubmission);
   return sortedSubmission;
 }
 
+function submitPullRequests(projectName, filesObject) {
+  const MyOctokit = Octokit.plugin(createPullRequest);
+  const octokit = new MyOctokit({
+    auth: TOKEN,
+  });
+
+  // initialize an array for Promises
+  let promiseArray = [];
+
+  for (const submission in filesObject) {
+    let singleFile = {};
+    singleFile[submission.toString()] = filesObject[submission.toString()];
+
+    // Returns a normal Octokit PR response
+    // See https://octokit.github.io/rest.js/#octokit-routes-pulls-create
+    promiseArray.push(
+      composeCreatePullRequest(octokit, {
+        owner: GITHUB_OWNER,
+        repo: GITHUB_REPO,
+        title: submission.toString().includes("nominees")
+          ? `Add nominee: ${projectName}`
+          : `Add DPG: ${projectName}`,
+        body: submission.toString().includes("nominees")
+          ? "Automatic addition of a new nominee submitted through the online form available at https://digitalpublicgoods.net/submission"
+          : "Automatic addition of a new digital public good submitted through the online form available at https://digitalpublicgoods.net/submission",
+        base: GITHUB_BRANCH,
+        head: createGithubCheckoutBranch(projectName),
+        changes: [
+          {
+            // optional: if `files` is not passed, an empty commit is created instead
+            files: singleFile,
+            commit: `BLD: Add ${projectName}`,
+          },
+        ],
+      })
+    );
+  }
+  // return the array of promises
+  return promiseArray;
+}
+
 export default async (req, res) => {
   if (req.method === "POST") {
     let values = req.body.values;
-
     let nomineeJSON, sdgNumber, evidenceText, sortedSubmission;
 
     // Exclude contact information from pull request
@@ -169,45 +189,23 @@ export default async (req, res) => {
 
     // Parse SDG information
     values = getSDGRelevanceInfo(values, sdgNumber, evidenceText);
-
     sortedSubmission = nomineeSubmission(values, sortedSubmission);
-
     // Convert JavaScript submission sorted object into JSON string and add newline at EOF
     nomineeJSON = JSON.stringify(sortedSubmission, null, 2).concat("\n");
 
-    const MyOctokit = Octokit.plugin(createPullRequest);
+    let result = await Promise.allSettled(
+      submitPullRequests(getProjectName(values), getSubmissionFiles(values, nomineeJSON))
+    ).then((results) => {
+      let pullRequestNumbers = [];
 
-    const octokit = new MyOctokit({
-      auth: TOKEN,
-    });
-
-    let result;
-    try {
-      // Returns a normal Octokit PR response
-      // See https://octokit.github.io/rest.js/#octokit-routes-pulls-create
-      const response = await composeCreatePullRequest(octokit, {
-        owner: GITHUB_OWNER,
-        repo: GITHUB_REPO,
-        title: `Add nominee: ${getProjectName(values)}`,
-        body:
-          "Automatic addition of a new nominee submitted through the online form available at https://digitalpublicgoods.net/submission",
-        base: GITHUB_BRANCH,
-        head: createGithubCheckoutBranch(parseProjectName(values)),
-        changes: [
-          {
-            /* optional: if `files` is not passed, an empty commit is created instead */
-            files: getSubmissionFiles(values, nomineeJSON),
-            commit: `BLD: Add ${getProjectName(values)}`,
-          },
-        ],
+      // Only returning successful results in an array of PR number(s)
+      results.forEach((result) => {
+        if (result.status == "fulfilled")
+          pullRequestNumbers.push(result.value.data.number);
       });
 
-      result = {
-        number: response.data.number,
-      };
-    } catch (err) {
-      result = {error: err.message || err.toString()};
-    }
+      return pullRequestNumbers;
+    });
 
     // return an unconditional success response
     res.statusCode = 200;

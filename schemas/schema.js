@@ -25,6 +25,7 @@ const schema = {
               component: "text-field",
               label: "Project name",
               helperText: "For example: Wikipedia.",
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -42,6 +43,7 @@ const schema = {
               component: "text-field",
               label: "Project Description",
               helperText: "Include a concise 1-line description for this project.",
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -53,6 +55,7 @@ const schema = {
               component: "text-field",
               label: "Project Website URL",
               helperText: "Public website (string must include http(s)://)",
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -68,6 +71,7 @@ const schema = {
               label: "Contact name",
               helperText:
                 "If there is someone from the project we can contact for more information - please provide their full name",
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -79,6 +83,7 @@ const schema = {
               component: "text-field",
               label: "Contact email",
               helperText: "Please provide the email of the contact person",
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -132,6 +137,7 @@ const schema = {
                 when: "type",
                 pattern: /software/,
               },
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -218,6 +224,7 @@ const schema = {
                   value: 17,
                 },
               ],
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -231,6 +238,7 @@ const schema = {
               fieldKey: "field_array",
               title: "Choose License",
               minItems: 1,
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -244,6 +252,7 @@ const schema = {
                 {
                   component: "select",
                   name: "spdx",
+                  isRequired: true,
                   validate: [
                     {
                       type: "required",
@@ -795,6 +804,7 @@ const schema = {
                   label: "License URL",
                   description:
                     "Please link to where the license is indicated for this project: * i.e. license file in GitHub repository or license link in website.",
+                  isRequired: true,
                   validate: [
                     {
                       type: "required",
@@ -836,6 +846,7 @@ const schema = {
                       value: "implementer",
                     },
                   ],
+                  isRequired: true,
                   validate: [
                     {
                       type: "required",
@@ -846,6 +857,7 @@ const schema = {
                   name: "organizations[name]",
                   component: "text-field",
                   label: "Name of the organization",
+                  isRequired: true,
                   validate: [
                     {
                       type: "required",
@@ -856,6 +868,7 @@ const schema = {
                   name: "organizations[website]",
                   component: "text-field",
                   label: "Website of the organization",
+                  isRequired: true,
                   validate: [
                     {
                       type: "required",
@@ -892,6 +905,7 @@ const schema = {
                   value: "DPG",
                 },
               ],
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -926,6 +940,7 @@ const schema = {
                   value: "Unknown",
                 },
               ],
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -942,6 +957,7 @@ const schema = {
                 when: "clearOwnership[isOwnershipExplicit]",
                 pattern: /Yes/,
               },
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -971,6 +987,7 @@ const schema = {
                   value: "Unknown",
                 },
               ],
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1000,6 +1017,7 @@ const schema = {
                 when: "platformIndependence[mandatoryDepsCreateMoreRestrictions]",
                 pattern: /Yes/,
               },
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1017,6 +1035,7 @@ const schema = {
                 when: "platformIndependence[isSoftwarePltIndependent]",
                 pattern: /Yes/,
               },
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1044,6 +1063,7 @@ const schema = {
                   value: "Unknown",
                 },
               ],
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1064,6 +1084,7 @@ const schema = {
                 {
                   component: "text-field",
                   label: "Documentation URL",
+                  isRequired: true,
                   validate: [
                     {
                       type: "required",
@@ -1095,6 +1116,7 @@ const schema = {
                   value: "Unknown",
                 },
               ],
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1124,6 +1146,7 @@ const schema = {
                 when: "NonPII[collectsNonPII]",
                 pattern: /Yes/,
               },
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1141,6 +1164,7 @@ const schema = {
                 when: "NonPII[checkNonPIIAccessMechanism]",
                 pattern: /Yes/,
               },
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1175,6 +1199,7 @@ const schema = {
                   value: "Unknown",
                 },
               ],
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1192,6 +1217,7 @@ const schema = {
                 when: "privacy[isPrivacyCompliant]",
                 pattern: /Yes/,
               },
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1215,6 +1241,7 @@ const schema = {
                 when: "privacy[isPrivacyCompliant]",
                 pattern: /Yes/,
               },
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1246,6 +1273,7 @@ const schema = {
                   value: "Unknown",
                 },
               ],
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1262,6 +1290,7 @@ const schema = {
                 when: "standards[supportStandards]",
                 pattern: /Yes/,
               },
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1289,6 +1318,7 @@ const schema = {
                 {
                   component: "text-field",
                   label: "Standards evidence",
+                  isRequired: true,
                   validate: [
                     {
                       type: "required",
@@ -1321,6 +1351,7 @@ const schema = {
                   value: "Unknown",
                 },
               ],
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1338,6 +1369,7 @@ const schema = {
                 when: "standards[implementBestPractices]",
                 pattern: /Yes/,
               },
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1377,6 +1409,7 @@ const schema = {
                   value: "Unknown",
                 },
               ],
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1417,6 +1450,7 @@ const schema = {
                   value: "Unknown",
                 },
               ],
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1434,6 +1468,7 @@ const schema = {
                 when: "doNoHarm[dataPrivacySecurity[collectsPII]]",
                 pattern: /Yes/,
               },
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1469,6 +1504,7 @@ const schema = {
                 when: "dataPrivacySecurity[collectsPII]",
                 pattern: /Yes/,
               },
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1486,6 +1522,7 @@ const schema = {
                 when: "dataPrivacySecurity[thirdPartyDataSharing]",
                 pattern: /Yes/,
               },
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1522,6 +1559,7 @@ const schema = {
                 when: "doNoHarm[dataPrivacySecurity[collectsPII]]",
                 pattern: /Yes/,
               },
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1539,6 +1577,7 @@ const schema = {
                 when: "dataPrivacySecurity[thirdPartyDataSharing]",
                 pattern: /Yes/,
               },
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1572,6 +1611,7 @@ const schema = {
                   value: "Unknown",
                 },
               ],
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1589,6 +1629,7 @@ const schema = {
                 when: "inappropriateIllegalContent[collectStoreDistribute]",
                 pattern: /Yes/,
               },
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1620,6 +1661,7 @@ const schema = {
                 when: "inappropriateIllegalContent[collectStoreDistribute]",
                 pattern: /Yes/,
               },
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1637,6 +1679,7 @@ const schema = {
                 when: "inappropriateIllegalContent[collectStoreDistribute]",
                 pattern: /Yes/,
               },
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1671,6 +1714,7 @@ const schema = {
                 when: "inappropriateIllegalContent[collectStoreDistribute]",
                 pattern: /Yes/,
               },
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1688,6 +1732,7 @@ const schema = {
                 when: "inappropriateIllegalContent[collectStoreDistribute]",
                 pattern: /Yes/,
               },
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1722,6 +1767,7 @@ const schema = {
                   value: "Unknown",
                 },
               ],
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1752,6 +1798,7 @@ const schema = {
                 when: "protectionFromHarassment[userInteraction]",
                 pattern: /Yes/,
               },
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1770,6 +1817,7 @@ const schema = {
                 when: "protectionFromHarassment[userInteraction]",
                 pattern: /Yes/,
               },
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1806,6 +1854,7 @@ const schema = {
                 when: "protectionFromHarassment[userInteraction]",
                 pattern: /Yes/,
               },
+              isRequired: true,
               validate: [
                 {
                   type: "required",
@@ -1823,6 +1872,7 @@ const schema = {
                 when: "protectionFromHarassment[userInteraction]",
                 pattern: /Yes/,
               },
+              isRequired: true,
               validate: [
                 {
                   type: "required",

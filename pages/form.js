@@ -154,7 +154,7 @@ export default function Home() {
     // Save contact information to google spreadsheet
     saveContactToGoogleSpreadsheet(values);
 
-    if ("error" in result) {
+    if (result.length == 0) {
       router.push({
         pathname: "/error",
         query: {error: result.error},
@@ -164,7 +164,7 @@ export default function Home() {
       // Clear form fields after clicking submit
       router.push({
         pathname: "/thank-you",
-        query: {pr: result.number},
+        query: result,
       });
     }
   }

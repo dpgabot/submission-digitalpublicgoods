@@ -30,8 +30,13 @@ function parseProjectName(values) {
 // Create Github checkout branch for current submissions
 function createGithubCheckoutBranch(name) {
   let nameArray = Array.from(name);
-  nameArray = nameArray.filter((character) => {
+  nameArray = nameArray.filter((character, index, array) => {
     if (character == "." || character == "~" || character == "^" || character == ":") {
+      console.log();
+    } else if (
+      (character == " " && array[index - 1] == " ") ||
+      (character == "-" && array[index - 1] == "-")
+    ) {
       console.log();
     } else {
       return character;

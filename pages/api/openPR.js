@@ -29,10 +29,19 @@ function parseProjectName(values) {
 }
 // Create Github checkout branch for current submissions
 function createGithubCheckoutBranch(name) {
+  let nameArray = Array.from(name);
+  nameArray = nameArray.filter((character) => {
+    const invalidCharacters = [".", "~", "^", ":", "-"];
+    switch (character) {
+      case invalidCharacters[invalidCharacters.indexOf(character)]:
+        break;
+      default:
+        return character;
+    }
+  });
+  name = nameArray.join("");
   const checkoutBranch =
-    `${name}`.split(".").slice(0, -1).join(".") +
-    "-" +
-    (Math.random() * 10 ** 16).toString(36);
+    name.replace(/\s/g, "-") + "-" + (Math.random() * 10 ** 16).toString(36);
   return checkoutBranch;
 }
 // Get SDG relevance info

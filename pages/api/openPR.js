@@ -31,15 +31,12 @@ function parseProjectName(values) {
 function createGithubCheckoutBranch(name) {
   let nameArray = Array.from(name);
   nameArray = nameArray.filter((character, index, array) => {
-    if (character == "." || character == "~" || character == "^" || character == ":") {
-      console.log();
-    } else if (
-      (character == " " && array[index - 1] == " ") ||
-      (character == "-" && array[index - 1] == "-")
-    ) {
-      console.log();
-    } else {
-      return character;
+    const invalidCharacters = [".","~","^",":","-"]
+    switch (character) {
+      case invalidCharacters[invalidCharacters.indexOf(character)]:
+        break;
+      default:
+        return character
     }
   });
   name = nameArray.join("");

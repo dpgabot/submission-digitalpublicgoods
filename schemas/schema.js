@@ -2110,6 +2110,10 @@ const schema = {
                       value: "Ecuador",
                     },
                     {
+                      label: "Egypt",
+                      value: "Egypt",
+                    },
+                    {
                       label: "El Salvador",
                       value: "El Salvador",
                     },
@@ -2894,6 +2898,10 @@ const schema = {
                     {
                       label: "Ecuador",
                       value: "Ecuador",
+                    },
+                    {
+                      label: "Egypt",
+                      value: "Egypt",
                     },
                     {
                       label: "El Salvador",

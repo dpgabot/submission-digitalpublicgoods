@@ -3497,7 +3497,7 @@ for (let i = 1; i <= 17; i++) {
       {
         name: "evidenceText" + i,
         component: "text-field",
-        label: "Description:",
+        label: "Explain how this solution is relevant:",
       },
       {
         name: "evidenceURL" + i,

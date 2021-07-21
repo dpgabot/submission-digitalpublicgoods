@@ -45,16 +45,29 @@ function createGithubCheckoutBranch(name) {
   return checkoutBranch;
 }
 // Get SDG relevance info
-function getSDGRelevanceInfo(values, sdgNumber, evidenceText) {
+function getSDGRelevanceInfo(values) {
   //Loop through SDG array and parse SDG information
   for (let i = 0; i < values.SDGs.length; i++) {
-    sdgNumber = parseInt(values.SDGs[i]);
-    evidenceText = "evidenceText".concat(sdgNumber);
+    let sdgNumber = parseInt(values.SDGs[i]);
+    let evidenceText = "evidenceText".concat(sdgNumber);
+    let evidenceURL = "evidenceURL".concat(sdgNumber);
+
+    // Initialize the object in the array where it exists
     values.SDGs[i] = {
       SDGNumber: sdgNumber,
-      evidenceText: values[evidenceText],
     };
-    delete values[evidenceText];
+
+    // Only add the field, if there exists a value for it
+    if (values[evidenceText]) {
+      values.SDGs[i].evidenceText = values[evidenceText];
+      delete values[evidenceText];
+    }
+
+    // Only add the field, if there exists a value for it
+    if (values[evidenceURL]) {
+      values.SDGs[i].evidenceURL = values[evidenceURL];
+      delete values[evidenceURL];
+    }
   }
   return values;
 }
@@ -191,13 +204,13 @@ function submitPullRequests(projectName, filesObject) {
 export default async (req, res) => {
   if (req.method === "POST") {
     let values = req.body.values;
-    let nomineeJSON, sdgNumber, evidenceText, sortedSubmission;
+    let nomineeJSON, sortedSubmission;
 
     // Exclude contact information from pull request
     delete values["contact"];
 
     // Parse SDG information
-    values = getSDGRelevanceInfo(values, sdgNumber, evidenceText);
+    values = getSDGRelevanceInfo(values);
     sortedSubmission = nomineeSubmission(values, sortedSubmission);
     // Convert JavaScript submission sorted object into JSON string and add newline at EOF
     nomineeJSON = JSON.stringify(sortedSubmission, null, 2).concat("\n");

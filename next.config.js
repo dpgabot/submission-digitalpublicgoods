@@ -10,7 +10,7 @@ module.exports = {
           {key: "Access-Control-Allow-Credentials", value: "true"},
           {
             key: "Access-Control-Allow-Origin",
-            value: "[https://digitalpublicgoods.net/eligibility/]",
+            value: "https://digitalpublicgoods.net",
           },
           {key: "Access-Control-Allow-Methods", value: "GET,OPTIONS,POST"},
           {

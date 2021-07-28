@@ -1540,7 +1540,7 @@ const schema = {
               name: "doNoHarm[dataPrivacySecurity[ensurePrivacySecurity]]",
               label: "Ensure privacy and security",
               description:
-                "If yes - does the project ensure the privacy and security of this data and has it taken steps to prevent adverse impacts resulting from its collection, storage and distribution.",
+                "If yes - does the project ensure the privacy and security of this data and has it taken steps to prevent adverse impacts resulting from its collection, storage and distribution. If yes - does this project share this data with third parties? Please describe the circumstances with which this project shares data with third parties. Please add links as relevant.",
               options: [
                 {
                   label: "Yes",

@@ -9,7 +9,10 @@ AWS.config.update({
 var docClient = new AWS.DynamoDB.DocumentClient();
 
 export default async (req, res) => {
-  if (req.method === "POST") {
+  if (req.method === "OPTIONS") {
+    res.statusCode = 200;
+    res.end();
+  } else if (req.method === "POST") {
     const values = req.body.values;
     const uuid = req.query.uuid;
 

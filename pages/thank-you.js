@@ -62,10 +62,10 @@ function ThankYou() {
 
   useEffect(() => {
     // Delete the submission data from the DB
-    async function fetchData() {
+    async function removeData() {
       await fetch(`/api/removeDB/${cookies.uuid}`);
     }
-    fetchData();
+    removeData();
     // Remove the cookie, no longer needed
     removeCookie("uuid");
   }, []);

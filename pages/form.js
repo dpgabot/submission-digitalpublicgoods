@@ -188,6 +188,12 @@ export default function Home() {
     return errors;
   };
 
+  const onCancel = () => {
+    router.push({
+      pathname: "/",
+    });
+  };
+
   return (
     <Container component="main" maxWidth="sm">
       <Head>
@@ -225,6 +231,7 @@ export default function Home() {
               componentMapper={componentMapper}
               validatorMapper={validatorMapper} // not required
               initialValues={initialValues}
+              onCancel={onCancel}
             />
           </ThemeProvider>
         </div>

@@ -94,7 +94,7 @@ export default function Home() {
   const classes = useStyles();
   const router = useRouter();
   const [loadingOverlayActive, setLoadingOverlayActive] = useState(false);
-  const [cookies, setCookie] = useCookies(["uuid"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["uuid"]);
   const [initialValues, setInitialValues] = useState({});
   const [showAlert, setShowAlert] = useState(false);
 
@@ -189,6 +189,14 @@ export default function Home() {
   };
 
   const onCancel = () => {
+    // Delete the submission data from the DB
+    async function removeData() {
+      await fetch(`/api/removeDB/${cookies.uuid}`);
+    }
+    removeData();
+    // Remove the cookie, no longer needed
+    removeCookie("uuid");
+    // Redirect to the start page
     router.push({
       pathname: "/",
     });

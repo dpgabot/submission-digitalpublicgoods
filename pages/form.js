@@ -108,8 +108,8 @@ export default function Home() {
 
     // Initialize cookie if not present
     const userId = uuidv4();
-    let params = new URLSearchParams(window.location.search)
-    if(params.get('uuid')) {
+    let params = new URLSearchParams(window.location.search);
+    if (params.get("uuid")) {
       setCookie("uuid", params.get('uuid'), {path: "/", maxAge: 2592000}); // maxAge: 30 days
       fetchData();
     }

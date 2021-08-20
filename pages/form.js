@@ -110,10 +110,9 @@ export default function Home() {
     const userId = uuidv4();
     let params = new URLSearchParams(window.location.search);
     if (params.get("uuid")) {
-      setCookie("uuid", params.get('uuid'), {path: "/", maxAge: 2592000}); // maxAge: 30 days
+      setCookie("uuid", params.get("uuid"), {path: "/", maxAge: 2592000}); // maxAge: 30 days
       fetchData();
-    }
-    else if (!cookies.uuid) {
+    } else if (!cookies.uuid) {
       setCookie("uuid", userId, {path: "/", maxAge: 2592000}); // maxAge: 30 days
     } else {
       fetchData();

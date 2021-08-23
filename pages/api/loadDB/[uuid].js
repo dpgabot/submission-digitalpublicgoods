@@ -11,7 +11,6 @@ var docClient = new AWS.DynamoDB.DocumentClient();
 export default async (req, res) => {
   if (req.method === "GET") {
     const uuid = req.query.uuid;
-
     var params = {
       TableName: "submission",
       Key: {
@@ -35,7 +34,7 @@ export default async (req, res) => {
 
     // return response
     res.setHeader("Content-Type", "application/json");
-    res.end(output);
+    res.send(output);
   } else {
     // If it's not a GET request, return 405 - Method Not Allowed
     res.statusCode = 405;

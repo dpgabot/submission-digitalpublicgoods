@@ -142,6 +142,7 @@ function getSubmissionFiles(values, nomineeJSON) {
 // Nominee processing before opening pull request
 function nomineeSubmission(values, sortedSubmission) {
   // Sort entries
+  // Note that "stage": "nominee" for all nominations
   sortedSubmission = {
     name: values.name ? values.name : "",
     aliases: values.aliases ? [values.aliases] : [""],
@@ -153,7 +154,7 @@ function nomineeSubmission(values, sortedSubmission) {
     type: values.type ? values.type : [],
     repositoryURL: values.repositoryURL ? values.repositoryURL : "",
     organizations: values.organizations ? [values.organizations] : [],
-    stage: values.stage ? values.stage : "",
+    stage: "nominee",
   };
   // Order nominee fields in the correct order e.g organizations
   sortedSubmission = orderFields(sortedSubmission);

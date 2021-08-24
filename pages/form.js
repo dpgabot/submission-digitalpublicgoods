@@ -99,8 +99,8 @@ export default function Home() {
   const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
-    async function fetchData() {
-      const result = await fetch(`/api/loadDB/${cookies.uuid}`);
+    async function fetchData(eligibilityId) {
+      const result = await fetch(`/api/loadDB/${eligibilityId || cookies.uuid}`);
       const values = await result.json();
       setInitialValues(values);
       setShowAlert(true);
@@ -111,7 +111,7 @@ export default function Home() {
     let params = new URLSearchParams(window.location.search);
     if (params.get("uuid")) {
       setCookie("uuid", params.get("uuid"), {path: "/", maxAge: 2592000}); // maxAge: 30 days
-      fetchData();
+      fetchData(params.get("uuid"));
     } else if (!cookies.uuid) {
       setCookie("uuid", userId, {path: "/", maxAge: 2592000}); // maxAge: 30 days
     } else {

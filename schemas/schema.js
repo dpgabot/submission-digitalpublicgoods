@@ -36,7 +36,7 @@ const schema = {
               name: "aliases",
               component: "text-field",
               label: "Project aliases",
-              helperText: "For example: acronymns",
+              helperText: "For example: acronyms",
             },
             {
               name: "description",

@@ -125,7 +125,7 @@ export default function Home() {
   );
 
   async function saveToDb(values) {
-    values = removeNullsInArrays(values);
+    removeNullsInArrays(values);
     if (cookies.uuid) {
       await fetch(`/api/saveDB/${cookies.uuid}`, {
         method: "POST",

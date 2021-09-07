@@ -145,7 +145,6 @@ export default function Home() {
     keys.forEach((element) => {
       // if it's an array, check for nulls and remove them
       if (Array.isArray(submission[element])) {
-        console.log("The element is an array");
         submission[element] = submission[element].filter(checkNull);
       } else {
         if (typeof submission[element] == "object") {

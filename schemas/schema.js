@@ -1156,9 +1156,9 @@ const schema = {
             },
             {
               name: "NonPII[nonPIIAccessMechanism]",
-              component: "text-field",
-              label: "Mechanism extraction description",
-              helperText:
+              component: "textarea",
+              label: "",
+              description:
                 "If yes - Describe the mechanism for extracting or importing non personally (non-PII) identifiable information from the system in a non-proprietary format:",
               condition: {
                 when: "NonPII[checkNonPIIAccessMechanism]",
@@ -1458,7 +1458,7 @@ const schema = {
               ],
             },
             {
-              name: "dataPrivacySecurity[typesOfDataCollected]",
+              name: "doNoHarm[dataPrivacySecurity[typesOfDataCollected]]",
               component: "field-array",
               label: "Types of PII data collected",
               description:
@@ -1501,7 +1501,7 @@ const schema = {
                 },
               ],
               condition: {
-                when: "dataPrivacySecurity[collectsPII]",
+                when: "doNoHarm[dataPrivacySecurity[collectsPII]]",
                 pattern: /Yes/,
               },
               isRequired: true,
@@ -1538,9 +1538,9 @@ const schema = {
             {
               component: "radio",
               name: "doNoHarm[dataPrivacySecurity[ensurePrivacySecurity]]",
-              label: "Ensure privacy and security",
-              description:
+              label:
                 "If yes - does the project ensure the privacy and security of this data and has it taken steps to prevent adverse impacts resulting from its collection, storage and distribution.",
+              description: "",
               options: [
                 {
                   label: "Yes",
@@ -1574,7 +1574,7 @@ const schema = {
                 "If yes - please describe the steps, and include a link to the privacy policy and/or terms of service:",
               helperText: "",
               condition: {
-                when: "dataPrivacySecurity[thirdPartyDataSharing]",
+                when: "doNoHarm[dataPrivacySecurity[thirdPartyDataSharing]]",
                 pattern: /Yes/,
               },
               isRequired: true,

@@ -1156,9 +1156,9 @@ const schema = {
             },
             {
               name: "NonPII[nonPIIAccessMechanism]",
-              component: "text-field",
-              label: "Mechanism extraction description",
-              helperText:
+              component: "textarea",
+              label: "",
+              description:
                 "If yes - Describe the mechanism for extracting or importing non personally (non-PII) identifiable information from the system in a non-proprietary format:",
               condition: {
                 when: "NonPII[checkNonPIIAccessMechanism]",

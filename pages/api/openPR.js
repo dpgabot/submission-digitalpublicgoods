@@ -19,13 +19,13 @@ function getProjectName(values) {
 }
 // Parse name of project prior to saving file
 function parseProjectName(values) {
-  return (
-    values.name
-      .normalize("NFD")
-      .toLowerCase()
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/ /g, "-") + ".json"
-  );
+  return values.name
+    .normalize("NFD") // NFD normalization separates vowels from accents, to be removed later
+    .toLowerCase()
+    .replace(/\s{2,}/g, " ") // replace multiple consecutive whitespaces with a single whitespace
+    .replace(/ /g, "-") // replace whitespace with dash
+    .replace(/[^A-Za-z0-9-.]/g, "") // remove anything else other than A-Za-z0-9-. (note the inclusion of '-' and '.')
+    .replace(/-{2,}/g, "-"); // replace multiple consecutive dashes with a single dash
 }
 // Create Github checkout branch for current submissions
 function createGithubCheckoutBranch(name) {

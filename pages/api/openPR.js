@@ -13,13 +13,11 @@ const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO
 const GITHUB_BRANCH = process.env.GITHUB_BRANCH
   ? process.env.GITHUB_BRANCH
   : "main"; /* optional: defaults to default branch */
-// Return Project name
-function getProjectName(values) {
-  return values.name;
-}
+
 // Parse name of project prior to saving file
 function parseProjectName(values) {
   return values.name
+    .trim() // removes whitespace from both ends of a string
     .normalize("NFD") // NFD normalization separates vowels from accents, to be removed later
     .toLowerCase()
     .replace(/\s{2,}/g, " ") // replace multiple consecutive whitespaces with a single whitespace
@@ -217,7 +215,10 @@ export default async (req, res) => {
     nomineeJSON = JSON.stringify(sortedSubmission, null, 2).concat("\n");
 
     let result = await Promise.allSettled(
-      submitPullRequests(getProjectName(values), getSubmissionFiles(values, nomineeJSON))
+      submitPullRequests(
+        parseProjectName(values),
+        getSubmissionFiles(values, nomineeJSON)
+      )
     ).then((results) => {
       let pullRequestNumbers = [];
 

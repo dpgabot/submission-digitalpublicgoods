@@ -1393,7 +1393,7 @@ const schema = {
               component: "radio",
               name: "doNoHarm[preventHarm[stepsToPreventHarm]]",
               label:
-                "On the whole, does this project take steps to ensure that it anticipates, prevents and does no harm?",
+                "On the whole, does this project take steps to ensure that it anticipates, prevents and does no harm by design?",
               description: "",
               options: [
                 {

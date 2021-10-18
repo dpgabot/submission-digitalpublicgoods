@@ -1101,7 +1101,7 @@ const schema = {
               component: "radio",
               name: "NonPII[collectsNonPII]",
               label:
-                "Does this project collect or use non-personally identifiable information (non-PII) data? *",
+                "Does this project collect or use non-personally identifiable information (non-PII) data and/or content? *",
               options: [
                 {
                   label: "Yes",
@@ -1434,7 +1434,7 @@ const schema = {
               component: "radio",
               name: "doNoHarm[dataPrivacySecurity[collectsPII]]",
               label:
-                "Does this project collect or store personally identifiable information (PII) data?",
+                "Does this project collect or store personally identifiable information (PII) data and/or content?",
               description: "",
               options: [
                 {
@@ -1460,9 +1460,9 @@ const schema = {
             {
               name: "doNoHarm[dataPrivacySecurity[typesOfDataCollected]]",
               component: "field-array",
-              label: "Types of PII data collected",
+              label: "Types of PII data and/or content collected",
               description:
-                "If yes - please list the types of data collected and/or stored by the project:",
+                "If yes - please list the types of data and/or content collected and/or stored by the project:",
               helperText: "",
               condition: {
                 when: "doNoHarm[dataPrivacySecurity[collectsPII]]",
@@ -1484,7 +1484,7 @@ const schema = {
             {
               component: "radio",
               name: "doNoHarm[dataPrivacySecurity[thirdPartyDataSharing]]",
-              label: "If yes - does this project share this data with third parties?",
+              label: "If yes - does this project share this data and/or content with third parties?",
               description: "",
               options: [
                 {
@@ -1516,7 +1516,7 @@ const schema = {
               component: "field-array",
               label: "Data sharing circumstances",
               description:
-                "Please describe the circumstances with which this project shares data with third parties. Please add links as relevant.",
+                "Please describe the circumstances with which this project shares data and/or content with third parties. Please add links as relevant.",
               helperText: "",
               condition: {
                 when: "dataPrivacySecurity[thirdPartyDataSharing]",
@@ -1539,7 +1539,7 @@ const schema = {
               component: "radio",
               name: "doNoHarm[dataPrivacySecurity[ensurePrivacySecurity]]",
               label:
-                "If yes - does the project ensure the privacy and security of this data and has it taken steps to prevent adverse impacts resulting from its collection, storage and distribution.",
+                "If yes - does the project ensure the privacy and security of this data and/or content and has it taken steps to prevent adverse impacts resulting from its collection, storage and distribution.",
               description: "",
               options: [
                 {

@@ -1484,7 +1484,8 @@ const schema = {
             {
               component: "radio",
               name: "doNoHarm[dataPrivacySecurity[thirdPartyDataSharing]]",
-              label: "If yes - does this project share this data and/or content with third parties?",
+              label:
+                "If yes - does this project share this data and/or content with third parties?",
               description: "",
               options: [
                 {

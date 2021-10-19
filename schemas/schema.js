@@ -245,7 +245,7 @@ const schema = {
                 },
               ],
               description:
-                "DPGs must use an open license. Please identify which of these approved open licenses this project uses: *. For Open Source Software, we only accept OSI approved licenses. For Open Content we require the use of a Creative Commons license while we encourage projects to use a license which allows for both derivatives and commercial reuse or dedicate content to the public domain (CC0) we also accept licenses which do not allow for commercial reuse: CC-BY-NC and CC-BY-NC-SA. For data we require a Open Data Commons approved license listed at opendefinition.org/licenses/. IF YOU USE A LICENSE THAT IS NOT CURRENTLY LISTED HERE BUT YOU BELIEVE SHOULD BE INCLUDED PLEASE EMAIL nominations@digitalpublicgoods.net",
+                "DPGs must use an open license. Please identify which of these approved open licenses this project uses: *. For Open-Source Software, we only accept OSI approved licenses. For Open Content we require the use of a Creative Commons license while we encourage projects to use a license which allows for both derivatives and commercial reuse or dedicate content to the public domain (CC0) we also accept licenses which do not allow for commercial reuse: CC-BY-NC and CC-BY-NC-SA. For data we require a Open Data Commons approved license listed at opendefinition.org/licenses/. IF YOU USE A LICENSE THAT IS NOT CURRENTLY LISTED HERE BUT YOU BELIEVE SHOULD BE INCLUDED PLEASE EMAIL nominations@digitalpublicgoods.net",
               RemoveButtonGridProps: {xs: 3},
               FieldGroupGridProps: {xs: 9},
               fields: [
@@ -998,7 +998,7 @@ const schema = {
               name: "platformIndependence[isSoftwarePltIndependent]",
               component: "radio",
               label:
-                "If yes - are the open source components able to demonstrate independence from the closed component and/or are there functional, open alternatives?",
+                "If yes - are the open-source components able to demonstrate independence from the closed component and/or are there functional, open alternatives?",
               options: [
                 {
                   label: "Yes",
@@ -1030,7 +1030,7 @@ const schema = {
               component: "text-field",
               label: "Platform independence description",
               description:
-                "If yes - please describe how the open source components are independent and/or list the open alternatives for the closed component:",
+                "If yes - please describe how the open-source components are independent and/or list the open alternatives for the closed component:",
               condition: {
                 when: "platformIndependence[isSoftwarePltIndependent]",
                 pattern: /Yes/,

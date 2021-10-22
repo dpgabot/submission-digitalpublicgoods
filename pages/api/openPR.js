@@ -115,9 +115,9 @@ function getSubmissionFiles(values, nomineeJSON) {
   // Parse project names using DPG naming convention for filenames
   name = parseProjectName(values);
   // Add nominee submission to nominee directory
-  nomineePath = "nominees/" + `${name}`;
+  nomineePath = "nominees/" + `${name}` + ".json";
   // Add DPG submission to digitalpublicgoods directory
-  dpgPath = "digitalpublicgoods/" + `${name}`;
+  dpgPath = "digitalpublicgoods/" + `${name}` + ".json";
   stage === "nominee"
     ? (files = {
         [nomineePath]: {

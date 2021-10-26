@@ -115,7 +115,7 @@ const schema = {
                 },
                 {
                   label: "Open Artificial Intelligence (AI) Model",
-                  value: "model",
+                  value: "aimodel",
                 },
                 {
                   label: "Open Standard",

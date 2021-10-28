@@ -1574,6 +1574,25 @@ const schema = {
                   classes: {root: "conditional"},
                 },
                 {
+                  name: "doNoHarm.dataPrivacySecurity.privacySecurityDescription",
+                  component: "text-field",
+                  label: "Privacy security description",
+                  description:
+                    "If yes - please describe the steps, and include a link to the privacy policy and/or terms of service:",
+                  helperText: "",
+                  condition: {
+                    when: "doNoHarm.dataPrivacySecurity.thirdPartyDataSharing",
+                    pattern: /Yes/,
+                  },
+                  isRequired: true,
+                  validate: [
+                    {
+                      type: "required",
+                    },
+                  ],
+                  classes: {root: "conditional"},
+                },
+                {
                   component: "radio",
                   name: "doNoHarm.dataPrivacySecurity.ensurePrivacySecurity",
                   label:
@@ -1603,25 +1622,6 @@ const schema = {
                       type: "required",
                     },
                   ],
-                },
-                {
-                  name: "doNoHarm.dataPrivacySecurity.privacySecurityDescription",
-                  component: "text-field",
-                  label: "Privacy security description",
-                  description:
-                    "If yes - please describe the steps, and include a link to the privacy policy and/or terms of service:",
-                  helperText: "",
-                  condition: {
-                    when: "doNoHarm.dataPrivacySecurity.thirdPartyDataSharing",
-                    pattern: /Yes/,
-                  },
-                  isRequired: true,
-                  validate: [
-                    {
-                      type: "required",
-                    },
-                  ],
-                  classes: {root: "conditional"},
                 },
               ],
             },
@@ -1666,7 +1666,7 @@ const schema = {
                 "If yes - what kinds of content does this project, collect, store or distribute? (i.e. childrens books)",
               helperText: "",
               condition: {
-                when: "inappropriateIllegalContent.collectStoreDistribute",
+                when: "doNoHarm.inappropriateIllegalContent.collectStoreDistribute",
                 pattern: /Yes/,
               },
               isRequired: true,
@@ -1717,7 +1717,7 @@ const schema = {
                 "If yes - please link to the relevant policy/guidelines/documentation.",
               helperText: "",
               condition: {
-                when: "inappropriateIllegalContent.collectStoreDistribute",
+                when: "doNoHarm.inappropriateIllegalContent.contentFilter",
                 pattern: /Yes/,
               },
               isRequired: true,
@@ -1771,7 +1771,7 @@ const schema = {
                 "If yes - please describe the mechanism for detecting, reporting and removing innapropriate/illegal content (Please include the average response time for assessment and/or action. Link to any policies or descriptions of how inappropriate content is handled):",
               helperText: "",
               condition: {
-                when: "inappropriateIllegalContent.collectStoreDistribute",
+                when: "doNoHarm.inappropriateIllegalContent.illegalContentDetection",
                 pattern: /Yes/,
               },
               isRequired: true,
@@ -1858,7 +1858,8 @@ const schema = {
                 "If yes - please describe the steps this project takes to address risk or prevent access by underage users:",
               helperText: "",
               condition: {
-                when: "doNoHarm.protectionFromHarassment.userInteraction",
+                when:
+                  "doNoHarm.protectionFromHarassment.addressSafetySecurityUnderageUsers",
                 pattern: /Yes/,
               },
               isRequired: true,
@@ -1908,12 +1909,12 @@ const schema = {
             {
               name: "doNoHarm.protectionFromHarassment.harassmentProtectionSteps",
               component: "field-array",
-              label: "Steps to address risk",
+              label: "Steps to protect users",
               description:
                 "If yes - please describe the steps taken to help users protect themselves.",
               helperText: "",
               condition: {
-                when: "doNoHarm.protectionFromHarassment.userInteraction",
+                when: "doNoHarm.protectionFromHarassment.griefAbuseHarassmentProtection",
                 pattern: /Yes/,
               },
               isRequired: true,

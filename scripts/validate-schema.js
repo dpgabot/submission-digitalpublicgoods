@@ -7,6 +7,11 @@ const DPG_SCHEMA =
   "https://raw.githubusercontent.com/unicef/publicgoods-candidates/main/screening-schema.json";
 const SUBMISSION_SCHEMA = "../schemas/schema.js";
 
+// Because the mix of ESM scripts (import) coming from React and CommonJS (require) used by Node
+// instead of importing the schema file directly (which throws all sorts of errors due to the
+// diverging module structures), we choose to read the schema file, and "convert" it to the other
+// standard, it only takes two "replace" directives, and write a copy locally (which is .gitignore'd)
+// which then can be seamlessly imported below
 var data = fs.readFileSync(SUBMISSION_SCHEMA, "utf8", function (err) {
   if (err) {
     console.log(
@@ -27,10 +32,12 @@ fs.writeFileSync("./schema.js", result, "utf8", function (err) {
     return console.log(err);
   }
 });
-
+// import the "sanitized" schema matching the CommonJS format
 const schema = require("./schema.js");
 
 // Parse keys in dot notation into object properties
+// Adapted from the extensively documented answer found at
+// https://stackoverflow.com/a/6394168/5354742
 function index(obj, is, value) {
   if (typeof is == "string") return index(obj, is.split("."), value);
   else if (is.length == 1 && value !== undefined) return (obj[is[0]] = value);
@@ -60,6 +67,8 @@ function getKeys(obj, keys = {}) {
 
 // Retrieves all object keys in order. Function gets recursively
 // called for objects and arrays to include all keys of all children.
+// Since the Submission schema differs from the nominee schema,
+// a different function is provided to account for these differences
 function getSubmissionKeys(obj, keys = {}) {
   // let keys = {};
   let parent = "";
@@ -67,16 +76,15 @@ function getSubmissionKeys(obj, keys = {}) {
     if (key == "name") {
       parent = obj[key];
       if (Object.prototype.hasOwnProperty.call(obj, "fields")) {
+        // If it has "fields" property, it will be an array
         keys[parent] = [];
-        //console.log(parent + ' has fields')
       } else {
+        // Otherwise it will be a dictionary
         keys[parent] = {};
-        //console.log(parent + ' does not have fields')
         break;
       }
     }
     if (typeof obj[key] == "object" && !Array.isArray(obj[key])) {
-      // keys = keys.concat(getKeys(obj[key].properties))
       keys[parent] = getSubmissionKeys(obj[key], keys[parent]);
     }
     if (typeof obj[key] == "object" && Array.isArray(obj[key])) {
@@ -92,6 +100,11 @@ function getSubmissionKeys(obj, keys = {}) {
   return keys;
 }
 
+// This function further processes the object returned by calling
+// getSubmissionKeys() above and "flattens" or removes several
+// intermediate properties to match the "simpler" structure of the
+// nominee/DPG schema, for example all sections are part of an array
+// that simply disappears, by moving the array elements out of the array
 function flattenObject(input, out = {}) {
   for (const key in input) {
     if (!Number(key) && key != "0") {
@@ -123,6 +136,8 @@ function flattenObject(input, out = {}) {
   return out;
 }
 
+// Remove the known differences in the Submission form. The fields
+// that are deleted/modified here are fully accounted for
 function removeFields(obj) {
   delete obj["step-1"];
   delete obj["contact[name]"];
@@ -188,6 +203,7 @@ function object_equals(x, y) {
   return output;
 }
 
+// This is the main code of the script
 // Fetch nominee schema and parse JSON into object
 fetch(NOMINEE_SCHEMA)
   .then((res) => res.json())

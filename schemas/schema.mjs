@@ -1,5 +1,5 @@
-import validatorTypes from "@data-driven-forms/react-form-renderer/validator-types";
-import {CONDITIONAL_SUBMIT_FLAG} from "@data-driven-forms/common/wizard";
+import validatorTypes from "@data-driven-forms/react-form-renderer/validator-types/index.js";
+import {CONDITIONAL_SUBMIT_FLAG} from "@data-driven-forms/common/wizard/index.js";
 
 const schema = {
   title: "Digital Public Goods Submission",
@@ -16,7 +16,7 @@ const schema = {
             when: "stage",
             stepMapper: {
               nominee: CONDITIONAL_SUBMIT_FLAG,
-              DPG: "step-2",
+              DPG: "clearOwnership",
             },
           },
           fields: [
@@ -816,7 +816,6 @@ const schema = {
                 },
               ],
             },
-
             {
               name: "organizations",
               component: "sub-form",
@@ -826,7 +825,7 @@ const schema = {
                 {
                   component: "select",
                   label: "Select",
-                  name: "organizations[org_type]",
+                  name: "organizations.org_type",
                   simpleValue: true,
                   options: [
                     {
@@ -854,7 +853,7 @@ const schema = {
                   ],
                 },
                 {
-                  name: "organizations[name]",
+                  name: "organizations.name",
                   component: "text-field",
                   label: "Name of the organization",
                   isRequired: true,
@@ -865,7 +864,7 @@ const schema = {
                   ],
                 },
                 {
-                  name: "organizations[website]",
+                  name: "organizations.website",
                   component: "text-field",
                   label: "Website of the organization",
                   isRequired: true,
@@ -879,12 +878,12 @@ const schema = {
                   ],
                 },
                 {
-                  name: "organizations[contact_name]",
+                  name: "organizations.contact_name",
                   component: "text-field",
                   label: "Contact name",
                 },
                 {
-                  name: "organizations[contact_email]",
+                  name: "organizations.contact_email",
                   component: "text-field",
                   label: "Contact email",
                 },
@@ -915,9 +914,10 @@ const schema = {
           ],
         },
         {
-          title: "DPG Candidates",
-          name: "step-2",
-          nextStep: "step-3",
+          title: "Indicator 3 - Clear Ownership",
+          name: "clearOwnership",
+          nextStep: "platformIndependence",
+          component: "sub-form",
           fields: [
             {
               component: "radio",
@@ -925,7 +925,7 @@ const schema = {
                 "Is the ownership of the project and everything that the project produces clearly defined and documented? *",
               description:
                 "i.e. This can be through copyright, trademark, or other publicly available information.",
-              name: "clearOwnership[isOwnershipExplicit]",
+              name: "clearOwnership.isOwnershipExplicit",
               options: [
                 {
                   label: "Yes",
@@ -948,7 +948,7 @@ const schema = {
               ],
             },
             {
-              name: "clearOwnership[copyrightURL]",
+              name: "clearOwnership.copyrightURL",
               component: "text-field",
               label: "Link to ownership documentation",
               helperText:
@@ -968,11 +968,19 @@ const schema = {
               ],
               classes: {root: "conditional"},
             },
+          ],
+        },
+        { 
+          title: "Indicator 4 - Platform Independence",
+          name: "platformIndependence",
+          nextStep: "privacy",
+          component: "sub-form",
+          fields: [
             {
               component: "radio",
               label:
                 "Does this open project have mandatory dependencies (i.e. libraries, hardware) that create more restrictions than the original license? *",
-              name: "platformIndependence[mandatoryDepsCreateMoreRestrictions]",
+              name: "platformIndependence.mandatoryDepsCreateMoreRestrictions",
               options: [
                 {
                   label: "Yes",
@@ -995,7 +1003,7 @@ const schema = {
               ],
             },
             {
-              name: "platformIndependence[isSoftwarePltIndependent]",
+              name: "platformIndependence.isSoftwarePltIndependent",
               component: "radio",
               label:
                 "If yes - are the open-source components able to demonstrate independence from the closed component and/or are there functional, open alternatives?",
@@ -1014,7 +1022,7 @@ const schema = {
                 },
               ],
               condition: {
-                when: "platformIndependence[mandatoryDepsCreateMoreRestrictions]",
+                when: "platformIndependence.mandatoryDepsCreateMoreRestrictions",
                 pattern: /Yes/,
               },
               isRequired: true,
@@ -1026,7 +1034,7 @@ const schema = {
               classes: {root: "conditional"},
             },
             {
-              name: "platformIndependence[pltIndependenceDesc]",
+              name: "platformIndependence.pltIndependenceDesc",
               component: "text-field",
               label: "Platform independence description",
               description:
@@ -1042,9 +1050,17 @@ const schema = {
                 },
               ],
             },
+          ],
+        },
+        {
+          title: "Indicator 5 - Documentation",
+          name: "documentation",
+          nextStep: "nonPII",
+          component: "sub-form",
+          fields: [
             {
               component: "radio",
-              name: "documentation[isDocumentationAvailable]",
+              name: "documentation.isDocumentationAvailable",
               label:
                 "Does some documentation exist of the source code, use cases, and/or functional requirements for this project? *",
               description:
@@ -1072,7 +1088,7 @@ const schema = {
             },
             {
               component: "field-array",
-              name: "documentation[documentationURL]",
+              name: "documentation.documentationURL",
               label: "Documentation links",
               description: "If yes - please link to the relevant documentation:",
               minItems: 1,
@@ -1097,9 +1113,17 @@ const schema = {
               ],
               classes: {root: "conditional"},
             },
+          ],
+        },
+        {
+          title: "Indicator 6 - Mechanism for Extracting Data and Content",
+          name: "NonPII",
+          nextStep: "privacy",
+          component: "sub-form",
+          fields: [
             {
               component: "radio",
-              name: "NonPII[collectsNonPII]",
+              name: "NonPII.collectsNonPII",
               label:
                 "Does this project collect or use non-personally identifiable information (non-PII) data and/or content? *",
               options: [
@@ -1124,7 +1148,7 @@ const schema = {
               ],
             },
             {
-              name: "NonPII[checkNonPIIAccessMechanism]",
+              name: "NonPII.checkNonPIIAccessMechanism",
               component: "radio",
               label:
                 "If yes - is there a mechanism for extracting or importing non-PII information from the system in a non-proprietary format? *",
@@ -1143,7 +1167,7 @@ const schema = {
                 },
               ],
               condition: {
-                when: "NonPII[collectsNonPII]",
+                when: "NonPII.collectsNonPII",
                 pattern: /Yes/,
               },
               isRequired: true,
@@ -1155,13 +1179,13 @@ const schema = {
               classes: {root: "conditional"},
             },
             {
-              name: "NonPII[nonPIIAccessMechanism]",
+              name: "NonPII.nonPIIAccessMechanism",
               component: "textarea",
               label: "",
               description:
                 "If yes - Describe the mechanism for extracting or importing non personally (non-PII) identifiable information from the system in a non-proprietary format:",
               condition: {
-                when: "NonPII[checkNonPIIAccessMechanism]",
+                when: "NonPII.checkNonPIIAccessMechanism",
                 pattern: /Yes/,
               },
               isRequired: true,
@@ -1176,12 +1200,13 @@ const schema = {
         },
         {
           title: "Indicators 7 & 9",
-          name: "step-3",
-          nextStep: "step-4",
+          name: "privacy",
+          nextStep: "doNoHarm",
+          component: "sub-form",
           fields: [
             {
               component: "radio",
-              name: "privacy[isPrivacyCompliant]",
+              name: "privacy.isPrivacyCompliant",
               label:
                 "Has this project taken steps to ensure adherence with relevant privacy, domestic, and international laws? For example, the General Data Protection Regulation (GDPR) in the European Union or the Supplementary Act A/SA.1/01/10 on Personal Data Protection for the Economic Community of West African States (ECOWAS) (yes/no)",
               description: "",
@@ -1207,14 +1232,14 @@ const schema = {
               ],
             },
             {
-              name: "privacy[privacyComplianceList]",
+              name: "privacy.privacyComplianceList",
               component: "field-array",
               label: "Privacy compliance list",
               description:
                 "If yes, please list some of relevant laws that the project complies with:",
               helperText: "",
               condition: {
-                when: "privacy[isPrivacyCompliant]",
+                when: "privacy.isPrivacyCompliant",
                 pattern: /Yes/,
               },
               isRequired: true,
@@ -1231,14 +1256,14 @@ const schema = {
               classes: {root: "conditional"},
             },
             {
-              name: "privacy[adherenceSteps]",
+              name: "privacy.adherenceSteps",
               component: "field-array",
               label: "Adherence steps",
               description:
                 "If yes, please describe the steps this project has taken to ensure adherence (include links to terms of service, privacy policy, or other relevant documentation):",
               helperText: "",
               condition: {
-                when: "privacy[isPrivacyCompliant]",
+                when: "privacy.isPrivacyCompliant",
                 pattern: /Yes/,
               },
               isRequired: true,
@@ -1254,9 +1279,13 @@ const schema = {
               ],
               classes: {root: "conditional"},
             },
+          ],
+          name: "standards",
+          component: "sub-form",
+          fields: [
             {
               component: "radio",
-              name: "standards[supportStandards]",
+              name: "standards.supportStandards",
               label: "Does this project support standards?",
               description: "",
               options: [
@@ -1281,13 +1310,13 @@ const schema = {
               ],
             },
             {
-              name: "standards[standardsList]",
+              name: "standards.standardsList",
               component: "field-array",
               label: "Standards list (Please supply either text or URLs)",
               description: "Which standards does this project support (please list).",
               helperText: "",
               condition: {
-                when: "standards[supportStandards]",
+                when: "standards.supportStandards",
                 pattern: /Yes/,
               },
               isRequired: true,
@@ -1305,13 +1334,13 @@ const schema = {
             },
             {
               component: "field-array",
-              name: "standards[evidenceStandardSupport]",
+              name: "standards.evidenceStandardSupport",
               label: "Standards support evidence",
               description:
                 "Can you point to evidence of your support? (i.e. please link to your validator, open test suite, etc.)",
               minItems: 1,
               condition: {
-                when: "standards[supportStandards]",
+                when: "standards.supportStandards",
                 pattern: /Yes/,
               },
               fields: [
@@ -1333,7 +1362,7 @@ const schema = {
             },
             {
               component: "radio",
-              name: "standards[implementBestPractices]",
+              name: "standards.implementBestPractices",
               label:
                 "Was this project built and developed according to or in adherence with any design, technical and/or sector best practices or principles? i.e. the Principles for Digital Development?",
               description: "",
@@ -1359,7 +1388,7 @@ const schema = {
               ],
             },
             {
-              name: "standards[bestPracticesList]",
+              name: "standards.bestPracticesList",
               component: "field-array",
               label: "Principles and best practices",
               description:
@@ -1386,12 +1415,13 @@ const schema = {
         },
         {
           title: "Indicator 9a",
-          name: "step-4",
-          nextStep: "step-5",
+          name: "doNoHarm",
+          nextStep: "doNoHarm.inappropriateIllegalContent",
+          component: "sub-form",
           fields: [
             {
               component: "radio",
-              name: "doNoHarm[preventHarm[stepsToPreventHarm]]",
+              name: "doNoHarm.stepsToPreventHarm",
               label:
                 "On the whole is this project designed to ensure that it anticipates, prevents and does no harm?",
               description: "",
@@ -1417,7 +1447,7 @@ const schema = {
               ],
             },
             {
-              name: "preventHarm[additionalInfoMechanismProcessesPolicies]",
+              name: "doNoHarm.additionalInfoMechanismProcessesPolicies",
               component: "text-field",
               label: "Additional risks and mitigation steps",
               description:
@@ -1431,171 +1461,177 @@ const schema = {
               classes: {root: "conditional"},
             },
             {
-              component: "radio",
-              name: "doNoHarm[dataPrivacySecurity[collectsPII]]",
-              label:
-                "Does this project collect or store personally identifiable information (PII) data and/or content?",
-              description: "",
-              options: [
-                {
-                  label: "Yes",
-                  value: "Yes",
-                },
-                {
-                  label: "No",
-                  value: "No",
-                },
-                {
-                  label: "Unknown",
-                  value: "Unknown",
-                },
-              ],
-              isRequired: true,
-              validate: [
-                {
-                  type: "required",
-                },
-              ],
-            },
-            {
-              name: "doNoHarm[dataPrivacySecurity[typesOfDataCollected]]",
-              component: "field-array",
-              label: "Types of PII data and/or content collected",
-              description:
-                "If yes - please list the types of data and/or content collected and/or stored by the project:",
-              helperText: "",
-              condition: {
-                when: "doNoHarm[dataPrivacySecurity[collectsPII]]",
-                pattern: /Yes/,
-              },
-              isRequired: true,
-              validate: [
-                {
-                  type: "required",
-                },
-              ],
+              name: "doNoHarm.dataPrivacySecurity",
+              component: "sub-form",
               fields: [
                 {
+                  component: "radio",
+                  name: "doNoHarm.dataPrivacySecurity.collectsPII",
+                  label:
+                    "Does this project collect or store personally identifiable information (PII) data and/or content?",
+                  description: "",
+                  options: [
+                    {
+                      label: "Yes",
+                      value: "Yes",
+                    },
+                    {
+                      label: "No",
+                      value: "No",
+                    },
+                    {
+                      label: "Unknown",
+                      value: "Unknown",
+                    },
+                  ],
+                  isRequired: true,
+                  validate: [
+                    {
+                      type: "required",
+                    },
+                  ],
+                },
+                {
+                  name: "doNoHarm.dataPrivacySecurity.typesOfDataCollected",
+                  component: "field-array",
+                  label: "Types of PII data and/or content collected",
+                  description:
+                    "If yes - please list the types of data and/or content collected and/or stored by the project:",
+                  helperText: "",
+                  condition: {
+                    when: "doNoHarm.dataPrivacySecurity.collectsPII",
+                    pattern: /Yes/,
+                  },
+                  isRequired: true,
+                  validate: [
+                    {
+                      type: "required",
+                    },
+                  ],
+                  fields: [
+                    {
+                      component: "text-field",
+                    },
+                  ],
+                  classes: {root: "conditional"},
+                },
+                {
+                  component: "radio",
+                  name: "doNoHarm.dataPrivacySecurity.thirdPartyDataSharing",
+                  label:
+                    "If yes - does this project share this data and/or content with third parties?",
+                  description: "",
+                  options: [
+                    {
+                      label: "Yes",
+                      value: "Yes",
+                    },
+                    {
+                      label: "No",
+                      value: "No",
+                    },
+                    {
+                      label: "Unknown",
+                      value: "Unknown",
+                    },
+                  ],
+                  condition: {
+                    when: "doNoHarm.dataPrivacySecurity.collectsPII",
+                    pattern: /Yes/,
+                  },
+                  isRequired: true,
+                  validate: [
+                    {
+                      type: "required",
+                    },
+                  ],
+                },
+                {
+                  name: "doNoHarm.dataPrivacySecurity.dataSharingCircumstances",
+                  component: "field-array",
+                  label: "Data sharing circumstances",
+                  description:
+                    "Please describe the circumstances with which this project shares data and/or content with third parties. Please add links as relevant.",
+                  helperText: "",
+                  condition: {
+                    when: "dataPrivacySecurity.thirdPartyDataSharing",
+                    pattern: /Yes/,
+                  },
+                  isRequired: true,
+                  validate: [
+                    {
+                      type: "required",
+                    },
+                  ],
+                  fields: [
+                    {
+                      component: "text-field",
+                    },
+                  ],
+                  classes: {root: "conditional"},
+                },
+                {
+                  component: "radio",
+                  name: "doNoHarm.dataPrivacySecurity.ensurePrivacySecurity",
+                  label:
+                    "If yes - does the project ensure the privacy and security of this data and/or content and has it taken steps to prevent adverse impacts resulting from its collection, storage and distribution.",
+                  description: "",
+                  options: [
+                    {
+                      label: "Yes",
+                      value: "Yes",
+                    },
+                    {
+                      label: "No",
+                      value: "No",
+                    },
+                    {
+                      label: "Unknown",
+                      value: "Unknown",
+                    },
+                  ],
+                  condition: {
+                    when: "doNoHarm.dataPrivacySecurity.collectsPII",
+                    pattern: /Yes/,
+                  },
+                  isRequired: true,
+                  validate: [
+                    {
+                      type: "required",
+                    },
+                  ],
+                },
+                {
+                  name: "doNoHarm.dataPrivacySecurity.privacySecurityDescription",
                   component: "text-field",
+                  label: "Privacy security description",
+                  description:
+                    "If yes - please describe the steps, and include a link to the privacy policy and/or terms of service:",
+                  helperText: "",
+                  condition: {
+                    when: "doNoHarm[dataPrivacySecurity[thirdPartyDataSharing]]",
+                    pattern: /Yes/,
+                  },
+                  isRequired: true,
+                  validate: [
+                    {
+                      type: "required",
+                    },
+                  ],
+                  classes: {root: "conditional"},
                 },
               ],
-              classes: {root: "conditional"},
-            },
-            {
-              component: "radio",
-              name: "doNoHarm[dataPrivacySecurity[thirdPartyDataSharing]]",
-              label:
-                "If yes - does this project share this data and/or content with third parties?",
-              description: "",
-              options: [
-                {
-                  label: "Yes",
-                  value: "Yes",
-                },
-                {
-                  label: "No",
-                  value: "No",
-                },
-                {
-                  label: "Unknown",
-                  value: "Unknown",
-                },
-              ],
-              condition: {
-                when: "doNoHarm[dataPrivacySecurity[collectsPII]]",
-                pattern: /Yes/,
-              },
-              isRequired: true,
-              validate: [
-                {
-                  type: "required",
-                },
-              ],
-            },
-            {
-              name: "doNoHarm[dataPrivacySecurity[dataSharingCircumstances]]",
-              component: "field-array",
-              label: "Data sharing circumstances",
-              description:
-                "Please describe the circumstances with which this project shares data and/or content with third parties. Please add links as relevant.",
-              helperText: "",
-              condition: {
-                when: "dataPrivacySecurity[thirdPartyDataSharing]",
-                pattern: /Yes/,
-              },
-              isRequired: true,
-              validate: [
-                {
-                  type: "required",
-                },
-              ],
-              fields: [
-                {
-                  component: "text-field",
-                },
-              ],
-              classes: {root: "conditional"},
-            },
-            {
-              component: "radio",
-              name: "doNoHarm[dataPrivacySecurity[ensurePrivacySecurity]]",
-              label:
-                "If yes - does the project ensure the privacy and security of this data and/or content and has it taken steps to prevent adverse impacts resulting from its collection, storage and distribution.",
-              description: "",
-              options: [
-                {
-                  label: "Yes",
-                  value: "Yes",
-                },
-                {
-                  label: "No",
-                  value: "No",
-                },
-                {
-                  label: "Unknown",
-                  value: "Unknown",
-                },
-              ],
-              condition: {
-                when: "doNoHarm[dataPrivacySecurity[collectsPII]]",
-                pattern: /Yes/,
-              },
-              isRequired: true,
-              validate: [
-                {
-                  type: "required",
-                },
-              ],
-            },
-            {
-              name: "doNoHarm[dataPrivacySecurity[privacySecurityDescription]]",
-              component: "text-field",
-              label: "Privacy security description",
-              description:
-                "If yes - please describe the steps, and include a link to the privacy policy and/or terms of service:",
-              helperText: "",
-              condition: {
-                when: "doNoHarm[dataPrivacySecurity[thirdPartyDataSharing]]",
-                pattern: /Yes/,
-              },
-              isRequired: true,
-              validate: [
-                {
-                  type: "required",
-                },
-              ],
-              classes: {root: "conditional"},
             },
           ],
         },
         {
           title: "Indicator 9b - Inappropriate & Illegal Content",
-          name: "step-5",
-          nextStep: "step-6",
+          name: "doNoHarm.inappropriateIllegalContent",
+          nextStep: "doNoHarm.protectionFromHarassment",
           fields: [
             {
               component: "radio",
-              name: "doNoHarm[inappropriateIllegalContent[collectStoreDistribute]]",
+              name: "doNoHarm.inappropriateIllegalContent.collectStoreDistribute",
               label: "Does this project collect, store or distribute content?",
               description: "",
               options: [
@@ -1620,14 +1656,14 @@ const schema = {
               ],
             },
             {
-              name: "inappropriateIllegalContent[type]",
+              name: "doNoHarm.inappropriateIllegalContent.type",
               component: "text-field",
               label: "Kind of content",
               description:
                 "If yes - what kinds of content does this project, collect, store or distribute? (i.e. childrens books)",
               helperText: "",
               condition: {
-                when: "inappropriateIllegalContent[collectStoreDistribute]",
+                when: "inappropriateIllegalContent.collectStoreDistribute",
                 pattern: /Yes/,
               },
               isRequired: true,
@@ -1640,7 +1676,7 @@ const schema = {
             },
             {
               component: "radio",
-              name: "inappropriateIllegalContent[contentFilter]",
+              name: "doNoHarm.inappropriateIllegalContent.contentFilter",
               label:
                 "If yes - does this project have policies that describe what is considered innappropriate content? (i.e. child sexual abuse materials)",
               description: "",
@@ -1659,7 +1695,7 @@ const schema = {
                 },
               ],
               condition: {
-                when: "inappropriateIllegalContent[collectStoreDistribute]",
+                when: "doNoHarm.inappropriateIllegalContent.collectStoreDistribute",
                 pattern: /Yes/,
               },
               isRequired: true,
@@ -1670,14 +1706,14 @@ const schema = {
               ],
             },
             {
-              name: "inappropriateIllegalContent[policyGuidelinesDocumentationLink]",
+              name: "doNoHarm.inappropriateIllegalContent.policyGuidelinesDocumentationLink",
               component: "text-field",
               label: "Policy guideline documentation link",
               description:
                 "If yes - please link to the relevant policy/guidelines/documentation.",
               helperText: "",
               condition: {
-                when: "inappropriateIllegalContent[collectStoreDistribute]",
+                when: "inappropriateIllegalContent.collectStoreDistribute",
                 pattern: /Yes/,
               },
               isRequired: true,
@@ -1693,7 +1729,7 @@ const schema = {
             },
             {
               component: "radio",
-              name: "inappropriateIllegalContent[illegalContentDetection]",
+              name: "doNoHarm.inappropriateIllegalContent.illegalContentDetection",
               label:
                 "If yes - does this project have mechanisms for detecting and moderating innappropriate/illegal content?",
               description: "",
@@ -1712,7 +1748,7 @@ const schema = {
                 },
               ],
               condition: {
-                when: "inappropriateIllegalContent[collectStoreDistribute]",
+                when: "doNoHarm.inappropriateIllegalContent.collectStoreDistribute",
                 pattern: /Yes/,
               },
               isRequired: true,
@@ -1723,14 +1759,14 @@ const schema = {
               ],
             },
             {
-              name: "inappropriateIllegalContent[illegalContentDetectionMechanism]",
+              name: "doNoHarm.inappropriateIllegalContent.illegalContentDetectionMechanism",
               component: "text-field",
               label: "Illegal content detection mechanism",
               description:
                 "If yes - please describe the mechanism for detecting, reporting and removing innapropriate/illegal content (Please include the average response time for assessment and/or action. Link to any policies or descriptions of how inappropriate content is handled):",
               helperText: "",
               condition: {
-                when: "inappropriateIllegalContent[collectStoreDistribute]",
+                when: "inappropriateIllegalContent.collectStoreDistribute",
                 pattern: /Yes/,
               },
               isRequired: true,
@@ -1745,12 +1781,13 @@ const schema = {
         },
         {
           title: "Indicator 9c - Protection from harassment",
-          name: "step-6",
-          nextStep: "step-7",
+          name: "doNoHarm.protectionFromHarassment",
+          component: "sub-form",
+          nextStep: "locations",
           fields: [
             {
               component: "radio",
-              name: "doNoHarm[protectionFromHarassment[userInteraction]]",
+              name: "doNoHarm.protectionFromHarassment.userInteraction",
               label:
                 "Does this project facilitate interactions with or between users or contributors?",
               description: "",
@@ -1777,7 +1814,7 @@ const schema = {
             },
             {
               component: "radio",
-              name: "protectionFromHarassment[addressSafetySecurityUnderageUsers]",
+              name: "doNoHarm.protectionFromHarassment.addressSafetySecurityUnderageUsers",
               label:
                 "If yes - does the project take steps to address the safety and security of underage users?",
               description: "",
@@ -1796,7 +1833,7 @@ const schema = {
                 },
               ],
               condition: {
-                when: "protectionFromHarassment[userInteraction]",
+                when: "doNoHarm.protectionFromHarassment.userInteraction",
                 pattern: /Yes/,
               },
               isRequired: true,
@@ -1808,14 +1845,14 @@ const schema = {
             },
             {
               name:
-                "protectionFromHarassment[stepsAddressRiskPreventSafetyUnderageUsers]",
+                "doNoHarm.protectionFromHarassment.stepsAddressRiskPreventSafetyUnderageUsers",
               component: "field-array",
               label: "Steps to address risk",
               description:
                 "If yes - please describe the steps this project takes to address risk or prevent access by underage users:",
               helperText: "",
               condition: {
-                when: "protectionFromHarassment[userInteraction]",
+                when: "protectionFromHarassment.userInteraction",
                 pattern: /Yes/,
               },
               isRequired: true,
@@ -1833,7 +1870,7 @@ const schema = {
             },
             {
               component: "radio",
-              name: "protectionFromHarassment[griefAbuseHarassmentProtection]",
+              name: "doNoHarm.protectionFromHarassment.griefAbuseHarassmentProtection",
               label:
                 "If yes - does the project help users and contributors protect themselves against grief, abuse, and harassment.",
               description: "",
@@ -1852,7 +1889,7 @@ const schema = {
                 },
               ],
               condition: {
-                when: "protectionFromHarassment[userInteraction]",
+                when: "doNoHarm.protectionFromHarassment.userInteraction",
                 pattern: /Yes/,
               },
               isRequired: true,
@@ -1863,14 +1900,14 @@ const schema = {
               ],
             },
             {
-              name: "protectionFromHarassment[harassmentProtectionSteps]",
+              name: "doNoHarm.protectionFromHarassment.harassmentProtectionSteps",
               component: "field-array",
               label: "Steps to address risk",
               description:
                 "If yes - please describe the steps taken to help users protect themselves.",
               helperText: "",
               condition: {
-                when: "protectionFromHarassment[userInteraction]",
+                when: "doNoHarm.protectionFromHarassment.userInteraction",
                 pattern: /Yes/,
               },
               isRequired: true,
@@ -1890,11 +1927,12 @@ const schema = {
         },
         {
           title: "Locations - development & deployment countries",
-          name: "step-7",
+          name: "locations",
+          component: "sub-form",
           fields: [
             {
               component: "field-array",
-              name: "locations[developmentCountries]",
+              name: "locations.developmentCountries",
               label: "Choose development countries",
               fieldKey: "field_array",
               title: "Choose development countries",
@@ -2684,7 +2722,7 @@ const schema = {
             },
             {
               component: "field-array",
-              name: "locations[deploymentCountries]",
+              name: "locations.deploymentCountries",
               label: "Choose deployment countries",
               fieldKey: "field_array",
               title: "Choose deployment countries",

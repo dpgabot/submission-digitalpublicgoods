@@ -1417,7 +1417,7 @@ const schema = {
               ],
             },
             {
-              name: "preventHarm[additionalInfoMechanismProcessesPolicies]",
+              name: "doNoHarm[preventHarm[additionalInfoMechanismProcessesPolicies]]",
               component: "text-field",
               label: "Additional risks and mitigation steps",
               description:
@@ -1777,7 +1777,8 @@ const schema = {
             },
             {
               component: "radio",
-              name: "protectionFromHarassment[addressSafetySecurityUnderageUsers]",
+              name:
+                "doNoHarm[protectionFromHarassment[addressSafetySecurityUnderageUsers]]",
               label:
                 "If yes - does the project take steps to address the safety and security of underage users?",
               description: "",
@@ -1796,7 +1797,7 @@ const schema = {
                 },
               ],
               condition: {
-                when: "protectionFromHarassment[userInteraction]",
+                when: "doNoHarm[protectionFromHarassment[userInteraction]]",
                 pattern: /Yes/,
               },
               isRequired: true,
@@ -1808,14 +1809,14 @@ const schema = {
             },
             {
               name:
-                "protectionFromHarassment[stepsAddressRiskPreventSafetyUnderageUsers]",
+                "doNoHarm[protectionFromHarassment[stepsAddressRiskPreventSafetyUnderageUsers]]",
               component: "field-array",
               label: "Steps to address risk",
               description:
                 "If yes - please describe the steps this project takes to address risk or prevent access by underage users:",
               helperText: "",
               condition: {
-                when: "protectionFromHarassment[userInteraction]",
+                when: "doNoHarm[protectionFromHarassment[userInteraction]]",
                 pattern: /Yes/,
               },
               isRequired: true,
@@ -1833,7 +1834,7 @@ const schema = {
             },
             {
               component: "radio",
-              name: "protectionFromHarassment[griefAbuseHarassmentProtection]",
+              name: "doNoHarm[protectionFromHarassment[griefAbuseHarassmentProtection]]",
               label:
                 "If yes - does the project help users and contributors protect themselves against grief, abuse, and harassment.",
               description: "",
@@ -1852,7 +1853,7 @@ const schema = {
                 },
               ],
               condition: {
-                when: "protectionFromHarassment[userInteraction]",
+                when: "doNoHarm[protectionFromHarassment[userInteraction]]",
                 pattern: /Yes/,
               },
               isRequired: true,
@@ -1863,14 +1864,14 @@ const schema = {
               ],
             },
             {
-              name: "protectionFromHarassment[harassmentProtectionSteps]",
+              name: "doNoHarm[protectionFromHarassment[harassmentProtectionSteps]]",
               component: "field-array",
               label: "Steps to address risk",
               description:
                 "If yes - please describe the steps taken to help users protect themselves.",
               helperText: "",
               condition: {
-                when: "protectionFromHarassment[userInteraction]",
+                when: "doNoHarm[protectionFromHarassment[userInteraction]]",
                 pattern: /Yes/,
               },
               isRequired: true,

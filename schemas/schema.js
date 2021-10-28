@@ -1,5 +1,4 @@
-import validatorTypes from "@data-driven-forms/react-form-renderer/validator-types/index.js";
-import {CONDITIONAL_SUBMIT_FLAG} from "@data-driven-forms/common/wizard/index.js";
+import wizard from "@data-driven-forms/common/wizard/index.js";
 
 const schema = {
   title: "Digital Public Goods Submission",
@@ -15,7 +14,7 @@ const schema = {
           nextStep: {
             when: "stage",
             stepMapper: {
-              nominee: CONDITIONAL_SUBMIT_FLAG,
+              nominee: wizard.CONDITIONAL_SUBMIT_FLAG,
               DPG: "clearOwnership",
             },
           },
@@ -61,7 +60,7 @@ const schema = {
                   type: "required",
                 },
                 {
-                  type: validatorTypes.URL,
+                  type: "url",
                 },
               ],
             },
@@ -89,7 +88,7 @@ const schema = {
                   type: "required",
                 },
                 {
-                  type: validatorTypes.PATTERN,
+                  type: "pattern",
                   pattern: "[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$",
                   message: "Not valid email",
                 },
@@ -143,7 +142,7 @@ const schema = {
                   type: "required",
                 },
                 {
-                  type: validatorTypes.URL,
+                  type: "url",
                 },
               ],
               classes: {root: "conditional"},
@@ -810,7 +809,7 @@ const schema = {
                       type: "required",
                     },
                     {
-                      type: validatorTypes.URL,
+                      type: "url",
                     },
                   ],
                 },
@@ -873,7 +872,7 @@ const schema = {
                       type: "required",
                     },
                     {
-                      type: validatorTypes.URL,
+                      type: "url",
                     },
                   ],
                 },
@@ -963,14 +962,14 @@ const schema = {
                   type: "required",
                 },
                 {
-                  type: validatorTypes.URL,
+                  type: "url",
                 },
               ],
               classes: {root: "conditional"},
             },
           ],
         },
-        { 
+        {
           title: "Indicator 4 - Platform Independence",
           name: "platformIndependence",
           nextStep: "privacy",
@@ -1106,7 +1105,7 @@ const schema = {
                       type: "required",
                     },
                     {
-                      type: validatorTypes.URL,
+                      type: "url",
                     },
                   ],
                 },
@@ -1199,9 +1198,9 @@ const schema = {
           ],
         },
         {
-          title: "Indicators 7 & 9",
+          title: "Indicator 7 - Adherence to Privacy and Applicable Laws",
           name: "privacy",
-          nextStep: "doNoHarm",
+          nextStep: "standards",
           component: "sub-form",
           fields: [
             {
@@ -1280,7 +1279,11 @@ const schema = {
               classes: {root: "conditional"},
             },
           ],
+        },
+        {
+          title: "Indicator 8 - Adherence to Standards & Best Practices",
           name: "standards",
+          nextStep: "doNoHarm",
           component: "sub-form",
           fields: [
             {
@@ -1353,7 +1356,7 @@ const schema = {
                       type: "required",
                     },
                     {
-                      type: validatorTypes.URL,
+                      type: "url",
                     },
                   ],
                 },
@@ -1706,7 +1709,8 @@ const schema = {
               ],
             },
             {
-              name: "doNoHarm.inappropriateIllegalContent.policyGuidelinesDocumentationLink",
+              name:
+                "doNoHarm.inappropriateIllegalContent.policyGuidelinesDocumentationLink",
               component: "text-field",
               label: "Policy guideline documentation link",
               description:
@@ -1722,7 +1726,7 @@ const schema = {
                   type: "required",
                 },
                 {
-                  type: validatorTypes.URL,
+                  type: "url",
                 },
               ],
               classes: {root: "conditional"},
@@ -1759,7 +1763,8 @@ const schema = {
               ],
             },
             {
-              name: "doNoHarm.inappropriateIllegalContent.illegalContentDetectionMechanism",
+              name:
+                "doNoHarm.inappropriateIllegalContent.illegalContentDetectionMechanism",
               component: "text-field",
               label: "Illegal content detection mechanism",
               description:
@@ -1814,7 +1819,8 @@ const schema = {
             },
             {
               component: "radio",
-              name: "doNoHarm.protectionFromHarassment.addressSafetySecurityUnderageUsers",
+              name:
+                "doNoHarm.protectionFromHarassment.addressSafetySecurityUnderageUsers",
               label:
                 "If yes - does the project take steps to address the safety and security of underage users?",
               description: "",
@@ -3544,7 +3550,7 @@ for (let i = 1; i <= 17; i++) {
         label: "URL:",
         validate: [
           {
-            type: validatorTypes.URL,
+            type: "url",
           },
         ],
       },

@@ -1421,7 +1421,7 @@ const schema = {
           fields: [
             {
               component: "radio",
-              name: "doNoHarm.stepsToPreventHarm",
+              name: "doNoHarm.preventHarm.stepsToPreventHarm",
               label:
                 "On the whole is this project designed to ensure that it anticipates, prevents and does no harm?",
               description: "",
@@ -1447,14 +1447,14 @@ const schema = {
               ],
             },
             {
-              name: "doNoHarm.additionalInfoMechanismProcessesPolicies",
+              name: "doNoHarm.preventHarm.additionalInfoMechanismProcessesPolicies",
               component: "text-field",
               label: "Additional risks and mitigation steps",
               description:
                 "Please describe any additional risks and mitigation steps that this project uses to prevent harm.",
               helperText: "",
               condition: {
-                when: "preventHarm[stepsToPreventHarm]",
+                when: "doNoHarm.preventHarm.stepsToPreventHarm",
                 pattern: /Yes/,
               },
               validate: [],
@@ -1609,7 +1609,7 @@ const schema = {
                     "If yes - please describe the steps, and include a link to the privacy policy and/or terms of service:",
                   helperText: "",
                   condition: {
-                    when: "doNoHarm[dataPrivacySecurity[thirdPartyDataSharing]]",
+                    when: "doNoHarm.dataPrivacySecurity.thirdPartyDataSharing",
                     pattern: /Yes/,
                   },
                   isRequired: true,
@@ -1852,7 +1852,7 @@ const schema = {
                 "If yes - please describe the steps this project takes to address risk or prevent access by underage users:",
               helperText: "",
               condition: {
-                when: "protectionFromHarassment.userInteraction",
+                when: "doNoHarm.protectionFromHarassment.userInteraction",
                 pattern: /Yes/,
               },
               isRequired: true,

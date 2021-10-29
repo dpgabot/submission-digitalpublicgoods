@@ -1,11 +1,12 @@
 const fs = require("fs");
+const path = require("path");
 const fetch = require("node-fetch");
 
 const NOMINEE_SCHEMA =
   "https://raw.githubusercontent.com/unicef/publicgoods-candidates/main/nominee-schema.json";
 const DPG_SCHEMA =
   "https://raw.githubusercontent.com/unicef/publicgoods-candidates/main/screening-schema.json";
-const SUBMISSION_SCHEMA = "../schemas/schema.js";
+const SUBMISSION_SCHEMA = path.join(__dirname, "../schemas/schema.js");
 
 // Because the mix of ESM scripts (import) coming from React and CommonJS (require) used by Node
 // instead of importing the schema file directly (which throws all sorts of errors due to the
@@ -26,14 +27,14 @@ var result = data
     "const wizard = {CONDITIONAL_SUBMIT_FLAG: true}"
   )
   .replace(/export default schema/, "exports.schema = schema");
-fs.writeFileSync("./schema.js", result, "utf8", function (err) {
+fs.writeFileSync(path.join(__dirname, "./schema.js"), result, "utf8", function (err) {
   if (err) {
     console.log("An error occured while writing file 'schema.js'");
     return console.log(err);
   }
 });
 // import the "sanitized" schema matching the CommonJS format
-const schema = require("./schema.js");
+const schema = require(path.join(__dirname, "./schema.js"));
 
 // Parse keys in dot notation into object properties
 // Adapted from the extensively documented answer found at

@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --check \"**/*.+(js|jsx|json|yml|yaml|css|vue)\"",
-    "format:fix": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|vue)\""
+    "format:fix": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|vue)\"",
+    "validate": "node scripts/validate-schema.js"
   },
   "dependencies": {
     "@data-driven-forms/mui-component-mapper": "^3.6.0",

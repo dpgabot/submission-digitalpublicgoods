@@ -17,3 +17,5 @@ jobs:
         run: npm run lint
       - name: Prettier Format
         run: npm run format
+      - name: Validate Schema
+        run: npm run validate

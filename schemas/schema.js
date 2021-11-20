@@ -1,4 +1,4 @@
-import wizard from "@data-driven-forms/common/wizard/index.js";
+import {CONDITIONAL_SUBMIT_FLAG} from "@data-driven-forms/common/wizard";
 
 const schema = {
   title: "Digital Public Goods Submission",
@@ -14,7 +14,7 @@ const schema = {
           nextStep: {
             when: "stage",
             stepMapper: {
-              nominee: wizard.CONDITIONAL_SUBMIT_FLAG,
+              nominee: CONDITIONAL_SUBMIT_FLAG,
               DPG: "clearOwnership",
             },
           },

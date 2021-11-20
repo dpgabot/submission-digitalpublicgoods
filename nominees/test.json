@@ -1,0 +1,36 @@
+{
+  "name": "Test",
+  "aliases": [
+    "TEst"
+  ],
+  "description": "This is a live test of the nominee flow to address a flagged production bug",
+  "website": "https://test.com",
+  "license": [
+    {
+      "spdx": "CC-BY-4.0",
+      "licenseURL": "http://licence.com"
+    }
+  ],
+  "SDGs": [
+    {
+      "SDGNumber": 2,
+      "evidenceText": "Dummy text explanation",
+      "evidenceURL": "https://test.com"
+    }
+  ],
+  "sectors": [],
+  "type": [
+    "data"
+  ],
+  "repositoryURL": "",
+  "organizations": [
+    {
+      "name": "Test org",
+      "website": "https://testorg.com",
+      "org_type": "owner",
+      "contact_name": "Nathan F",
+      "contact_email": "nathanf@email.com"
+    }
+  ],
+  "stage": "nominee"
+}

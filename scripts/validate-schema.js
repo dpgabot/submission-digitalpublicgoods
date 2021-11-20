@@ -23,7 +23,7 @@ var data = fs.readFileSync(SUBMISSION_SCHEMA, "utf8", function (err) {
 });
 var result = data
   .replace(
-    /import wizard from "@data-driven-forms\/common\/wizard\/index.js"/,
+    /import {CONDITIONAL_SUBMIT_FLAG as wizard} from "@data-driven-forms\/common\/wizard\/"/,
     "const wizard = {CONDITIONAL_SUBMIT_FLAG: true}"
   )
   .replace(/export default schema/, "exports.schema = schema");

@@ -1,4 +1,4 @@
-import {CONDITIONAL_SUBMIT_FLAG as wizard} from "@data-driven-forms/common/wizard";
+import {CONDITIONAL_SUBMIT_FLAG as wizard} from "@data-driven-forms/common/wizard/";
 
 const schema = {
   title: "Digital Public Goods Submission",

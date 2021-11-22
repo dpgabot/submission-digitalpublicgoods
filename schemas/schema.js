@@ -1,5 +1,3 @@
-import {CONDITIONAL_SUBMIT_FLAG as wizard} from "@data-driven-forms/common/wizard/";
-
 const schema = {
   title: "Digital Public Goods Submission",
   description: `This is a BETA version of our submission form and process which means we'll be learning from it and may contact you for follow-up information and input on the process as well as your project submission.`,
@@ -7,6 +5,7 @@ const schema = {
     {
       component: "wizard",
       name: "wizard",
+      conditionalSubmitFlag: "nominee-final-step",
       fields: [
         {
           title: "Get started with submission wizard form",
@@ -14,7 +13,7 @@ const schema = {
           nextStep: {
             when: "stage",
             stepMapper: {
-              nominee: wizard.CONDITIONAL_SUBMIT_FLAG,
+              nominee: "nominee-final-step",
               DPG: "clearOwnership",
             },
           },

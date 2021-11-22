@@ -21,12 +21,7 @@ var data = fs.readFileSync(SUBMISSION_SCHEMA, "utf8", function (err) {
     return console.log(err);
   }
 });
-var result = data
-  .replace(
-    /import wizard from "@data-driven-forms\/common\/wizard\/index.js"/,
-    "const wizard = {CONDITIONAL_SUBMIT_FLAG: true}"
-  )
-  .replace(/export default schema/, "exports.schema = schema");
+var result = data.replace(/export default schema/, "exports.schema = schema");
 fs.writeFileSync(path.join(__dirname, "./schema.js"), result, "utf8", function (err) {
   if (err) {
     console.log("An error occured while writing file 'schema.js'");

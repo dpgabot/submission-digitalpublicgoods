@@ -1,0 +1,34 @@
+{
+  "name": "qerqewr",
+  "aliases": [
+    ""
+  ],
+  "description": "qwerqwer",
+  "website": "http://cooldpgproject.com",
+  "license": [
+    {
+      "spdx": "Apache-2.0",
+      "licenseURL": "http://cooldpgproject.com"
+    }
+  ],
+  "SDGs": [
+    {
+      "SDGNumber": 2,
+      "evidenceText": "asdfasdf",
+      "evidenceURL": "http://cooldpgproject.com"
+    }
+  ],
+  "sectors": [],
+  "type": [
+    "data"
+  ],
+  "repositoryURL": "",
+  "organizations": [
+    {
+      "name": "adsfdf",
+      "website": "http://cooldpgproject.com",
+      "org_type": "maintainer"
+    }
+  ],
+  "stage": "nominee"
+}

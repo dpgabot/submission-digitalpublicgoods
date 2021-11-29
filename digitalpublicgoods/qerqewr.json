@@ -1,0 +1,48 @@
+{
+  "name": "qerqewr",
+  "clearOwnership": {
+    "isOwnershipExplicit": "No"
+  },
+  "platformIndependence": {
+    "mandatoryDepsCreateMoreRestrictions": "No"
+  },
+  "privacy": {
+    "isPrivacyCompliant": "Yes",
+    "privacyComplianceList": [
+      "adsf",
+      "asdfasdf",
+      "sfgsdfg",
+      "ytetyetrye"
+    ],
+    "adherenceSteps": []
+  },
+  "standards": {
+    "supportStandards": "No",
+    "implementBestPractices": "No"
+  },
+  "doNoHarm": {
+    "preventHarm": {
+      "stepsToPreventHarm": "No"
+    },
+    "dataPrivacySecurity": {
+      "collectsPII": "No"
+    },
+    "inappropriateIllegalContent": {
+      "collectStoreDistribute": "No"
+    },
+    "protectionFromHarassment": {
+      "userInteraction": "No"
+    }
+  },
+  "locations": {
+    "developmentCountries": [
+      "Algeria",
+      "Armenia"
+    ],
+    "deploymentCountries": [
+      "Algeria",
+      "Andorra",
+      "Armenia"
+    ]
+  }
+}

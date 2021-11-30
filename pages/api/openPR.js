@@ -200,6 +200,26 @@ function submitPullRequests(projectName, filesObject) {
   return promiseArray;
 }
 
+function checkNull(arrayItem) {
+  if (arrayItem) return arrayItem;
+}
+
+function removeNullsInArrays(submission) {
+  let keys = Object.keys(submission);
+  keys.forEach((element) => {
+    // if it's an array, check for nulls and remove them
+    if (Array.isArray(submission[element])) {
+      submission[element] = submission[element].filter(checkNull);
+    } else {
+      if (typeof submission[element] == "object") {
+        // recursive call
+        removeNullsInArrays(submission[element]);
+      }
+    }
+  });
+  return submission;
+}
+
 export default async (req, res) => {
   if (req.method === "POST") {
     let values = req.body.values;
@@ -207,6 +227,9 @@ export default async (req, res) => {
 
     // Exclude contact information from pull request
     delete values["contact"];
+
+    // Remove nulls from values
+    values = removeNullsInArrays(values);
 
     // Parse SDG information
     values = getSDGRelevanceInfo(values);

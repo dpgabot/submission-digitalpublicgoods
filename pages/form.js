@@ -125,7 +125,6 @@ export default function Home() {
   );
 
   async function saveToDb(values) {
-    values = removeNullsInArrays(values);
     if (cookies.uuid) {
       await fetch(`/api/saveDB/${cookies.uuid}`, {
         method: "POST",
@@ -138,26 +137,6 @@ export default function Home() {
         }),
       });
     }
-  }
-
-  function removeNullsInArrays(submission) {
-    let keys = Object.keys(submission);
-    keys.forEach((element) => {
-      // if it's an array, check for nulls and remove them
-      if (Array.isArray(submission[element])) {
-        submission[element] = submission[element].filter(checkNull);
-      } else {
-        if (typeof submission[element] == "object") {
-          // recursive call
-          removeNullsInArrays(submission[element]);
-        }
-      }
-    });
-    return submission;
-  }
-
-  function checkNull(arrayItem) {
-    if (arrayItem) return arrayItem;
   }
 
   async function openPR(values) {

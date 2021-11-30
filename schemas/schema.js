@@ -971,7 +971,7 @@ const schema = {
         {
           title: "Indicator 4 - Platform Independence",
           name: "platformIndependence",
-          nextStep: "privacy",
+          nextStep: "documentation",
           component: "sub-form",
           fields: [
             {

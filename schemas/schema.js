@@ -1053,7 +1053,7 @@ const schema = {
         {
           title: "Indicator 5 - Documentation",
           name: "documentation",
-          nextStep: "nonPII",
+          nextStep: "NonPII",
           component: "sub-form",
           fields: [
             {

@@ -1312,57 +1312,6 @@ const schema = {
               ],
             },
             {
-              name: "standards.standardsList",
-              component: "field-array",
-              label: "Standards list (Please supply either text or URLs)",
-              description: "Which standards does this project support (please list).",
-              helperText: "",
-              condition: {
-                when: "standards.supportStandards",
-                pattern: /Yes/,
-              },
-              isRequired: true,
-              validate: [
-                {
-                  type: "required",
-                },
-              ],
-              fields: [
-                {
-                  component: "text-field",
-                },
-              ],
-              classes: {root: "conditional"},
-            },
-            {
-              component: "field-array",
-              name: "standards.evidenceStandardSupport",
-              label: "Standards support evidence",
-              description:
-                "Can you point to evidence of your support? (i.e. please link to your validator, open test suite, etc.)",
-              minItems: 1,
-              condition: {
-                when: "standards.supportStandards",
-                pattern: /Yes/,
-              },
-              fields: [
-                {
-                  component: "text-field",
-                  label: "Standards evidence",
-                  isRequired: true,
-                  validate: [
-                    {
-                      type: "required",
-                    },
-                    {
-                      type: "url",
-                    },
-                  ],
-                },
-              ],
-              classes: {root: "conditional"},
-            },
-            {
               component: "radio",
               name: "standards.implementBestPractices",
               label:
@@ -1409,6 +1358,57 @@ const schema = {
               fields: [
                 {
                   component: "text-field",
+                },
+              ],
+              classes: {root: "conditional"},
+            },
+            {
+              name: "standards.standardsList",
+              component: "field-array",
+              label: "Standards list (Please supply either text or URLs)",
+              description: "Which standards does this project support (please list).",
+              helperText: "",
+              condition: {
+                when: "standards.supportStandards",
+                pattern: /Yes/,
+              },
+              isRequired: true,
+              validate: [
+                {
+                  type: "required",
+                },
+              ],
+              fields: [
+                {
+                  component: "text-field",
+                },
+              ],
+              classes: {root: "conditional"},
+            },
+            {
+              component: "field-array",
+              name: "standards.evidenceStandardSupport",
+              label: "Standards support evidence",
+              description:
+                "Can you point to evidence of your support? (i.e. please link to your validator, open test suite, etc.)",
+              minItems: 1,
+              condition: {
+                when: "standards.supportStandards",
+                pattern: /Yes/,
+              },
+              fields: [
+                {
+                  component: "text-field",
+                  label: "Standards evidence",
+                  isRequired: true,
+                  validate: [
+                    {
+                      type: "required",
+                    },
+                    {
+                      type: "url",
+                    },
+                  ],
                 },
               ],
               classes: {root: "conditional"},

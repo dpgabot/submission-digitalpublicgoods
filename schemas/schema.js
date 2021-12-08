@@ -1397,7 +1397,7 @@ const schema = {
                 "Which principles and best practices does this project support (please list)",
               helperText: "",
               condition: {
-                when: "standards[implementBestPractices]",
+                when: "standards.implementBestPractices",
                 pattern: /Yes/,
               },
               isRequired: true,

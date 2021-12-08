@@ -20,8 +20,10 @@ assignees:
 
 ### What's the actual result?
 
-### Additional details / screenshot
+### Additional details
 
 - What browser did this occur on?
 - What operating system did this occur on?
 -
+
+### (Optional) Screenshot

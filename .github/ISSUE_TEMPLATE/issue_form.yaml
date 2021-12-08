@@ -26,6 +26,15 @@ body:
       value: "A bug happened!"
     validations:
       required: true
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to reproduce the issue - what what should we do to let this happen?
+      description: You can list this out in a number of steps.
+      placeholder: 1)
+      value: ""
+    validations:
+      required: true
   - type: dropdown
     id: browsers
     attributes:

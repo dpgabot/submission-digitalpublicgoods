@@ -88,8 +88,8 @@ const schema = {
                 },
                 {
                   type: "pattern",
-                  pattern: "^[w-.]+@([w-]+.)+[w-]{2,4}$",
-                  message: "Not valid email",
+                  pattern: "^[a-z0-9._%+-]+@([a-z0-9.-]+.)+[a-z0-9.-]{2,4}$",
+                  message: "This may not be a valid email format",
                 },
               ],
             },

@@ -1,0 +1,35 @@
+{
+  "name": "Test email validator schema",
+  "aliases": [
+    ""
+  ],
+  "description": "Test email validator schema",
+  "website": "https://test.org",
+  "license": [
+    {
+      "licenseURL": "http://testnomination.com",
+      "spdx": "0BSD"
+    }
+  ],
+  "SDGs": [
+    {
+      "SDGNumber": 2,
+      "evidenceText": "Test email validator schema",
+      "evidenceURL": "http://asd.com"
+    }
+  ],
+  "sectors": [],
+  "type": [
+    "data"
+  ],
+  "repositoryURL": "",
+  "organizations": [
+    {
+      "name": "My org",
+      "website": "http://testnomination.com",
+      "org_type": "maintainer",
+      "contact_name": "Natahn"
+    }
+  ],
+  "stage": "nominee"
+}

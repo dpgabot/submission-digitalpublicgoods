@@ -15,7 +15,7 @@ const GITHUB_BRANCH = process.env.GITHUB_BRANCH
   : "main"; /* optional: defaults to default branch */
 const GITHUB_ASSIGNEES = process.env.GITHUB_ASSIGNEES
   ? process.env.GITHUB_ASSIGNEES.split(", ")
-  : null;
+  : ["nathanbaleeta"];
 
 // Parse name of project prior to saving file
 function parseProjectName(values) {

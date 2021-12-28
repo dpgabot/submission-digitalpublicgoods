@@ -13,6 +13,9 @@ const GITHUB_REPO = process.env.NEXT_PUBLIC_GITHUB_REPO
 const GITHUB_BRANCH = process.env.GITHUB_BRANCH
   ? process.env.GITHUB_BRANCH
   : "main"; /* optional: defaults to default branch */
+const GITHUB_ASSIGNEES = process.env.GITHUB_ASSIGNEES
+  ? process.env.GITHUB_ASSIGNEES.split(", ")
+  : null;
 
 // Parse name of project prior to saving file
 function parseProjectName(values) {
@@ -221,6 +224,10 @@ function removeNullsInArrays(submission) {
 }
 
 export default async (req, res) => {
+  const octokit = new Octokit({
+    auth: TOKEN,
+  });
+
   if (req.method === "POST") {
     let values = req.body.values;
     let nomineeJSON, sortedSubmission;
@@ -246,9 +253,31 @@ export default async (req, res) => {
       let pullRequestNumbers = [];
 
       // Only returning successful results in an array of PR number(s)
-      results.forEach((result) => {
-        if (result.status == "fulfilled")
+      results.forEach(async (result) => {
+        if (result.status == "fulfilled") {
           pullRequestNumbers.push(result.value.data.number);
+
+          if (GITHUB_ASSIGNEES) {
+            await octokit.request(
+              "DELETE /repos/{owner}/{repo}/issues/{issue_number}/assignees",
+              {
+                owner: GITHUB_OWNER,
+                repo: GITHUB_REPO,
+                issue_number: result.value.data.number,
+                assignees: ["dpgabot"],
+              }
+            );
+            await octokit.request(
+              "POST /repos/{owner}/{repo}/issues/{issue_number}/assignees",
+              {
+                owner: GITHUB_OWNER,
+                repo: GITHUB_REPO,
+                issue_number: result.value.data.number,
+                assignees: GITHUB_ASSIGNEES,
+              }
+            );
+          }
+        }
       });
 
       return pullRequestNumbers;

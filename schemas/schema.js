@@ -130,11 +130,12 @@ const schema = {
               component: "field-array",
               name: "repositories",
               label: "List of repositories",
-              description: "Storage location for software packages typically managed by source control",
+              description:
+                "Storage location for software packages typically managed by source control",
               minItems: 1,
               condition: {
                 when: "type",
-                pattern: /software/
+                pattern: /software/,
               },
               fields: [
                 {
@@ -145,9 +146,9 @@ const schema = {
                   isRequired: true,
                   validate: [
                     {
-                      type: "required"
-                    }
-                  ]
+                      type: "required",
+                    },
+                  ],
                 },
                 {
                   name: "repoURL",
@@ -164,9 +165,9 @@ const schema = {
                       type: "url",
                     },
                   ],
-                }
+                },
               ],
-              classes: {root: "conditional"}
+              classes: {root: "conditional"},
             },
             {
               name: "SDGs",

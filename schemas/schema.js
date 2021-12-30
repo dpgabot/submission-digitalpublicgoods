@@ -139,7 +139,7 @@ const schema = {
               },
               fields: [
                 {
-                  name: "name",
+                  name: "repositories.name",
                   component: "text-field",
                   label: "Repository name",
                   helperText: "For example: main, frontend, backend etc.",
@@ -151,7 +151,7 @@ const schema = {
                   ],
                 },
                 {
-                  name: "repoURL",
+                  name: "repositories.url",
                   component: "text-field",
                   label: "Link to Github (or other) repository",
                   description:

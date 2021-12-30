@@ -131,7 +131,7 @@ const schema = {
               name: "repositories",
               label: "List of repositories",
               description:
-                "Storage location for software packages typically managed by source control",
+                "Source code open-source software typically managed by version control",
               minItems: 1,
               condition: {
                 when: "type",

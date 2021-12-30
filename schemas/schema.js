@@ -127,24 +127,46 @@ const schema = {
               ],
             },
             {
-              name: "repositoryURL",
-              component: "text-field",
-              label: "Link to Github (or other) repository",
-              helperText: "Required for open source software - link to public repository",
+              component: "field-array",
+              name: "repositories",
+              label: "List of repositories",
+              description: "Storage location for software packages typically managed by source control",
+              minItems: 1,
               condition: {
                 when: "type",
-                pattern: /software/,
+                pattern: /software/
               },
-              isRequired: true,
-              validate: [
+              fields: [
                 {
-                  type: "required",
+                  name: "name",
+                  component: "text-field",
+                  label: "Repository name",
+                  helperText: "For example: main, frontend, backend etc.",
+                  isRequired: true,
+                  validate: [
+                    {
+                      type: "required"
+                    }
+                  ]
                 },
                 {
-                  type: "url",
-                },
+                  name: "repoURL",
+                  component: "text-field",
+                  label: "Link to Github (or other) repository",
+                  description:
+                    "Required for open source software - link to public repository",
+                  isRequired: true,
+                  validate: [
+                    {
+                      type: "required",
+                    },
+                    {
+                      type: "url",
+                    },
+                  ],
+                }
               ],
-              classes: {root: "conditional"},
+              classes: {root: "conditional"}
             },
             {
               name: "SDGs",

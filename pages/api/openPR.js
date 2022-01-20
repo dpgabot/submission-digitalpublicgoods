@@ -111,7 +111,7 @@ function getSubmissionFiles(values, nomineeJSON) {
     "license",
     "organizations",
     "stage",
-    "repositoryURL",
+    "repositories",
   ].forEach((e) => delete values[e]);
   // Convert JavaScript submission sorted object into JSON string and add newline at EOF
   data = JSON.stringify(values, null, 2).concat("\n");
@@ -153,7 +153,7 @@ function nomineeSubmission(values, sortedSubmission) {
     SDGs: values.SDGs ? values.SDGs : [],
     sectors: values.sectors ? values.sectors : [],
     type: values.type ? values.type : [],
-    repositoryURL: values.repositoryURL ? values.repositoryURL : "",
+    repositories: values.repositories ? [values.repositories] : [],
     organizations: values.organizations ? [values.organizations] : [],
     stage: "nominee",
   };

@@ -1,0 +1,43 @@
+{
+  "name": "Test Project",
+  "aliases": [
+    "test project "
+  ],
+  "description": "Test project",
+  "website": "https://github.com/dpgabot/submission-digitalpublicgoods/issues/99",
+  "license": [
+    {
+      "licenseURL": "https://github.com/dpgabot/submission-digitalpublicgoods/issues/99",
+      "spdx": "0BSD"
+    }
+  ],
+  "SDGs": [
+    {
+      "SDGNumber": 2,
+      "evidenceText": "asdfadsf",
+      "evidenceURL": "https://github.com/dpgabot/submission-digitalpublicgoods/issues/99"
+    }
+  ],
+  "sectors": [],
+  "type": [
+    "software"
+  ],
+  "repositories": [
+    [
+      {
+        "name": "asasdf",
+        "url": "https://github.com/dpgabot/submission-digitalpublicgoods/issues/99"
+      }
+    ]
+  ],
+  "organizations": [
+    {
+      "name": "asdf",
+      "website": "https://github.com/dpgabot/submission-digitalpublicgoods/issues/99",
+      "org_type": "owner",
+      "contact_name": "adsfadsf",
+      "contact_email": "user@test.com"
+    }
+  ],
+  "stage": "nominee"
+}

@@ -1,0 +1,43 @@
+{
+  "name": "Test repo array",
+  "aliases": [
+    "adsfasdf"
+  ],
+  "description": "afsdasdfasdf",
+  "website": "http://testnomination.com",
+  "license": [
+    {
+      "spdx": "AAL",
+      "licenseURL": "http://testnomination.com"
+    }
+  ],
+  "SDGs": [
+    {
+      "SDGNumber": 2,
+      "evidenceText": "sdfasdfasdf",
+      "evidenceURL": "http://testnomination.coma"
+    }
+  ],
+  "sectors": [],
+  "type": [
+    "software"
+  ],
+  "repositories": [
+    [
+      {
+        "name": "asdfasdfasdf",
+        "url": "http://testnomination.com"
+      }
+    ]
+  ],
+  "organizations": [
+    {
+      "name": "asdfasdf",
+      "website": "http://testnomination.com",
+      "org_type": "owner",
+      "contact_name": "asdfasdf",
+      "contact_email": "testUser1@mail.com"
+    }
+  ],
+  "stage": "nominee"
+}

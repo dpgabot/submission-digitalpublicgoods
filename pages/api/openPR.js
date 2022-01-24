@@ -249,38 +249,36 @@ export default async (req, res) => {
         parseProjectName(values),
         getSubmissionFiles(values, nomineeJSON)
       )
-    ).then((results) => {
-      let pullRequestNumbers = [];
+    );
+    let pullRequestNumbers = [];
 
-      // Only returning successful results in an array of PR number(s)
-      results.forEach(async (result) => {
-        if (result.status == "fulfilled") {
-          pullRequestNumbers.push(result.value.data.number);
+    // Only returning successful results in an array of PR number(s)
+    result.forEach(async (result) => {
+      if (result.status == "fulfilled") {
+        pullRequestNumbers.push(result.value.data.number);
+        console.log("printing pull request numbers");
 
-          if (GITHUB_ASSIGNEES) {
-            await octokit.request(
-              "DELETE /repos/{owner}/{repo}/issues/{issue_number}/assignees",
-              {
-                owner: GITHUB_OWNER,
-                repo: GITHUB_REPO,
-                issue_number: result.value.data.number,
-                assignees: ["dpgabot"],
-              }
-            );
-            await octokit.request(
-              "POST /repos/{owner}/{repo}/issues/{issue_number}/assignees",
-              {
-                owner: GITHUB_OWNER,
-                repo: GITHUB_REPO,
-                issue_number: result.value.data.number,
-                assignees: GITHUB_ASSIGNEES,
-              }
-            );
-          }
+        if (GITHUB_ASSIGNEES) {
+          await octokit.request(
+            "DELETE /repos/{owner}/{repo}/issues/{issue_number}/assignees",
+            {
+              owner: GITHUB_OWNER,
+              repo: GITHUB_REPO,
+              issue_number: result.value.data.number,
+              assignees: ["dpgabot"],
+            }
+          );
+          await octokit.request(
+            "POST /repos/{owner}/{repo}/issues/{issue_number}/assignees",
+            {
+              owner: GITHUB_OWNER,
+              repo: GITHUB_REPO,
+              issue_number: result.value.data.number,
+              assignees: GITHUB_ASSIGNEES,
+            }
+          );
         }
-      });
-
-      return pullRequestNumbers;
+      }
     });
 
     // return an unconditional success response

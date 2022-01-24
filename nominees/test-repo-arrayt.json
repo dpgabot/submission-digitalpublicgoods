@@ -1,0 +1,36 @@
+{
+  "name": "Test repo arrayT",
+  "aliases": [
+    "alsdfj;aldkjf"
+  ],
+  "description": "alsdkfja;lsdkjf;lakdjf;ljk",
+  "website": "http://testnomination.com",
+  "license": [
+    {
+      "spdx": "Apache-1.1",
+      "licenseURL": "http://testnomination.com"
+    }
+  ],
+  "SDGs": [
+    {
+      "SDGNumber": 4,
+      "evidenceText": "Some description",
+      "evidenceURL": "http://www.nathan.testproject.com"
+    }
+  ],
+  "sectors": [],
+  "type": [
+    "data"
+  ],
+  "repositories": [],
+  "organizations": [
+    {
+      "name": "KeteCode",
+      "website": "http://testnomination.com",
+      "org_type": "owner",
+      "contact_name": "KeteCode",
+      "contact_email": "nfletcher@unicef.org"
+    }
+  ],
+  "stage": "nominee"
+}

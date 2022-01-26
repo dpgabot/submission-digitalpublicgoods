@@ -31,6 +31,7 @@ function Error() {
   const classes = useStyles();
   const router = useRouter();
   const [values, setValues] = useState({});
+  const [error, setError] = useState({});
   const [cookies] = useCookies(["uuid"]);
 
   useEffect(() => {
@@ -40,6 +41,7 @@ function Error() {
       setValues(values);
     }
     fetchData();
+    setError(JSON.parse(router.query.error));
   }, []);
 
   return (
@@ -59,7 +61,7 @@ function Error() {
           and include the information below:
         </p>
         <h3 style={{alignSelf: "flex-start"}}>Error:</h3>
-        <pre style={{alignSelf: "flex-start"}}>{router.query.error}</pre>
+        <pre style={{alignSelf: "flex-start"}}>{JSON.stringify(error, null, 2)}</pre>
 
         <h3 style={{alignSelf: "flex-start"}}>Copy of your submission:</h3>
         <pre style={{alignSelf: "flex-start"}}>{JSON.stringify(values, null, 2)}</pre>

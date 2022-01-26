@@ -153,6 +153,12 @@ function removeFields(obj) {
   } else {
     throw "SPDX or licenseURL fields missing";
   }
+  if (Object.prototype.hasOwnProperty.call(obj, "url")) {
+    obj["repositories"] = {name: {}, url: obj["url"]};
+    delete obj["url"];
+  } else {
+    throw "repositories is missing url field";
+  }
   obj["SDGs"] = {SDGNumber: {}, evidenceText: {}, evidenceURL: {}};
   return obj;
 }

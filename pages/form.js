@@ -158,10 +158,10 @@ export default function Home() {
     // Save contact information to google spreadsheet
     saveContactToGoogleSpreadsheet(values);
 
-    if (result.length == 0) {
+    if (response.status != 200) {
       router.push({
         pathname: "/error",
-        query: {error: result.error},
+        query: {error: JSON.stringify(result)},
         state: values,
       });
     } else {

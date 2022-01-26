@@ -153,7 +153,7 @@ function nomineeSubmission(values, sortedSubmission) {
     SDGs: values.SDGs ? values.SDGs : [],
     sectors: values.sectors ? values.sectors : [],
     type: values.type ? values.type : [],
-    repositories: values.repositories ? [values.repositories] : [],
+    repositories: values.repositories ? values.repositories : [],
     organizations: values.organizations ? [values.organizations] : [],
     stage: "nominee",
   };
@@ -241,6 +241,7 @@ export default async (req, res) => {
     // Parse SDG information
     values = getSDGRelevanceInfo(values);
     sortedSubmission = nomineeSubmission(values, sortedSubmission);
+
     // Convert JavaScript submission sorted object into JSON string and add newline at EOF
     nomineeJSON = JSON.stringify(sortedSubmission, null, 2).concat("\n");
 
@@ -249,11 +250,11 @@ export default async (req, res) => {
         parseProjectName(values),
         getSubmissionFiles(values, nomineeJSON)
       )
-    ).then((results) => {
+    ).then(async (results) => {
       let pullRequestNumbers = [];
 
       // Only returning successful results in an array of PR number(s)
-      results.forEach(async (result) => {
+      for (const result of results) {
         if (result.status == "fulfilled") {
           pullRequestNumbers.push(result.value.data.number);
 
@@ -277,14 +278,25 @@ export default async (req, res) => {
               }
             );
           }
+        } else {
+          // push error object into results array
+          pullRequestNumbers.push(result);
+          break;
         }
-      });
+      }
 
       return pullRequestNumbers;
     });
 
-    // return an unconditional success response
-    res.statusCode = 200;
+    // If call to openPR was successful, result[0] contains the PR number
+    if (Number.isInteger(result[0])) {
+      // return success response
+      res.statusCode = 200;
+    } else {
+      // otherwise return error
+      res.statusCode = 500;
+      result = result[0];
+    }
     res.setHeader("Content-Type", "application/json");
     res.end(JSON.stringify(result));
   } else {

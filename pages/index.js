@@ -64,8 +64,8 @@ export default function Intro() {
 
           <p>
             Problems?{" "}
-            <a href="mailto:nominations@digitalpublicgoods.net">
-              nominations@digitalpublicgoods.net
+            <a href="mailto:support@digitalpublicgoods.net">
+              support@digitalpublicgoods.net
             </a>
           </p>
 

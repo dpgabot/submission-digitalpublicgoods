@@ -104,11 +104,11 @@ const schema = {
                   value: "software",
                 },
                 {
-                  label: "Open Data",
+                  label: "Open Dataset",
                   value: "data",
                 },
                 {
-                  label: "Open Content",
+                  label: "Open Content Collection",
                   value: "content",
                 },
                 {
@@ -1085,7 +1085,7 @@ const schema = {
               label:
                 "Does some documentation exist of the source code, use cases, and/or functional requirements for this project? *",
               description:
-                "For content, this should indicate any relevant compatible apps, software, hardware required to access the content and any instructions about how to use it. For software projects, this should be present as technical documentation that would allow a technical person unfamiliar with the project to launch and run the software. For data projects, this should be present as documentation that describes all the fields in the set, and provides context on how the data was collected and how it should be interpreted.",
+                "For content collections, this should indicate any relevant compatible apps, software, hardware required to access the content and any instructions about how to use it. For software projects, this should be present as technical documentation that would allow a technical person unfamiliar with the project to launch and run the software. For data projects, this should be present as documentation that describes all the fields in the set, and provides context on how the data was collected and how it should be interpreted.",
               options: [
                 {
                   label: "Yes",
@@ -1544,7 +1544,7 @@ const schema = {
                   component: "radio",
                   name: "doNoHarm.dataPrivacySecurity.thirdPartyDataSharing",
                   label:
-                    "If yes - does this project share this data and/or content with third parties?",
+                    "If yes - does this project share this dataset and/or content collection with third parties?",
                   description: "",
                   options: [
                     {

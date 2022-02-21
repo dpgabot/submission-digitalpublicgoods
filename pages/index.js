@@ -62,10 +62,9 @@ export default function Intro() {
             information will move more quickly through the vetting process.
           </p>
 
-          <p>
-            Problems?{" "}
-            <a href="https://bug-reporter.vercel.app/">-Report a bug / problem</a>
-            {" "}or send us an email {" "}
+          <p>Problems?</p>
+          <p> <a href="https://bug-reporter.vercel.app/">Report a bug / problem</a> </p>
+          <p>or send us an email
             <a href="mailto:support@digitalpublicgoods.net">
               support@digitalpublicgoods.net
             </a>

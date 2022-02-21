@@ -63,8 +63,11 @@ export default function Intro() {
           </p>
 
           <p>Problems?</p>
-          <p> <a href="https://bug-reporter.vercel.app/">Report a bug / problem</a> </p>
-          <p>or send us an email
+          <p>
+            <a href="https://bug-reporter.vercel.app/">Report a bug / problem</a>{" "}
+          </p>
+          <p>
+            or send us an email&nbsp;
             <a href="mailto:support@digitalpublicgoods.net">
               support@digitalpublicgoods.net
             </a>

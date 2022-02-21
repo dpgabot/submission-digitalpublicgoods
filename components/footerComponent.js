@@ -42,6 +42,8 @@ export default function componentFooter() {
           </a>
           &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
           <a href="mailto:info@digitalpublicgoods.net">Contact us</a>
+          &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+          <a href="https://bug-reporter.vercel.app/">Report a bug / problem</a>
         </Typography>
       </Container>
     </footer>

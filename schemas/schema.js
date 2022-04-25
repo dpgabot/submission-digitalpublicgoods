@@ -1618,7 +1618,7 @@ const schema = {
                   component: "radio",
                   name: "doNoHarm.dataPrivacySecurity.ensurePrivacySecurity",
                   label:
-                    "If yes - does the project ensure the privacy and security of this data and/or content and has it taken steps to prevent adverse impacts resulting from its collection, storage and distribution.",
+                    "If yes - does the project ensure the integrity, privacy and security of this data and/or content and has it taken steps to prevent adverse impacts resulting from its collection, storage and distribution.",
                   description: "",
                   options: [
                     {
@@ -1757,7 +1757,7 @@ const schema = {
               component: "radio",
               name: "doNoHarm.inappropriateIllegalContent.illegalContentDetection",
               label:
-                "If yes - does this project have mechanisms for detecting and moderating innappropriate/illegal content?",
+                "If yes - does this project have policies and processes/systems for detecting and moderating innappropriate/illegal content?",
               description: "",
               options: [
                 {
@@ -1788,9 +1788,9 @@ const schema = {
               name:
                 "doNoHarm.inappropriateIllegalContent.illegalContentDetectionMechanism",
               component: "text-field",
-              label: "Illegal content detection mechanism",
+              label: "Illegal content detection",
               description:
-                "If yes - please describe the mechanism for detecting, reporting and removing innapropriate/illegal content (Please include the average response time for assessment and/or action. Link to any policies or descriptions of how inappropriate content is handled):",
+                "If yes - please describe the process and policy for detecting, reporting and removing innapropriate/illegal content (Please include the average response time for assessment and/or action. Link to any policies or descriptions of how inappropriate content is handled):",
               helperText: "",
               condition: {
                 when: "doNoHarm.inappropriateIllegalContent.illegalContentDetection",

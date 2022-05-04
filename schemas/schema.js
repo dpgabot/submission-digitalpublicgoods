@@ -694,6 +694,10 @@ const schema = {
                       value: "OFL-1.1-RFN",
                     },
                     {
+                      label: "Open Government Licence",
+                      value: "OGL-UK-3.0",
+                    },
+                    {
                       label: "Open Group Test Suite License",
                       value: "OGTSL",
                     },

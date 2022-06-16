@@ -111,7 +111,7 @@ function getSubmissionFiles(values, nomineeJSON) {
     "SDGs",
     "license",
     "organizations",
-    //"stage",
+    "stage",
     "repositories",
   ].forEach((e) => delete values[e]);
   // Convert JavaScript submission sorted object into JSON string and add newline at EOF

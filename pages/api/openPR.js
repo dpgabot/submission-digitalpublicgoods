@@ -97,10 +97,11 @@ function getSubmissionFiles(values, nomineeJSON) {
   let name,
     nomineePath,
     dpgPath,
-    stage,
+    //stage,  // remove stage from fields since its not captured anymore
     data,
     files = {};
-  stage = values.stage;
+  //stage = values.stage;
+  let stage = "DPG";
   // Delete multiple DPG nomination fields
   [
     "aliases",
@@ -110,7 +111,7 @@ function getSubmissionFiles(values, nomineeJSON) {
     "SDGs",
     "license",
     "organizations",
-    "stage",
+    //"stage",
     "repositories",
   ].forEach((e) => delete values[e]);
   // Convert JavaScript submission sorted object into JSON string and add newline at EOF

@@ -10,13 +10,14 @@ const schema = {
         {
           title: "Get started with submission wizard form",
           name: "step-1",
-          nextStep: {
+          /* nextStep: {
             when: "stage",
             stepMapper: {
               nominee: "nominee-final-step",
               DPG: "clearOwnership",
             },
-          },
+          }, */
+          nextStep: "clearOwnership",
           fields: [
             {
               name: "name",
@@ -914,7 +915,7 @@ const schema = {
                 },
               ],
             },
-            {
+            /*    {
               component: "radio",
               name: "stage",
               label: "What would you like to do?",
@@ -935,7 +936,7 @@ const schema = {
                   type: "required",
                 },
               ],
-            },
+            }, */
           ],
         },
         {

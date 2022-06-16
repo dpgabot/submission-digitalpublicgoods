@@ -97,11 +97,11 @@ function getSubmissionFiles(values, nomineeJSON) {
   let name,
     nomineePath,
     dpgPath,
-    //stage,  // remove stage from fields since its not captured anymore
+    stage,
     data,
     files = {};
   //stage = values.stage;
-  let stage = "DPG";
+  stage = "DPG";
   // Delete multiple DPG nomination fields
   [
     "aliases",

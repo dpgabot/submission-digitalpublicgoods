@@ -100,7 +100,7 @@ function getSubmissionFiles(values, nomineeJSON) {
     stage,
     data,
     files = {};
-  stage = values.stage;
+  stage = values.stage = "DPG";
   // Delete multiple DPG nomination fields
   [
     "aliases",

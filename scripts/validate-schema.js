@@ -223,6 +223,9 @@ fetch(NOMINEE_SCHEMA)
         // The submission form is missing the sectors, delete
         delete refSchema.sectors;
 
+        // The submission form is missing the stage, delete
+        delete refSchema.stage;
+
         // Process the submission schema, to match the ref. schema
         const wizard = getSubmissionKeys(schema.schema["fields"][0]);
         let submissionSchema = flattenObject(wizard["wizard"]);

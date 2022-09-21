@@ -116,10 +116,10 @@ const schema = {
                   label: "Open Artificial Intelligence (AI) Model",
                   value: "aimodel",
                 },
-                {
+                /*{
                   label: "Open Standard",
                   value: "standard",
-                },
+                },*/
               ],
               validate: [
                 {

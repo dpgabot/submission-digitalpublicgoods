@@ -74,7 +74,7 @@ export default function Intro() {
           </p>
 
           <Box textAlign="center" style={{marginTop: "3em"}}>
-            <Link href="/form">
+            <Link href="/https://app.digitalpublicgoods.net/signup">
               <Button variant="contained" color="primary">
                 Start
               </Button>
